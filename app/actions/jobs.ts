@@ -23,7 +23,7 @@ export async function getJobs() {
 				},
 			},
 			orderBy: {
-				createdAt: "desc",
+				createdAt: "asc",
 			},
 		});
 
