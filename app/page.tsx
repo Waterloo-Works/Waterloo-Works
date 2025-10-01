@@ -84,9 +84,6 @@ export default async function Home() {
 				{/* About Section */}
 				<div className="py-20 border-t border-black/10">
 					<div className="max-w-3xl mx-auto">
-						<p className="text-sm uppercase tracking-wider text-gray-500 mb-6">
-							About the platform
-						</p>
 						<h2 className="text-3xl md:text-5xl font-serif leading-tight mb-8">
 							A place where you can{" "}
 							<span className="italic">find opportunities</span> for
