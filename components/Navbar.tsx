@@ -70,35 +70,43 @@ export default async function Navbar() {
 									{getInitials()}
 								</button>
 								{/* Dropdown Menu */}
-								<div className="absolute right-0 mt-2 w-48 bg-white border border-black/10 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-									<div className="py-2">
-										<div className="px-4 py-2 border-b border-black/10">
+								<div className="absolute right-0 mt-3 w-56 bg-[#F5F1E8] border border-black/20 rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+									<div className="py-3">
+										<div className="px-5 py-3 border-b border-black/10">
 											<p className="text-sm font-medium text-black truncate">
 												{user.user_metadata?.full_name ||
 													user.email}
 											</p>
-											<p className="text-xs text-gray-500 truncate">
+											<p className="text-xs text-gray-600 truncate mt-0.5">
 												{user.email}
 											</p>
 										</div>
-										<Link
-											href="/my-jobs"
-											className="block px-4 py-2 text-sm text-black hover:bg-gray-100 transition-colors"
+										<div className="py-2">
+											<Link
+												href="/my-jobs"
+												className="flex items-center gap-2 px-5 py-2.5 text-sm text-black hover:bg-black/5 transition-colors"
+											>
+												<span className="text-base">📋</span>
+												<span>My Job Submissions</span>
+											</Link>
+											<Link
+												href="/post-job"
+												className="flex items-center gap-2 px-5 py-2.5 text-sm text-black hover:bg-black/5 transition-colors"
+											>
+												<span className="text-base">✏️</span>
+												<span>Post a Job</span>
+											</Link>
+										</div>
+										<form
+											action={handleSignOut}
+											className="pt-2 border-t border-black/10"
 										>
-											My Job Submissions
-										</Link>
-										<Link
-											href="/post-job"
-											className="block px-4 py-2 text-sm text-black hover:bg-gray-100 transition-colors"
-										>
-											Post a Job
-										</Link>
-										<form action={handleSignOut}>
 											<button
 												type="submit"
-												className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition-colors border-t border-black/10"
+												className="w-full flex items-center gap-2 text-left px-5 py-2.5 text-sm text-black hover:bg-black/5 transition-colors"
 											>
-												Sign out
+												<span className="text-base">👋</span>
+												<span>Sign out</span>
 											</button>
 										</form>
 									</div>
