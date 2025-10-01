@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ENABLE_AUTO_REDIRECTS } from "@/lib/config";
 
 export default function SignUpPage() {
 	const [email, setEmail] = useState("");
@@ -53,7 +54,9 @@ export default function SignUpPage() {
 				return;
 			}
 
-			router.push("/");
+			if (ENABLE_AUTO_REDIRECTS) {
+				router.push("/");
+			}
 		} catch (error) {
 			setError(error instanceof Error ? error.message : "An error occurred");
 		} finally {

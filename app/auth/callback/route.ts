@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 // The client you created from the Server-Side Auth instructions
 import { createClient } from "@/utils/supabase/server";
+import { ENABLE_AUTO_REDIRECTS } from "@/lib/config";
 
 export const dynamic = "force-dynamic";
 
@@ -29,7 +30,11 @@ export async function GET(request: Request) {
 			);
 		}
 
-		return NextResponse.redirect(`${requestUrl.origin}${next}`);
+		if (ENABLE_AUTO_REDIRECTS) {
+			return NextResponse.redirect(`${requestUrl.origin}${next}`);
+		}
+
+		return NextResponse.json({ success: true, message: "Authentication successful" });
 	} catch (error) {
 		console.error("Callback error:", error);
 		return NextResponse.redirect(

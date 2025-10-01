@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
+import { ENABLE_AUTO_REDIRECTS } from "@/lib/config";
 
 type AuthData = {
 	user: User | null;
@@ -46,7 +47,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
 	}, [router, supabase]);
 
 	useEffect(() => {
-		if (!loading && !user) {
+		if (!loading && !user && ENABLE_AUTO_REDIRECTS) {
 			router.push("/login");
 		}
 	}, [loading, user, router]);
