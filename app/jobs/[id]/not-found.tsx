@@ -13,7 +13,7 @@ export default function NotFound() {
 						Job Not Found
 					</h1>
 					<p className="text-lg text-gray-700 mb-8">
-						This job listing doesn't exist or is no longer available.
+						This job listing doesn&apos;t exist or is no longer available.
 					</p>
 					<Link
 						href="/jobs"
