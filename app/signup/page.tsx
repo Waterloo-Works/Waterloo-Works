@@ -10,7 +10,6 @@ export default function SignUpPage() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [fullName, setFullName] = useState("");
-	const [source, setSource] = useState("");
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const supabase = createClient();
@@ -38,13 +37,6 @@ export default function SignUpPage() {
 		setLoading(true);
 		setError(null);
 
-		// Validate source field
-		if (!source.trim()) {
-			setError("Please tell us how you found us");
-			setLoading(false);
-			return;
-		}
-
 		try {
 			const { data: authData, error: signUpError } = await supabase.auth.signUp({
 				email,
@@ -52,7 +44,6 @@ export default function SignUpPage() {
 				options: {
 					data: {
 						full_name: fullName,
-						source,
 					},
 					emailRedirectTo: `${window.location.origin}/auth/callback`,
 				},
@@ -69,7 +60,6 @@ export default function SignUpPage() {
 					userId: authData.user.id,
 					email,
 					fullName,
-					source,
 				});
 			}
 
@@ -154,25 +144,6 @@ export default function SignUpPage() {
 								id="password"
 								value={password}
 								onChange={e => setPassword(e.target.value)}
-								className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
-								required
-							/>
-						</div>
-
-						{/* How did you find us */}
-						<div>
-							<label
-								htmlFor="source"
-								className="block text-sm font-medium text-gray-700 mb-2"
-							>
-								How did you find us? *
-							</label>
-							<input
-								type="text"
-								id="source"
-								value={source}
-								onChange={e => setSource(e.target.value)}
-								placeholder="e.g., Twitter, LinkedIn, Friend, Google Search..."
 								className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
 								required
 							/>
