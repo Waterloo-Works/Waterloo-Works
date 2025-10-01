@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-// The client you created from the Server-Side Auth instructions
 import { createClient } from "@/utils/supabase/server";
-import { ENABLE_AUTO_REDIRECTS } from "@/lib/config";
+import { createUserRecord } from "@/app/actions/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -10,7 +9,6 @@ export async function GET(request: Request) {
 
 	try {
 		const code = requestUrl.searchParams.get("code");
-		const next = requestUrl.searchParams.get("next") ?? "/";
 
 		if (!code) {
 			return NextResponse.redirect(
@@ -30,11 +28,23 @@ export async function GET(request: Request) {
 			);
 		}
 
-		if (ENABLE_AUTO_REDIRECTS) {
-			return NextResponse.redirect(`${requestUrl.origin}${next}`);
+		// Get the user data
+		const {
+			data: { user },
+		} = await supabase.auth.getUser();
+
+		if (user) {
+			// Create or update user record in our database
+			await createUserRecord({
+				userId: user.id,
+				email: user.email || "",
+				fullName: user.user_metadata?.full_name || user.user_metadata?.name,
+				source: user.user_metadata?.source,
+			});
 		}
 
-		return NextResponse.json({ success: true, message: "Authentication successful" });
+		// Redirect to dashboard after successful auth
+		return NextResponse.redirect(`${requestUrl.origin}/dashboard`);
 	} catch (error) {
 		console.error("Callback error:", error);
 		return NextResponse.redirect(

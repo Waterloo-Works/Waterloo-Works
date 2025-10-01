@@ -13,3 +13,58 @@ datasource db {
   url      = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
+
+enum JobStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  OTHER
+}
+
+model Job {
+  id               String         @id @default(cuid())
+  company          String
+  companyUrl       String?
+  companyImageUrl  String?        // Company favicon/logo URL
+  position         String
+  contact          String
+  contactUrl       String?
+  location         String
+  employmentType   EmploymentType @default(FULL_TIME)
+  salaryMin        String?
+  salaryMax        String?
+  notes            String?        @db.Text
+  postedBy         String         // User ID who posted the job
+  poster           User           @relation("PostedJobs", fields: [postedBy], references: [id])
+  status           JobStatus      @default(PENDING)
+  reviewedBy       String?        // User ID who approved/rejected the job
+  reviewer         User?          @relation("ReviewedJobs", fields: [reviewedBy], references: [id])
+  rejectionReason  String?        @db.Text // Reason for rejection (if status is REJECTED)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@index([createdAt])
+  @@index([status])
+  @@index([postedBy])
+  @@index([reviewedBy])
+}
+
+model User {
+  id           String   @id // Supabase user ID
+  email        String   @unique
+  fullName     String?
+  source       String?  // How they found us
+  isAdmin      Boolean  @default(false)
+  postedJobs   Job[]    @relation("PostedJobs")
+  reviewedJobs Job[]    @relation("ReviewedJobs")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  @@index([email])
+}

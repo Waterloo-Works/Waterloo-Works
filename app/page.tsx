@@ -1,18 +1,11 @@
-"use client";
-
-import { useSession } from "@/providers/SessionProvider";
 import Link from "next/link";
+import { createClient } from "@/utils/supabase/server";
 
-export default function Home() {
-	const { user, loading } = useSession();
-
-	if (loading) {
-		return (
-			<div className="min-h-screen flex items-center justify-center bg-[#F5F1E8]">
-				<div className="text-gray-500">Loading...</div>
-			</div>
-		);
-	}
+export default async function Home() {
+	const supabase = await createClient();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
 
 	return (
 		<div className="min-h-screen bg-[#F5F1E8]">
@@ -22,22 +15,45 @@ export default function Home() {
 					<Link href="/" className="text-xl font-serif italic text-black">
 						Waterloo.works
 					</Link>
-					{user && (
-						<div className="flex items-center gap-6">
+					<div className="flex items-center gap-4">
+						<Link
+							href="/jobs"
+							className="text-black hover:opacity-70 transition-opacity"
+						>
+							Browse Jobs
+						</Link>
+						{user && (
 							<Link
-								href="/jobs"
+								href="/dashboard"
 								className="text-black hover:opacity-70 transition-opacity"
 							>
-								Browse Jobs
+								Dashboard
 							</Link>
+						)}
+						{user ? (
 							<Link
 								href="/dashboard"
 								className="px-5 py-2.5 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors"
 							>
-								Dashboard
+								My Account
 							</Link>
-						</div>
-					)}
+						) : (
+							<>
+								<Link
+									href="/login"
+									className="text-black hover:opacity-70 transition-opacity"
+								>
+									Sign in
+								</Link>
+								<Link
+									href="/signup"
+									className="px-5 py-2.5 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors"
+								>
+									Sign up
+								</Link>
+							</>
+						)}
+					</div>
 				</div>
 			</nav>
 
@@ -56,7 +72,7 @@ export default function Home() {
 					</div>
 					<div className="mt-10 flex flex-wrap gap-4">
 						<Link
-							href={user ? "/jobs" : "/signup"}
+							href="/jobs"
 							className="inline-flex items-center gap-2 px-6 py-3 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors"
 						>
 							<span>↗</span>
@@ -125,15 +141,14 @@ export default function Home() {
 						Ready to explore?
 					</h3>
 					<p className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
-						Join our community and discover opportunities that resonate with
-						you.
+						Discover opportunities that resonate with you.
 					</p>
 					<Link
-						href={user ? "/jobs" : "/signup"}
+						href="/jobs"
 						className="inline-flex items-center gap-2 px-8 py-4 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors text-lg"
 					>
 						<span>↗</span>
-						<span>{user ? "Browse Jobs" : "Get Started"}</span>
+						<span>Browse Jobs</span>
 					</Link>
 				</div>
 			</main>

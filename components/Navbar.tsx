@@ -1,169 +1,126 @@
-"use client";
+import { createClient } from "@/utils/supabase/server";
+import Link from "next/link";
+import { prisma } from "@/utils/prisma";
+import { redirect } from "next/navigation";
 
-import { useSession } from "@/providers/SessionProvider";
-import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
-import { useState, useRef, useEffect } from "react";
-import { HiMenu } from "react-icons/hi";
-import { IoSettingsOutline } from "react-icons/io5";
-import { BiHelpCircle } from "react-icons/bi";
-import { FiLogOut } from "react-icons/fi";
-import Image from "next/image";
+export default async function Navbar() {
+	const supabase = await createClient();
+	const {
+		data: { user },
+	} = await supabase.auth.getUser();
 
-interface AvatarProps {
-	name: string;
-	imageUrl?: string | null;
-	className?: string;
-}
-
-function Avatar({ name, imageUrl, className = "" }: AvatarProps) {
-	const initials = name
-		.split(" ")
-		.map(word => word[0])
-		.join("")
-		.toUpperCase()
-		.slice(0, 2);
-
-	if (imageUrl) {
-		return (
-			<div 
-				className={`w-8 h-8 rounded-full overflow-hidden bg-gray-100 ${className}`}
-				aria-hidden="true"
-			>
-				<Image
-					src={imageUrl}
-					alt={name}
-					width={32}
-					height={32}
-					className="w-full h-full object-cover"
-				/>
-			</div>
-		);
+	let isAdmin = false;
+	if (user) {
+		const userRecord = await prisma.user.findUnique({
+			where: { id: user.id },
+		});
+		isAdmin = userRecord?.isAdmin || false;
 	}
-
-	return (
-		<div 
-			className={`w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white text-sm ${className}`}
-			aria-hidden="true"
-		>
-			{initials}
-		</div>
-	);
-}
-
-export function Navbar() {
-	const { user, loading } = useSession();
-	const router = useRouter();
-	const supabase = createClient();
-	const [isOpen, setIsOpen] = useState(false);
-	const dropdownRef = useRef<HTMLDivElement>(null);
-	const buttonRef = useRef<HTMLButtonElement>(null);
 
 	const handleSignOut = async () => {
+		"use server";
+		const supabase = await createClient();
 		await supabase.auth.signOut();
-		router.push("/login");
-		router.refresh();
+		redirect("/");
 	};
 
-	const closeDropdown = () => {
-		setIsOpen(false);
+	// Get user initials for avatar
+	const getInitials = () => {
+		if (user?.user_metadata?.full_name) {
+			const names = user.user_metadata.full_name.split(" ");
+			return names.length > 1
+				? `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase()
+				: names[0][0].toUpperCase();
+		}
+		return user?.email?.[0].toUpperCase() || "U";
 	};
-
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-				closeDropdown();
-			}
-		};
-
-		const handleEscapeKey = (event: KeyboardEvent) => {
-			if (event.key === "Escape") {
-				closeDropdown();
-			}
-		};
-
-		document.addEventListener("mousedown", handleClickOutside);
-		document.addEventListener("keydown", handleEscapeKey);
-		
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-			document.removeEventListener("keydown", handleEscapeKey);
-		};
-	}, []);
-
-	if (loading) {
-		return null;
-	}
 
 	return (
-		<nav className="bg-white shadow-sm">
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="flex justify-between h-16">
-					<div className="flex-shrink-0 flex items-center">
-						<h1 className="text-xl font-bold text-gray-800">Lucy</h1>
-					</div>
+		<nav className="px-6 py-6 border-b border-black/10">
+			<div className="max-w-6xl mx-auto flex justify-between items-center">
+				<Link href="/" className="text-xl font-serif italic text-black">
+					Waterloo.works
+				</Link>
+				<div className="flex items-center gap-4">
+					<Link
+						href="/jobs"
+						className="text-black hover:opacity-70 transition-opacity"
+					>
+						Browse Jobs
+					</Link>
 					{user && (
-						<div className="relative flex items-center" ref={dropdownRef}>
-							<button
-								ref={buttonRef}
-								onClick={() => setIsOpen(!isOpen)}
-								className="flex items-center gap-1.5 py-[5px] pl-1.5 pr-2 rounded-full border border-gray-300 hover:shadow-[0_2px_4px_rgba(0,0,0,0.08)] transition-all duration-200"
-								aria-expanded={isOpen}
-								aria-haspopup="true"
-								aria-label="User menu"
+						<>
+							<Link
+								href="/dashboard"
+								className="text-black hover:opacity-70 transition-opacity"
 							>
-								<HiMenu className="w-5 h-5 text-gray-600" aria-hidden="true" />
-								<Avatar 
-									name={user.user_metadata.full_name} 
-									imageUrl={user.user_metadata.avatar_url}
-									className="w-7 h-7" 
-								/>
-							</button>
-
-							<div
-								className={`absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-[0_2px_16px_rgba(0,0,0,0.12)] py-1 z-10
-									transition-all duration-200 origin-top-right top-full
-									${isOpen 
-										? 'opacity-100 scale-100 translate-y-0' 
-										: 'opacity-0 scale-95 -translate-y-2 pointer-events-none'}`}
-								role="menu"
-								aria-orientation="vertical"
-								aria-labelledby="user-menu-button"
-							>
-								<div className="px-4 py-2 border-b border-gray-100">
-									<p className="text-sm font-semibold text-gray-900">{user.user_metadata.full_name}</p>
-									<p className="text-sm text-gray-500 truncate">{user.email}</p>
-								</div>
-								
-								<div className="py-1">
-									<button
-										className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors flex items-center gap-3"
-										role="menuitem"
-									>
-										<IoSettingsOutline className="w-4 h-4 text-gray-500" />
-										<span>Settings</span>
-									</button>
-									<button
-										className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors flex items-center gap-3"
-										role="menuitem"
-									>
-										<BiHelpCircle className="w-4 h-4 text-gray-500" />
-										<span>Help</span>
-									</button>
-								</div>
-
-								<div className="border-t border-gray-100">
-									<button
-										onClick={handleSignOut}
-										className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-3"
-										role="menuitem"
-									>
-										<FiLogOut className="w-4 h-4 text-gray-500" />
-										<span>Sign out</span>
-									</button>
+								Dashboard
+							</Link>
+							{isAdmin && (
+								<Link
+									href="/admin"
+									className="px-3 py-1 bg-black text-[#F5F1E8] rounded-full text-sm hover:bg-gray-800 transition-colors"
+								>
+									Admin
+								</Link>
+							)}
+							<div className="relative group">
+								{/* Avatar */}
+								<button className="w-10 h-10 bg-black text-[#F5F1E8] rounded-full flex items-center justify-center font-medium hover:bg-gray-800 transition-colors">
+									{getInitials()}
+								</button>
+								{/* Dropdown Menu */}
+								<div className="absolute right-0 mt-2 w-48 bg-white border border-black/10 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+									<div className="py-2">
+										<div className="px-4 py-2 border-b border-black/10">
+											<p className="text-sm font-medium text-black truncate">
+												{user.user_metadata?.full_name ||
+													user.email}
+											</p>
+											<p className="text-xs text-gray-500 truncate">
+												{user.email}
+											</p>
+										</div>
+										<Link
+											href="/my-jobs"
+											className="block px-4 py-2 text-sm text-black hover:bg-gray-100 transition-colors"
+										>
+											My Job Submissions
+										</Link>
+										<Link
+											href="/post-job"
+											className="block px-4 py-2 text-sm text-black hover:bg-gray-100 transition-colors"
+										>
+											Post a Job
+										</Link>
+										<form action={handleSignOut}>
+											<button
+												type="submit"
+												className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition-colors border-t border-black/10"
+											>
+												Sign out
+											</button>
+										</form>
+									</div>
 								</div>
 							</div>
-						</div>
+						</>
+					)}
+					{!user && (
+						<>
+							<Link
+								href="/login"
+								className="text-black hover:opacity-70 transition-opacity"
+							>
+								Sign in
+							</Link>
+							<Link
+								href="/signup"
+								className="px-5 py-2.5 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors"
+							>
+								Sign up
+							</Link>
+						</>
 					)}
 				</div>
 			</div>
