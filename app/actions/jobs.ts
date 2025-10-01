@@ -4,6 +4,7 @@ import { prisma } from "@/utils/prisma";
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { getFaviconUrl } from "@/lib/favicon";
+import { Job } from "@prisma/client";
 
 export async function getJobs() {
 	try {
@@ -28,7 +29,7 @@ export async function getJobs() {
 
 		// Retroactively fetch favicons for jobs that don't have one
 		const jobsNeedingFavicons = jobs.filter(
-			job => !job.companyImageUrl && job.companyUrl
+			(job: Job) => !job.companyImageUrl && job.companyUrl
 		);
 
 		if (jobsNeedingFavicons.length > 0) {
