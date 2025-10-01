@@ -1,0 +1,3 @@
+This is a Next15 app
+Always use ts, and tailwindcss inline for styling
+use supabase server side client for everything supabase related
