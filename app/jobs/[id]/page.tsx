@@ -7,10 +7,11 @@ import Link from "next/link";
 import { getFaviconUrl } from "@/lib/favicon";
 import { formatEmploymentType } from "@/lib/formatEmploymentType";
 
-export default async function JobPage({ params }: { params: { id: string } }) {
+export default async function JobPage({ params }: { params: Promise<{ id: string }> }) {
+	const { id } = await params;
 	const job = await prisma.job.findUnique({
 		where: {
-			id: params.id,
+			id: id,
 			status: "APPROVED", // Only show approved jobs
 		},
 		include: {
