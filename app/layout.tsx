@@ -4,6 +4,7 @@ import "./globals.css";
 import { SessionProvider } from "@/providers/SessionProvider";
 import { SourceCollectionWrapper } from "@/components/SourceCollectionWrapper";
 import { getCurrentUser } from "@/app/actions/auth";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default async function RootLayout({
 				<SessionProvider>
 					<SourceCollectionWrapper initialHasSource={hasSource}>
 						{children}
+						<Footer />
 					</SourceCollectionWrapper>
 				</SessionProvider>
 			</body>
