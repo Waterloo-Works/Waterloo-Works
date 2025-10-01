@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function AuthCodeError() {
+function AuthCodeErrorContent() {
 	const searchParams = useSearchParams();
 	const error = searchParams.get("error");
 
@@ -14,7 +15,10 @@ export default function AuthCodeError() {
 			case "unknown":
 				return "An unexpected error occurred during authentication.";
 			default:
-				return errorCode || "There was an error processing your authentication request.";
+				return (
+					errorCode ||
+					"There was an error processing your authentication request."
+				);
 		}
 	};
 
@@ -40,4 +44,20 @@ export default function AuthCodeError() {
 			</div>
 		</div>
 	);
-} 
+}
+
+export default function AuthCodeError() {
+	return (
+		<Suspense
+			fallback={
+				<div className="min-h-screen flex items-center justify-center bg-gray-50">
+					<div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg">
+						<div className="text-center">Loading...</div>
+					</div>
+				</div>
+			}
+		>
+			<AuthCodeErrorContent />
+		</Suspense>
+	);
+}
