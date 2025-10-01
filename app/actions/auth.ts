@@ -64,9 +64,17 @@ export async function updateUserSource(source: string) {
 			return { success: false, error: "Not authenticated" };
 		}
 
-		await prisma.user.update({
+		await prisma.user.upsert({
 			where: { id: user.id },
-			data: { source },
+			create: {
+				id: user.id,
+				email: user.email || "",
+				fullName: user.user_metadata?.full_name || user.user_metadata?.name,
+				source,
+			},
+			update: {
+				source,
+			},
 		});
 
 		return { success: true };
