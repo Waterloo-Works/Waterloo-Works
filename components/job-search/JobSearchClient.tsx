@@ -219,15 +219,7 @@ function Header({
           >
             Search
           </button>
-          <button
-            onClick={() => setTab("saved")}
-            className={
-              "pb-1 text-sm font-medium tracking-wide " +
-              (tab === "saved" ? "border-b-2 border-zinc-900" : "border-b-2 border-transparent hover:border-zinc-300")
-            }
-          >
-            Saved{savedCount > 0 ? ` (${savedCount})` : ""}
-          </button>
+        
         </nav>
       </div>
 
@@ -242,15 +234,7 @@ function Header({
         >
           Search
         </button>
-        <button
-          onClick={() => setTab("saved")}
-          className={
-            "rounded-full px-3 py-1.5 text-sm " +
-            (tab === "saved" ? "bg-zinc-900 text-white" : "border border-zinc-200 bg-white text-zinc-700")
-          }
-        >
-          Saved{savedCount > 0 ? ` (${savedCount})` : ""}
-        </button>
+      
       </div>
 
       {/* Single-row toolbar (desktop). Will wrap on small screens. */}
@@ -400,11 +384,7 @@ function ResultsList({
                 {j.salaryMin && j.salaryMax ? `${j.salaryMin} - ${j.salaryMax} · ` : ""}
                 {formatEmploymentType(j.employmentType)}
               </div>
-              {bookmarkedIds.has(j.id) && (
-                <div className="mt-1">
-                  <span className="inline-flex items-center rounded-full border border-zinc-300 px-2 py-0.5 text-xs text-zinc-700">Saved</span>
-                </div>
-              )}
+          
               <div className="font-body text-sm text-zinc-500 mt-1">
                 {j.location} · {timeAgo(j.createdAt)}
               </div>
@@ -448,18 +428,9 @@ function JobDetail({ job, initialSaved }: { job: Job; initialSaved: boolean }) {
         </div>
       </div>
 
-      <div className="space-y-2 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-        <h2 className="font-title text-lg font-semibold text-zinc-900">At a glance</h2>
-        <ul className="font-body text-[15px] text-zinc-700 space-y-1">
-          {compText && <li>{compText}</li>}
-          <li>{job.location}</li>
-          <li>{formatEmploymentType(job.employmentType)}</li>
-        </ul>
-      </div>
 
       {job.notes && (
         <div className="mt-6 space-y-2">
-          <h3 className="font-title text-lg font-semibold text-zinc-900">Notes</h3>
           <p className="font-body whitespace-pre-wrap text-[15px] text-zinc-700">{job.notes}</p>
         </div>
       )}
