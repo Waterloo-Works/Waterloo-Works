@@ -140,7 +140,7 @@ export default function JobSearchClient({ jobs }: Props) {
 
   return (
     <div className="flex h-[calc(100svh-0px)]">
-      <div className="flex h-full w-[280px] md:w-[300px] lg:w-[300px] shrink-0 flex-col border-r border-zinc-200 bg-white">
+      <div className="flex h-full w-[260px] md:w-[280px] lg:w-[300px] shrink-0 flex-col border-r border-zinc-200 bg-white">
         <Header
           tab={tab}
           q={q}
@@ -359,7 +359,7 @@ function JobDetail({ job, saved, onToggleSave }: { job: Job; saved: boolean; onT
     : undefined;
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-6 lg:px-10 py-10">
+    <div className="w-full px-6 lg:px-10 py-10">
       <div className="mb-6 flex items-start justify-between gap-4">
         <div className="flex items-start gap-4">
           <FaviconImage src={job.companyImageUrl} company={job.company} />
