@@ -98,8 +98,9 @@
   }
 }
 
-/* Hide the global footer when the shell layout renders its own footer */
-.shell-layout + footer { display: none; }
+/* Hide the global footer when the shell layout renders its own footer.
+   Use general-sibling so intervening elements (e.g., toasters) don't break it. */
+.shell-layout ~ footer { display: none; }
 
 @layer utilities {
   .line-clamp-2 {

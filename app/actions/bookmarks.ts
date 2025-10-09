@@ -19,7 +19,8 @@ export async function toggleBookmark(jobId: string) {
     if (!user) return { success: false, error: "Not authenticated" } as const;
 
     const models = prisma as unknown as { bookmark?: BookmarkModel };
-    if (!models.bookmark) return { success: false, error: "Bookmarks are not enabled" } as const;
+    console.log("models", models);
+        if (!models.bookmark) return { success: false, error: "Bookmarks are not enabled" } as const;
 
     const existing = await models.bookmark.findUnique({
       where: { userId_jobId: { userId: user.id, jobId } },

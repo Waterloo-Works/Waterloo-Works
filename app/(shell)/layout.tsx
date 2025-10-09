@@ -10,7 +10,6 @@ export default function ShellLayout({ children }: { children: ReactNode }) {
       <main className="flex-1 pt-14 lg:pt-0">
         <HeaderMinimal />
         {children}
-        <Footer />
       </main>
     </div>
   );
