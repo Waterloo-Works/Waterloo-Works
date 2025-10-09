@@ -248,9 +248,7 @@ function Header({
           active={remote}
           onClick={() => onChange({ remote: (!remote).toString() })}
         />
-        <button className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700">
-          Filters
-        </button>
+      
       </div>
     </div>
   );
@@ -260,6 +258,7 @@ const typeChips = [
   { value: "FULL_TIME", label: "Full-time" },
   { value: "PART_TIME", label: "Part time" },
   { value: "CONTRACT", label: "Contract" },
+  { value: "INTERNSHIP", label: "Internship" },
   { value: "OTHER", label: "Other" },
 ];
 

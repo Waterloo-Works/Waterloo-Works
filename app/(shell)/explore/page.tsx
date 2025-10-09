@@ -108,7 +108,7 @@ const suggestedSearches = [
   { label: "New York", query: { loc: "new york" } },
   { label: "Toronto", query: { loc: "toronto" } },
   { label: "Remote", query: { remote: "true" } },
-  { label: "Internship", query: { type: "OTHER" } },
+  { label: "Internship", query: { type: "INTERNSHIP" } },
 ];
 
 type Jobs = Awaited<ReturnType<typeof getJobs>>;
