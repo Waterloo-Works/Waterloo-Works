@@ -30,10 +30,10 @@ export default async function ExplorePage() {
 
   return (
     <div className="mx-auto max-w-6xl px-8 py-14">
-      <h1 className="mb-10 text-3xl font-semibold tracking-tight text-zinc-900">Explore</h1>
-      <div className="mb-8 flex items-center justify-end">
+      <h1 className="mb-10 text-3xl font-semibold tracking-tight text-zinc-900">Explore  <div className="mb-8 flex items-center justify-end">
         <CreateAlertButton region="ALL" initialActive={globalAlertActive} />
-      </div>
+      </div></h1>
+     
 
       {Object.keys(regions).length === 0 ? (
         <EmptyState />
