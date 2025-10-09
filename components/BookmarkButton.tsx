@@ -1,6 +1,7 @@
 "use client";
 
 import { useTransition, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { toast } from "sonner";
 import { toggleBookmark } from "@/app/actions/bookmarks";
@@ -8,21 +9,34 @@ import { toggleBookmark } from "@/app/actions/bookmarks";
 export default function BookmarkButton({ jobId, initial }: { jobId: string; initial: boolean }) {
   const [bookmarked, setBookmarked] = useState(initial);
   const [pending, start] = useTransition();
+  const router = useRouter();
 
   const onClick = () => {
     const next = !bookmarked;
     setBookmarked(next); // optimistic
     start(async () => {
-      const res = await toggleBookmark(jobId);
-      if (!res.success) {
+      try {
+        const res = await toggleBookmark(jobId);
+        if (!res.success) {
+          setBookmarked(!next);
+          if (res.error === "Not authenticated") {
+            toast("Sign in to save", { description: "You need to sign in to bookmark jobs." });
+            router.push("/login");
+          } else if (res.error) {
+            toast.error(res.error);
+          } else {
+            toast.error("Could not update bookmark");
+          }
+          return;
+        }
+        if (res.bookmarked) {
+          toast("Saved", { description: "Added to your bookmarks." });
+        } else {
+          toast("Removed", { description: "Removed from bookmarks." });
+        }
+      } catch (e) {
         setBookmarked(!next);
         toast.error("Could not update bookmark");
-        return;
-      }
-      if (res.bookmarked) {
-        toast("Saved", { description: "Added to your bookmarks." });
-      } else {
-        toast("Removed", { description: "Removed from bookmarks." });
       }
     });
   };
@@ -39,4 +53,3 @@ export default function BookmarkButton({ jobId, initial }: { jobId: string; init
     </button>
   );
 }
-
