@@ -6,6 +6,7 @@ import { SourceCollectionWrapper } from "@/components/SourceCollectionWrapper";
 import { getCurrentUser } from "@/app/actions/auth";
 import { Toaster as SonnerToaster } from "sonner";
 import QueryProvider from "@/providers/QueryProvider";
+import { PostHogProvider } from "@/providers/PostHogProvider";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -54,15 +55,17 @@ export default async function RootLayout({
 	return (
     <html lang="en">
             <body className={`${geistSans.variable} ${geistMono.variable} ${titleSerif.variable} ${bodySans.variable} antialiased`}>
-				<SessionProvider>
+              <PostHogProvider>
+                <SessionProvider>
 					<SourceCollectionWrapper initialHasSource={hasSource}>
-                <QueryProvider>
-                  {children}
-                </QueryProvider>
-                <SonnerToaster richColors closeButton position="top-right" />
+                      <QueryProvider>
+                        {children}
+                      </QueryProvider>
+                      <SonnerToaster richColors closeButton position="top-right" />
 					</SourceCollectionWrapper>
-				</SessionProvider>
-			</body>
-		</html>
+                </SessionProvider>
+              </PostHogProvider>
+            </body>
+    </html>
 	);
 }

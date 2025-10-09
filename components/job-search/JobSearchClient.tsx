@@ -69,17 +69,23 @@ export default function JobSearchClient({ jobs }: Props) {
   const filterJobs = useCallback(
     (items: Job[]) => {
       let out = items;
+      // Employment type (AND with other groups)
       if (selectedTypes.size) {
         out = out.filter((j) => selectedTypes.has(j.employmentType));
       }
-      if (remote) {
-        out = out.filter((j) => /remote/i.test(j.location || ""));
-      }
-      if (selectedLocs.size) {
+
+      // Location group behaves as a union (OR): any selected city OR Remote
+      const locTokens = new Set<string>(selectedLocs);
+      if (remote) locTokens.add("remote");
+      if (locTokens.size) {
         out = out.filter((j) => {
           const loc = (j.location || "").toLowerCase();
-          for (const key of Array.from(selectedLocs)) {
-            if (loc.includes(key.toLowerCase())) return true;
+          for (const token of locTokens) {
+            if (token === "remote") {
+              if (/(remote|wfh|work from home|distributed|anywhere)/.test(loc)) return true;
+            } else if (loc.includes(token.toLowerCase())) {
+              return true;
+            }
           }
           return false;
         });
