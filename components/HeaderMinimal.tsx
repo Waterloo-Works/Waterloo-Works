@@ -33,7 +33,7 @@ export default async function HeaderMinimal() {
   })();
 
   return (
-    <header className="sticky top-0 z-50 h-14 px-4 md:px-6 border-b border-zinc-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 grid grid-cols-[auto,1fr,auto] items-center">
+    <header className="fixed inset-x-0 top-0 z-50 h-14 px-4 md:px-6 border-b border-zinc-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 grid grid-cols-[auto,1fr,auto] items-center lg:sticky lg:inset-auto lg:top-0">
       {/* Left: Hamburger (mobile) */}
       <div className="lg:hidden">
         <MobileNav />
