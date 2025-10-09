@@ -7,7 +7,10 @@
 		"dev": "next dev --turbopack",
 		"build": "npx prisma generate && next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"typecheck": "tsc --noEmit",
+		"clean:next": "node -e \"fs=require('fs');try{fs.rmSync('.next',{recursive:true,force:true})}catch(e){}\"",
+		"ci:build": "pnpm run clean:next && pnpm run typecheck && next build"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^4.1.3",
