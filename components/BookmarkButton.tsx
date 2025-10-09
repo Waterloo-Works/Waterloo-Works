@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Bookmark, BookmarkCheck } from "lucide-react";
 import { toast } from "sonner";
 import { useBookmarkedIds, useToggleBookmark } from "@/hooks/useBookmarks";
+import posthog from 'posthog-js';
 
 export default function BookmarkButton({ jobId, initial }: { jobId: string; initial: boolean }) {
   // Local fallback until query loads
@@ -17,6 +18,7 @@ export default function BookmarkButton({ jobId, initial }: { jobId: string; init
 
   const onClick = () => {
     const next = !bookmarked;
+    posthog.capture('job_bookmark_toggled', { job_id: jobId, bookmarked: next });
     // Optimistic local flip only when cache not yet hydrated
     if (isInCache === undefined) setLocal(next);
     (async () => {

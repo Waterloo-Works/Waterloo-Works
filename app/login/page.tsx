@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import posthog from 'posthog-js';
 
 export default function LoginPage() {
     // UWaterloo magic link state only
@@ -15,10 +16,12 @@ export default function LoginPage() {
         e.preventDefault();
         setUwError(null);
         setUwLoading(true);
+        const normalized = uwEmail.trim().toLowerCase();
         try {
-            const normalized = uwEmail.trim().toLowerCase();
             if (!normalized.endsWith("@uwaterloo.ca")) {
-                setUwError("Use your @uwaterloo.ca email.");
+                const errorMessage = "Use your @uwaterloo.ca email.";
+                setUwError(errorMessage);
+                posthog.capture('login_magic-link_failed', { email: normalized, error_message: errorMessage });
                 return;
             }
 
@@ -29,12 +32,17 @@ export default function LoginPage() {
             });
             if (!res.ok) {
                 const body = await res.json().catch(() => ({}));
-                setUwError(body?.error || "Could not send magic link.");
+                const errorMessage = body?.error || "Could not send magic link.";
+                setUwError(errorMessage);
+                posthog.capture('login_magic-link_failed', { email: normalized, error_message: errorMessage });
                 return;
             }
+            posthog.capture('login_magic-link_requested', { email: normalized });
             router.push("/auth/check-email");
         } catch (err) {
-            setUwError("Something went wrong. Please try again.");
+            const errorMessage = "Something went wrong. Please try again.";
+            setUwError(errorMessage);
+            posthog.capture('login_magic-link_failed', { email: normalized, error_message: errorMessage });
         } finally {
             setUwLoading(false);
         }

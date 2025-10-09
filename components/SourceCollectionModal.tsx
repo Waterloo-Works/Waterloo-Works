@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { updateUserSource } from "@/app/actions/auth";
 import { useRouter } from "next/navigation";
+import posthog from 'posthog-js';
 
 interface SourceCollectionModalProps {
 	hasSource: boolean;
@@ -30,6 +31,7 @@ export function SourceCollectionModal({ hasSource }: SourceCollectionModalProps)
 			return;
 		}
 
+		posthog.capture('source_submitted', { source: finalSource });
 		const result = await updateUserSource(finalSource);
 
 		if (result.success) {

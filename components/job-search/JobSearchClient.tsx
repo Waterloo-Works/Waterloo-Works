@@ -1,5 +1,6 @@
 "use client";
 
+import posthog from 'posthog-js';
 import { useEffect, useMemo, useState, useCallback, useDeferredValue } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -143,6 +144,14 @@ export default function JobSearchClient({ jobs }: Props) {
   const onSelect = (id: string) => {
     setSelectedId(id);
     quietlySyncSelected(id);
+    const job = results.find((j) => j.id === id);
+    if (job) {
+      posthog.capture('job_search_result_selected', {
+        job_id: job.id,
+        job_position: job.position,
+        job_company: job.company,
+      });
+    }
   };
 
   return (
@@ -184,7 +193,7 @@ export default function JobSearchClient({ jobs }: Props) {
   );
 }
 
-function Header({
+function Header({ 
   tab,
   q,
   selectedTypes,
@@ -311,7 +320,10 @@ function Header({
 
         <div className="ml-auto">
           <button
-            onClick={() => onChange({ q: undefined, type: "", loc: "", remote: "" })}
+            onClick={() => {
+              posthog.capture('job_search_filters_cleared');
+              onChange({ q: undefined, type: "", loc: "", remote: "" });
+            }}
             className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-700 shadow-sm hover:bg-zinc-50"
           >
             Clear
@@ -351,7 +363,7 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
   );
 }
 
-function ResultsList({
+function ResultsList({ 
   jobs,
   bookmarkedIds,
   selectedId,

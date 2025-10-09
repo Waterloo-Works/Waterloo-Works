@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { postJob, updateJob } from "@/app/actions/jobs";
 import { useRouter } from "next/navigation";
+import posthog from 'posthog-js';
 
 interface JobFormProps {
 	mode: "create" | "edit";
@@ -69,9 +70,22 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 				: await postJob(jobData);
 
 		if (result.success) {
+			posthog.capture('job_form_submitted', {
+                mode: mode,
+                jobId: jobId,
+                company: formData.company,
+                position: formData.position,
+                employmentType: formData.employmentType,
+                has_salary_range: !!(formData.salaryMin || formData.salaryMax)
+            });
 			setSuccess(true);
 			setTimeout(() => router.push("/my-jobs"), 2000);
 		} else {
+			posthog.capture('job_form_submission_failed', {
+                mode: mode,
+                jobId: jobId,
+                error: result.error || `Failed to ${mode} job`
+            });
 			setError(result.error || `Failed to ${mode} job`);
 		}
 

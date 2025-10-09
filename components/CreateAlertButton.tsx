@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Bell, BellPlus, BellRing } from "lucide-react";
 import { toast } from "sonner";
 import { useToggleRegionAlert } from "@/hooks/useAlerts";
+import posthog from 'posthog-js';
 
 export default function CreateAlertButton({ region, initialActive }: { region: string; initialActive: boolean }) {
   const [active, setActive] = useState(initialActive);
@@ -11,6 +12,7 @@ export default function CreateAlertButton({ region, initialActive }: { region: s
 
   const onClick = () => {
     const next = !active;
+    posthog.capture('job_alert_toggled', { region: region, active: next });
     setActive(next);
     (async () => {
       const res = await mutateAsync(region);
