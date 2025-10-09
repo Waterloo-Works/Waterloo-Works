@@ -63,8 +63,39 @@ model User {
   isAdmin      Boolean  @default(false)
   postedJobs   Job[]    @relation("PostedJobs")
   reviewedJobs Job[]    @relation("ReviewedJobs")
+  bookmarks    Bookmark[]
+  jobAlerts    JobAlert[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   
   @@index([email])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  jobId     String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, jobId])
+  @@index([userId])
+  @@index([jobId])
+}
+
+model JobAlert {
+  id        String   @id @default(cuid())
+  userId    String
+  region    String
+  frequency String   @default("daily")
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, region])
+  @@index([userId])
+  @@index([region])
 }

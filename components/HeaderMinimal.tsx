@@ -46,8 +46,8 @@ export default async function HeaderMinimal() {
         </Link>
       </div>
 
-      {/* Right: Auth/avatar */}
-      <div className="flex items-center gap-3">
+      {/* Right: Auth/avatar (always aligned far right) */}
+      <div className="ml-auto flex items-center gap-3">
         {user ? (
           <div className="relative group">
             <button
