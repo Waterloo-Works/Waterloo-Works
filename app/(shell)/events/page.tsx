@@ -1,36 +1,25 @@
-import LumaCalendarEmbed from "@/components/events/LumaCalendarEmbed";
-import LumaCalendarButton from "@/components/events/LumaCalendarButton";
-
 export const metadata = { title: "Events" };
 
 export default async function EventsPage() {
-  const calendarId = process.env.NEXT_PUBLIC_LUMA_CALENDAR_ID?.trim();
-
   return (
     <main className="mx-auto max-w-6xl px-6 py-12">
       <div className="mb-8">
         <h1 className="font-title text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-2">Events</h1>
-        <p className="font-body text-zinc-700">Community‑hosted events and meetups. Powered by Luma.</p>
+        <p className="font-body text-zinc-700">Community‑hosted events and meetups.</p>
       </div>
 
-      {calendarId ? (
-        <div className="space-y-4">
-          <LumaCalendarEmbed calendarId={calendarId} height={820} />
-          <div className="flex items-center justify-between">
-            <div className="font-body text-sm text-zinc-600">Tip: Click an event to see details and RSVP on Luma.</div>
-            <LumaCalendarButton calendarId={calendarId} label="Open calendar" />
-          </div>
-          <div className="font-body text-sm text-zinc-600">
-            Having trouble? <a className="underline" href={`https://lu.ma/${calendarId}`} target="_blank" rel="noopener noreferrer">Open on Luma ↗</a>
-          </div>
-        </div>
-      ) : (
-        <div className="rounded-2xl bg-white p-6 ring-1 ring-zinc-200">
-          <div className="font-title text-lg text-zinc-900">Calendar not configured</div>
-          <p className="font-body text-zinc-700 mt-1">Set <code className="rounded bg-zinc-100 px-1">NEXT_PUBLIC_LUMA_CALENDAR_ID</code> in your environment to embed the calendar.</p>
-        </div>
-      )}
+      {/* Hard-coded Google Calendar embed */}
+      <div className="overflow-auto rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
+        <iframe
+          src="https://calendar.google.com/calendar/embed?src=mr1vn19vbj3er0p7esp4gt9n7b250htj%40import.calendar.google.com&ctz=America%2FLos_Angeles"
+          style={{ border: 0 }}
+          width={800}
+          height={600}
+          frameBorder={0}
+          scrolling="no"
+          className="mx-auto block"
+        />
+      </div>
     </main>
   );
 }
-

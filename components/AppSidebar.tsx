@@ -38,7 +38,7 @@ export function AppSidebar() {
         href={item.href}
         aria-current={active ? "page" : undefined}
         className={cn(
-          "flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-colors",
+          "flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm transition-colors",
           "hover:bg-zinc-100",
           active ? "bg-zinc-100 text-zinc-900" : "text-zinc-700"
         )}
@@ -50,7 +50,7 @@ export function AppSidebar() {
   }
 
   return (
-    <aside className="sticky top-0 z-40 hidden h-svh w-56 shrink-0 border-r border-zinc-200 bg-white md:block">
+    <aside className="sticky top-0 z-40 hidden h-screen w-48 shrink-0 border-r border-zinc-200 bg-white md:block">
       <div className="flex h-full flex-col">
         <div className="flex items-center gap-3 p-5">
           <Link href="/explore" className="text-base font-serif italic text-zinc-900">
