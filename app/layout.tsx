@@ -4,7 +4,6 @@ import "./globals.css";
 import { SessionProvider } from "@/providers/SessionProvider";
 import { SourceCollectionWrapper } from "@/components/SourceCollectionWrapper";
 import { getCurrentUser } from "@/app/actions/auth";
-import Footer from "@/components/Footer";
 import { Toaster as SonnerToaster } from "sonner";
 
 const geistSans = Geist({
@@ -51,7 +50,6 @@ export default async function RootLayout({
 					<SourceCollectionWrapper initialHasSource={hasSource}>
                     {children}
                     <SonnerToaster richColors closeButton position="top-right" />
-                    <Footer />
 					</SourceCollectionWrapper>
 				</SessionProvider>
 			</body>

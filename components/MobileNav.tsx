@@ -6,7 +6,6 @@ import { Menu, X } from "lucide-react";
 
 const items = [
   { label: "Explore", href: "/explore" },
-  { label: "Feed", href: "/feed" },
   { label: "Jobs", href: "/job-search" },
   { label: "Events", href: "/events" },
   { label: "Employers", href: "/employers" },

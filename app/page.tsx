@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import Footer from "@/components/Footer";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -92,6 +93,7 @@ export default async function Home() {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

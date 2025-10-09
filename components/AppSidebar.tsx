@@ -21,7 +21,6 @@ type NavItem = {
 
 const nav: NavItem[] = [
   { label: "Explore", href: "/explore", icon: Compass, section: "primary" },
-  { label: "Feed", href: "/feed", icon: SquareStack, section: "primary" },
   { label: "Inbox", href: "/inbox", icon: Mail, section: "primary" },
   { label: "Saved", href: "/bookmarks", icon: SquareStack, section: "primary" },
   { label: "Jobs", href: "/job-search", icon: Building2, section: "secondary" },
@@ -51,7 +50,7 @@ export function AppSidebar() {
   }
 
   return (
-    <aside className="sticky top-0 hidden h-svh w-64 shrink-0 border-r border-zinc-200 bg-white lg:block">
+    <aside className="sticky top-0 z-40 hidden h-svh w-56 shrink-0 border-r border-zinc-200 bg-white md:block">
       <div className="flex h-full flex-col">
         <div className="flex items-center gap-3 p-5">
           <Link href="/explore" className="text-base font-serif italic text-zinc-900">

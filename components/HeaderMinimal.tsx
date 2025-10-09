@@ -33,14 +33,14 @@ export default async function HeaderMinimal() {
   })();
 
   return (
-    <header className="relative fixed inset-x-0 top-0 z-50 h-14 px-4 md:px-6 border-b border-zinc-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 flex items-center justify-between lg:sticky lg:inset-auto lg:top-0">
-      {/* Left: Hamburger (mobile) */}
-      <div className="lg:hidden">
+    <header className="relative fixed inset-x-0 top-0 z-30 h-14 px-4 md:px-6 border-b border-zinc-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 flex items-center justify-between md:sticky md:inset-auto md:top-0">
+      {/* Left: Hamburger (mobile/tablet only) */}
+      <div className="md:hidden">
         <MobileNav />
       </div>
 
-      {/* Center: Brand (mobile only) */}
-      <div className="absolute left-1/2 -translate-x-1/2 lg:hidden">
+      {/* Center: Brand (mobile/tablet only) */}
+      <div className="absolute left-1/2 -translate-x-1/2 md:hidden">
         <Link href="/explore" className="text-base font-serif italic text-zinc-900">
           waterloo[dot]works
         </Link>
