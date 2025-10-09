@@ -33,7 +33,7 @@ export default async function HeaderMinimal() {
   })();
 
   return (
-    <header className="h-14 px-4 md:px-6 border-b border-transparent flex items-center justify-between">
+    <header className="sticky top-0 z-50 h-14 px-4 md:px-6 border-b border-zinc-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 flex items-center justify-between">
       <div className="flex items-center">
         {/* Hamburger menu appears below lg; sidebar handles desktop */}
         <div className="lg:hidden">

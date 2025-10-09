@@ -41,22 +41,24 @@ export default function MobileNav() {
         {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
       {open && (
-        <div className="absolute left-0 right-0 top-[calc(100%+8px)] z-50 mx-2 rounded-2xl border border-zinc-200 bg-white shadow-xl">
-          <nav className="max-h-[60vh] overflow-y-auto p-5">
-            <ul className="space-y-6">
-              {items.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="block text-2xl font-semibold tracking-tight text-zinc-900"
-                    onClick={() => setOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+        <div className="fixed left-0 right-0 top-14 z-50 mx-2">
+          <div className="pointer-events-auto rounded-2xl border border-zinc-200 bg-white shadow-xl">
+            <nav className="max-h-[calc(100vh-14rem)] overflow-y-auto p-5">
+              <ul className="space-y-6">
+                {items.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="block text-2xl font-semibold tracking-tight text-zinc-900"
+                      onClick={() => setOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </div>
       )}
     </div>
