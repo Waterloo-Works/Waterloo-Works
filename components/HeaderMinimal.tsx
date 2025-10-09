@@ -33,21 +33,21 @@ export default async function HeaderMinimal() {
   })();
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 h-14 px-4 md:px-6 border-b border-zinc-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 grid grid-cols-[auto,1fr,auto] items-center lg:sticky lg:inset-auto lg:top-0">
-      {/* Left: Hamburger (mobile) */}
-      <div className="lg:hidden">
-        <MobileNav />
-      </div>
-
-      {/* Center: Brand (mobile) */}
-      <div className="lg:hidden justify-self-center">
-        <Link href="/explore" className="text-base font-serif italic text-zinc-900">
-          Waterloo.works
-        </Link>
+    <header className="fixed inset-x-0 top-0 z-50 h-14 px-4 md:px-6 border-b border-zinc-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 flex items-center justify-between lg:sticky lg:inset-auto lg:top-0">
+      {/* Left: Hamburger + Brand (mobile) */}
+      <div className="flex items-center gap-3">
+        <div className="lg:hidden">
+          <MobileNav />
+        </div>
+        <div className="lg:hidden">
+          <Link href="/explore" className="text-base font-serif italic text-zinc-900">
+            Waterloo.works
+          </Link>
+        </div>
       </div>
 
       {/* Right: Auth/avatar */}
-      <div className="flex items-center gap-3 justify-self-end">
+      <div className="flex items-center gap-3">
         {user ? (
           <div className="relative group">
             <button
