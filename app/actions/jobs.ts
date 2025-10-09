@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { getFaviconUrl } from "@/lib/favicon";
 import { Job } from "@prisma/client";
+import { prisma as prismaClient } from "@/utils/prisma";
 
 export async function getJobs() {
 	try {
@@ -186,13 +187,46 @@ export async function approveJob(jobId: string) {
 			return { success: false, error: "You must be an admin to approve jobs" };
 		}
 
-		await prisma.job.update({
+		const updatedJob = await prisma.job.update({
 			where: { id: jobId },
 			data: {
 				status: "APPROVED",
 				reviewedBy: user.id,
 			},
 		});
+
+		// Notify users with global job alerts (region = 'ALL') if models exist
+		try {
+			const models = prismaClient as unknown as {
+				jobAlert?: {
+					findMany: (args: { where: { active: boolean } }) => Promise<{ userId: string }[]>;
+				};
+				notification?: {
+					createMany: (args: { data: { userId: string; type: string; payload: unknown }[] }) => Promise<unknown>;
+				};
+			};
+			if (models.jobAlert && models.notification) {
+				const alerts = await models.jobAlert.findMany({ where: { active: true } });
+				if (alerts.length > 0) {
+					const data = alerts
+						.filter(a => a.userId !== updatedJob.postedBy)
+						.map(a => ({
+							userId: a.userId,
+							type: "job_alert",
+							payload: {
+								jobId: updatedJob.id,
+								company: updatedJob.company,
+								position: updatedJob.position,
+								location: updatedJob.location,
+								createdAt: new Date().toISOString(),
+							},
+						}));
+					if (data.length) await models.notification.createMany({ data });
+				}
+			}
+		} catch (e) {
+			console.warn("Notifications not initialized or failed:", e);
+		}
 
 		revalidatePath("/admin");
 		revalidatePath("/jobs");

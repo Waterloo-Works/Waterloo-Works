@@ -23,6 +23,7 @@ const nav: NavItem[] = [
   { label: "Explore", href: "/explore", icon: Compass, section: "primary" },
   { label: "Feed", href: "/feed", icon: SquareStack, section: "primary" },
   { label: "Inbox", href: "/inbox", icon: Mail, section: "primary" },
+  { label: "Saved", href: "/bookmarks", icon: SquareStack, section: "primary" },
   { label: "Jobs", href: "/job-search", icon: Building2, section: "secondary" },
   { label: "Events", href: "/events", icon: Calendar, section: "secondary" },
   { label: "Employers", href: "/employers", icon: IdCard, section: "secondary" },

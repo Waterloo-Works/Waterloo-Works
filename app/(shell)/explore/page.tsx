@@ -4,8 +4,8 @@ import FaviconImage from "@/components/FaviconImage";
 import ShareButton from "@/components/ShareButton";
 import BookmarkButton from "@/components/BookmarkButton";
 import CreateAlertButton from "@/components/CreateAlertButton";
-import { getBookmarkedJobIds } from "@/app/actions/bookmarks";
 import { getRegionAlertMap } from "@/app/actions/alerts";
+import { getBookmarkedJobIds } from "@/app/actions/bookmarks";
 import { formatEmploymentType } from "@/lib/formatEmploymentType";
 import { timeAgo } from "@/lib/timeAgo";
 
@@ -25,9 +25,14 @@ export default async function ExplorePage() {
     ? `https://x.com/messages/compose?recipient_id=${dmRecipientId}`
     : "https://x.com/onlychans1";
 
+  const globalAlertActive = Boolean(alertMap.get("ALL"));
+
   return (
     <div className="mx-auto max-w-6xl px-8 py-14">
       <h1 className="mb-10 text-3xl font-semibold tracking-tight text-zinc-900">Explore</h1>
+      <div className="mb-8 flex items-center justify-end">
+        <CreateAlertButton region="ALL" initialActive={globalAlertActive} />
+      </div>
 
       {Object.keys(regions).length === 0 ? (
         <EmptyState />
@@ -41,7 +46,7 @@ export default async function ExplorePage() {
                     ? "Job picks for remote software roles"
                     : `Job picks for software developers and engineers in ${region}`}
                 </h2>
-                <CreateAlertButton region={region} initialActive={Boolean(alertMap.get(region))} />
+                {/* Global alert only; per‑region removed for now */}
               </div>
 
               <div className="grid items-stretch gap-7 lg:grid-cols-2 xl:grid-cols-3">
