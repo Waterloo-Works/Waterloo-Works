@@ -38,7 +38,7 @@ export default async function ExplorePage() {
                 </button>
               </div>
 
-              <div className="grid items-stretch gap-7 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid items-stretch gap-7 lg:grid-cols-2 xl:grid-cols-3">
                 {regionJobs.slice(0, 3).map((job) => (
                   <JobPreviewCard key={job.id} job={job} />)
                 )}

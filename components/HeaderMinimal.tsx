@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "@/utils/prisma";
 import { redirect } from "next/navigation";
+import MobileNav from "@/components/MobileNav";
 
 export default async function HeaderMinimal() {
   const supabase = await createClient();
@@ -32,7 +33,13 @@ export default async function HeaderMinimal() {
   })();
 
   return (
-    <header className="h-14 px-6 border-b border-transparent flex items-center justify-end">
+    <header className="h-14 px-4 md:px-6 border-b border-transparent flex items-center justify-between">
+      <div className="flex items-center">
+        {/* Hamburger menu appears below lg; sidebar handles desktop */}
+        <div className="lg:hidden">
+          <MobileNav />
+        </div>
+      </div>
       <div className="flex items-center gap-3">
         {user ? (
           <div className="relative group">
@@ -99,4 +106,3 @@ export default async function HeaderMinimal() {
     </header>
   );
 }
-

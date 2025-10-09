@@ -51,7 +51,7 @@ export function AppSidebar() {
   }
 
   return (
-    <aside className="sticky top-0 h-svh w-64 shrink-0 border-r border-zinc-200 bg-white">
+    <aside className="sticky top-0 hidden h-svh w-64 shrink-0 border-r border-zinc-200 bg-white lg:block">
       <div className="flex h-full flex-col">
         <div className="flex items-center gap-3 p-5">
           <Link href="/explore" className="inline-flex items-center">
