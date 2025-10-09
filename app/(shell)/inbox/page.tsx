@@ -50,7 +50,7 @@ export default async function InboxPage() {
               </div>
               {n.type === "job_alert" && (
                 <Link
-                  href={{ pathname: "/job-search", query: { selected: (n.payload as any).jobId } }}
+                  href={{ pathname: "/job-search", query: { selected: (n.payload as { jobId: string }).jobId } }}
                   className="rounded-full bg-zinc-900 px-3 py-1.5 text-sm text-white hover:bg-zinc-800"
                 >
                   View job
@@ -85,4 +85,3 @@ function EmptyState() {
     </div>
   );
 }
-

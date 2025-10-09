@@ -16,8 +16,8 @@ import FaviconImage from "@/components/FaviconImage";
 import ShareButton from "@/components/ShareButton";
 import { formatEmploymentType } from "@/lib/formatEmploymentType";
 import { timeAgo } from "@/lib/timeAgo";
-import Fuse from "fuse.js";
-import { fuseOptions } from "@/lib/search/fuseConfig";
+import Fuse, { type IFuseOptions } from "fuse.js";
+import { fuseOptions, type SearchDoc } from "@/lib/search/fuseConfig";
 import { normalizeJob } from "@/lib/search/normalize";
 import BookmarkButton from "@/components/BookmarkButton";
 import { useBookmarkedIds } from "@/hooks/useBookmarks";
@@ -97,10 +97,11 @@ export default function JobSearchClient({ jobs }: Props) {
     const query = dq.trim().toLowerCase();
     if (query.length < 2) return filtered;
     // Normalize objects for Fuse
-    const dataset = filtered.map((j) => normalizeJob(j));
-    const fuse = new Fuse(dataset as any, fuseOptions);
+    type JobDoc = Job & SearchDoc;
+    const dataset: JobDoc[] = filtered.map((j) => normalizeJob(j) as JobDoc);
+    const fuse = new Fuse<JobDoc>(dataset, fuseOptions as IFuseOptions<JobDoc>);
     const hits = fuse.search(query);
-    return hits.map((h) => (h.item as any as Job));
+    return hits.map((h) => h.item as Job);
   }, [filtered, dq]);
 
   // Keep "selected" local for instant switching; sync to URL without RSC refresh.
@@ -148,7 +149,7 @@ export default function JobSearchClient({ jobs }: Props) {
         remote={remote}
         savedCount={bookmarkedIds.size}
         onChange={(next) => {
-          if (next.tab !== undefined) setTabState(next.tab as any);
+          if (typeof next.tab !== "undefined") setTabState(next.tab);
           if (Object.prototype.hasOwnProperty.call(next, "q")) setQ(next.q || "");
           if (Object.prototype.hasOwnProperty.call(next, "type")) setTypeCsv(next.type || "");
           if (Object.prototype.hasOwnProperty.call(next, "loc")) setLocCsv(next.loc || "");
@@ -186,13 +187,13 @@ function Header({
   savedCount,
   onChange,
 }: {
-  tab: string;
+  tab: "search" | "saved" | string;
   q: string;
   selectedTypes: Set<string>;
   selectedLocs: Set<string>;
   remote: boolean;
   savedCount: number;
-  onChange: (next: Record<string, string | undefined>) => void;
+  onChange: (next: Partial<{ tab: "search" | "saved"; q: string; type: string; loc: string; remote: string }>) => void;
 }) {
   const setTab = (t: "search" | "saved") => onChange({ tab: t });
 
@@ -369,7 +370,7 @@ function ResultsList({
               onSelect(j.id);
             }
           }}
-          aria-selected={selectedId === j.id}
+          data-selected={selectedId === j.id}
           className={
             "w-full cursor-pointer border-b border-zinc-100 px-3 py-4 text-left transition-colors outline-none focus-visible:ring-1 focus-visible:ring-zinc-300 " +
             (selectedId === j.id ? "bg-zinc-50" : "hover:bg-zinc-50")

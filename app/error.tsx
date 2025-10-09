@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
@@ -17,7 +18,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
             <button onClick={reset} className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-50">
               Reload page
             </button>
-            <a href="/" className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-50">Go home</a>
+            <Link href="/" className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-50">Go home</Link>
           </div>
           {process.env.NODE_ENV !== "production" && (
             <pre className="mt-6 overflow-auto rounded-xl border border-zinc-200 bg-white p-4 text-xs text-zinc-700 shadow-sm">
@@ -29,4 +30,3 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
     </html>
   );
 }
-

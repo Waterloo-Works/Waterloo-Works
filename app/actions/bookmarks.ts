@@ -33,7 +33,7 @@ export async function toggleBookmark(jobId: string) {
       await models.bookmark.create({ data: { userId: user.id, jobId } });
       return { success: true, bookmarked: true } as const;
     }
-  } catch (e: any) {
+  } catch (e: unknown) {
     return { success: false, error: "Server error updating bookmark" } as const;
   }
 }
