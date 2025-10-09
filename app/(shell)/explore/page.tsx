@@ -86,12 +86,12 @@ export default async function ExplorePage() {
               <div className="flex flex-wrap gap-3">
                 {suggestedSearches.map((s) => (
                   <Link
-                    key={s}
-                    href={{ pathname: "/jobs", query: { q: s } }}
-                    className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 py-1 text-sm text-zinc-700 shadow-sm"
+                    key={s.label}
+                    href={{ pathname: "/job-search", query: s.query }}
+                    className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3 py-1 text-sm text-zinc-700 shadow-sm hover:bg-zinc-50"
                   >
                     <span>🔍</span>
-                    <span>{s}</span>
+                    <span>{s.label}</span>
                   </Link>
                 ))}
               </div>
@@ -104,11 +104,11 @@ export default async function ExplorePage() {
 }
 
 const suggestedSearches = [
-  "San Francisco",
-  "New York",
-  "Toronto",
-  "Remote",
-  "Internship",
+  { label: "San Francisco", query: { loc: "san francisco" } },
+  { label: "New York", query: { loc: "new york" } },
+  { label: "Toronto", query: { loc: "toronto" } },
+  { label: "Remote", query: { remote: "true" } },
+  { label: "Internship", query: { type: "OTHER" } },
 ];
 
 type Jobs = Awaited<ReturnType<typeof getJobs>>;
