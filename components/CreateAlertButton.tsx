@@ -20,18 +20,9 @@ export default function CreateAlertButton({ region, initialActive }: { region: s
         return;
       }
       if (res.active) {
-        toast.custom((t) => (
-          <div className="rounded-2xl bg-zinc-900 text-white shadow-lg p-4 pr-8 max-w-sm">
-            <div className="flex items-start gap-3">
-              <div className="mt-0.5"><BellRing className="h-5 w-5" /></div>
-              <div>
-                <div className="font-semibold">Job alert created</div>
-                <div className="text-sm/6 opacity-80">We’ll send alerts for new {region} roles. Manage in notification settings.</div>
-              </div>
-              <button onClick={() => toast.dismiss(t)} className="ml-auto text-white/70 hover:text-white">✕</button>
-            </div>
-          </div>
-        ));
+        toast("Alert turned on", {
+          description: `We’ll send alerts for new ${region} roles.`,
+        });
       } else {
         toast("Alert turned off", { description: `No longer alerting for ${region}.` });
       }
