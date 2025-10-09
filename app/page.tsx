@@ -1,154 +1,97 @@
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
-	const supabase = await createClient();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-	return (
-		<div className="min-h-screen bg-[#F5F1E8]">
-			{/* Navigation */}
-			<nav className="px-6 py-6">
-				<div className="max-w-6xl mx-auto flex justify-between items-center">
-					<Link href="/" className="text-xl font-serif italic text-black">
-						Waterloo.works
-					</Link>
-					<div className="flex items-center gap-4">
-						<Link
-							href="/jobs"
-							className="text-black hover:opacity-70 transition-opacity"
-						>
-							Browse Jobs
-						</Link>
-						{user && (
-							<Link
-								href="/dashboard"
-								className="text-black hover:opacity-70 transition-opacity"
-							>
-								Dashboard
-							</Link>
-						)}
-						{user ? (
-							<Link
-								href="/dashboard"
-								className="px-5 py-2.5 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors"
-							>
-								My Account
-							</Link>
-						) : (
-							<>
-								<Link
-									href="/login"
-									className="text-black hover:opacity-70 transition-opacity"
-								>
-									Sign in
-								</Link>
-								<Link
-									href="/signup"
-									className="px-5 py-2.5 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors"
-								>
-									Sign up
-								</Link>
-							</>
-						)}
-					</div>
-				</div>
-			</nav>
+  if (user) redirect("/explore");
 
-			{/* Hero Section */}
-			<main className="max-w-4xl mx-auto px-6">
-				<div className="pt-16 pb-12 md:pt-24 md:pb-16">
-					<h1 className="text-5xl md:text-7xl lg:text-8xl font-serif italic leading-tight text-black mb-8">
-						Waterloo.works
-					</h1>
-					<div className="text-xl md:text-2xl leading-relaxed max-w-2xl">
-						<p className="mb-4">
-							A community job board meant to connect the best{" "}
-							<span className="italic">talent</span> with the best{" "}
-							<span className="italic">opportunities</span>.
-						</p>
-					</div>
-					<div className="mt-10 flex flex-wrap gap-4">
-						<Link
-							href="/jobs"
-							className="inline-flex items-center gap-2 px-6 py-3 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors"
-						>
-							<span>↗</span>
-							<span>Explore Jobs</span>
-						</Link>
-					</div>
-				</div>
+  return (
+    <div className="min-h-screen bg-white">
+      <header className="px-6 py-5 border-b border-zinc-200">
+        <div className="mx-auto flex max-w-6xl items-center justify-between">
+          <Link href="/" className="text-xl font-serif italic text-zinc-900">
+            Waterloo.works
+          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/login"
+              className="rounded-full bg-zinc-900 px-4 py-2 text-sm text-white hover:bg-zinc-800"
+            >
+              Sign in
+            </Link>
+          </div>
+        </div>
+      </header>
 
-				{/* About Section */}
-				<div className="py-20 border-t border-black/10">
-					<div className="max-w-3xl mx-auto">
-						<h2 className="text-3xl md:text-5xl font-serif leading-tight mb-8">
-							A place where you can{" "}
-							<span className="italic">find opportunities</span> for
-							yourself{" "}
-							<span className="inline-block w-3 h-3 bg-[#E8B45C] rounded-full align-middle mx-1"></span>{" "}
-							<span className="italic">or</span> share them with others.
-						</h2>
-						<p className="text-lg md:text-xl text-gray-700 leading-relaxed">
-							Waterloo.works is a community-driven job platform where anyone
-							can post opportunities, apply for themselves, or forward jobs
-							to help others in their network find meaningful work.
-						</p>
-					</div>
-				</div>
+      <main className="mx-auto max-w-4xl px-6 py-20 md:py-28">
+        <h1 className="mb-2 font-title text-4xl font-semibold tracking-tight text-zinc-900 md:text-5xl">
+          Curated opportunities for alum
+        </h1>
+        
+        <p className="font-body text-lg text-zinc-700 md:text-xl mt-2 md:mt-3 mb-8 md:mb-10 leading-7 md:leading-8 max-w-3xl">
+          Alum can post opportunities, apply, or forward roles to people who actually want them.
+        </p>
 
-				{/* How It Works */}
-				<div className="py-20 border-t border-black/10">
-					<h2 className="text-3xl md:text-4xl font-serif mb-12 text-center">
-						How it works
-					</h2>
-					<div className="grid md:grid-cols-3 gap-8 md:gap-12">
-						<div className="text-center">
-							<div className="inline-block w-12 h-12 bg-[#F4C7D4] rounded-full mb-4"></div>
-							<h3 className="text-xl font-serif mb-3">Discover</h3>
-							<p className="text-gray-700">
-								Browse opportunities shared by our community of students,
-								alumni, and professionals.
-							</p>
-						</div>
-						<div className="text-center">
-							<div className="inline-block w-12 h-12 bg-[#A8D8B9] rounded-full mb-4"></div>
-							<h3 className="text-xl font-serif mb-3">Apply</h3>
-							<p className="text-gray-700">
-								Find roles that match your interests and apply directly
-								through the platform.
-							</p>
-						</div>
-						<div className="text-center">
-							<div className="inline-block w-12 h-12 bg-[#B4A5E8] rounded-full mb-4"></div>
-							<h3 className="text-xl font-serif mb-3">Share</h3>
-							<p className="text-gray-700">
-								Help others by forwarding opportunities to friends,
-								classmates, or anyone who might benefit.
-							</p>
-						</div>
-					</div>
-				</div>
+        {/* Junh-style choice cards */}
+        <section className="mt-12">
+          <div className="grid gap-5 md:grid-cols-2">
+            <Link
+              href="/explore"
+              className="group rounded-3xl bg-zinc-50 text-zinc-900 p-8 sm:p-10 shadow-sm ring-1 ring-zinc-200 transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-zinc-100"
+            >
+              <div className="font-body text-sm/6 text-zinc-600">Alum</div>
+              <div className="mt-2 font-title text-2xl sm:text-3xl font-semibold tracking-tight">
+                Find your next job
+              </div>
+              <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm text-zinc-800 ring-1 ring-zinc-200 group-hover:bg-zinc-50">
+                <span>↗</span>
+                <span>Explore jobs</span>
+              </div>
+            </Link>
 
-				{/* CTA Section */}
-				<div className="py-20 text-center">
-					<h3 className="text-3xl md:text-4xl font-serif mb-6">
-						Ready to explore?
-					</h3>
-					<p className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
-						Discover opportunities that resonate with you.
-					</p>
-					<Link
-						href="/jobs"
-						className="inline-flex items-center gap-2 px-8 py-4 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors text-lg"
-					>
-						<span>↗</span>
-						<span>Browse Jobs</span>
-					</Link>
-				</div>
-			</main>
-		</div>
-	);
+            <Link
+              href="/post-job"
+              className="group rounded-3xl bg-zinc-50 text-zinc-900 p-8 sm:p-10 shadow-sm ring-1 ring-zinc-200 transition-all hover:-translate-y-0.5 hover:shadow-md hover:bg-zinc-100"
+            >
+              <div className="font-body text-sm/6 text-zinc-600">Employers</div>
+              <div className="mt-2 font-title text-2xl sm:text-3xl font-semibold tracking-tight">
+                Hire top talent
+              </div>
+              <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm text-zinc-800 ring-1 ring-zinc-200 group-hover:bg-zinc-50">
+                <span>✏️</span>
+                <span>Post a job</span>
+              </div>
+            </Link>
+          </div>
+        </section>
+
+        <section className="mt-24 space-y-10">
+          <h2 className="font-title text-2xl font-semibold text-zinc-900">How it works</h2>
+          <div className="grid gap-8 md:grid-cols-3">
+            <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:border-zinc-300 hover:bg-zinc-50 hover:shadow-md focus-within:ring-1 focus-within:ring-zinc-300">
+              <h3 className="font-title text-lg font-semibold text-zinc-900">Discover</h3>
+              <p className="font-body mt-2 text-zinc-700">
+                Browse jobs posted by other alum.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:border-zinc-300 hover:bg-zinc-50 hover:shadow-md focus-within:ring-1 focus-within:ring-zinc-300">
+              <h3 className="font-title text-lg font-semibold text-zinc-900">Apply</h3>
+              <p className="font-body mt-2 text-zinc-700">See a fit? Click apply.</p>
+            </div>
+            <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-all hover:border-zinc-300 hover:bg-zinc-50 hover:shadow-md focus-within:ring-1 focus-within:ring-zinc-300">
+              <h3 className="font-title text-lg font-semibold text-zinc-900">Share</h3>
+              <p className="font-body mt-2 text-zinc-700">
+                Forward roles to people you know who’d want them.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  );
 }

@@ -30,7 +30,7 @@ export default async function AdminPage() {
 	});
 
 	if (!userRecord.isAdmin) {
-		redirect("/dashboard");
+		redirect("/explore");
 	}
 
 	const pendingJobs = await getPendingJobs();

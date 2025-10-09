@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import Navbar from "@/components/Navbar";
+import HeaderMinimal from "@/components/HeaderMinimal";
 import PostJobForm from "./PostJobForm";
 
 export default async function PostJobPage() {
@@ -13,10 +13,10 @@ export default async function PostJobPage() {
 		redirect("/login");
 	}
 
-	return (
-		<div className="min-h-screen bg-[#F5F1E8]">
-			<Navbar />
-			<PostJobForm />
-		</div>
-	);
+    return (
+        <div className="min-h-svh bg-white">
+            <HeaderMinimal />
+            <PostJobForm />
+        </div>
+    );
 }

@@ -1,59 +1,44 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [error, setError] = useState<string | null>(null);
-	const [loading, setLoading] = useState(false);
-	const router = useRouter();
-	const supabase = createClient();
+    // UWaterloo magic link state only
+    const [uwEmail, setUwEmail] = useState("");
+    const [uwError, setUwError] = useState<string | null>(null);
+    const [uwLoading, setUwLoading] = useState(false);
+    const router = useRouter();
 
-	const handleGoogleLogin = async () => {
-		try {
-			const { error } = await supabase.auth.signInWithOAuth({
-				provider: "google",
-				options: {
-					redirectTo: `${window.location.origin}/auth/callback`,
-				},
-			});
+    const handleSendMagicLink = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setUwError(null);
+        setUwLoading(true);
+        try {
+            const normalized = uwEmail.trim().toLowerCase();
+            if (!normalized.endsWith("@uwaterloo.ca")) {
+                setUwError("Use your @uwaterloo.ca email.");
+                return;
+            }
 
-			if (error) {
-				setError(error.message);
-			}
-		} catch (error) {
-			setError(error instanceof Error ? error.message : "An error occurred");
-		}
-	};
-
-	const handleLogin = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setLoading(true);
-		setError(null);
-
-		try {
-			const { error: signInError } = await supabase.auth.signInWithPassword({
-				email,
-				password,
-			});
-
-			if (signInError) {
-				setError(signInError.message);
-				return;
-			}
-
-			router.push("/dashboard");
-			router.refresh();
-		} catch (error) {
-			setError(error instanceof Error ? error.message : "An error occurred");
-		} finally {
-			setLoading(false);
-		}
-	};
+            const res = await fetch("/api/auth/magic-link", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: normalized }),
+            });
+            if (!res.ok) {
+                const body = await res.json().catch(() => ({}));
+                setUwError(body?.error || "Could not send magic link.");
+                return;
+            }
+            router.push("/auth/check-email");
+        } catch (err) {
+            setUwError("Something went wrong. Please try again.");
+        } finally {
+            setUwLoading(false);
+        }
+    };
 
 	return (
 		<div className="min-h-screen bg-[#F5F1E8]">
@@ -67,120 +52,35 @@ export default function LoginPage() {
 			</nav>
 
 			{/* Content */}
-			<div className="flex items-center justify-center px-6 py-12">
-				<div className="max-w-md w-full">
-					<div className="mb-8 text-center">
-						<h1 className="text-4xl md:text-5xl font-serif italic mb-4 text-black">
-							Welcome back
-						</h1>
-						<p className="text-lg text-gray-700">Sign in to your account</p>
-					</div>
-
-					<form onSubmit={handleLogin} className="space-y-5">
-						{/* Email */}
-						<div>
-							<label
-								htmlFor="email"
-								className="block text-sm font-medium text-gray-700 mb-2"
-							>
-								Email
-							</label>
-							<input
-								type="email"
-								id="email"
-								value={email}
-								onChange={e => setEmail(e.target.value)}
-								className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
-								required
-							/>
-						</div>
-
-						{/* Password */}
-						<div>
-							<label
-								htmlFor="password"
-								className="block text-sm font-medium text-gray-700 mb-2"
-							>
-								Password
-							</label>
-							<input
-								type="password"
-								id="password"
-								value={password}
-								onChange={e => setPassword(e.target.value)}
-								className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
-								required
-							/>
-						</div>
-
-						{/* Error Message */}
-						{error && (
-							<div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-								{error}
-							</div>
-						)}
-
-						{/* Submit Button */}
-						<button
-							type="submit"
-							disabled={loading}
-							className="w-full px-6 py-3 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
-						>
-							{loading ? "Signing in..." : "Sign in"}
-						</button>
-					</form>
-
-					{/* Divider */}
-					<div className="relative my-6">
-						<div className="absolute inset-0 flex items-center">
-							<div className="w-full border-t border-black/20"></div>
-						</div>
-						<div className="relative flex justify-center text-sm">
-							<span className="px-2 bg-[#F5F1E8] text-gray-500">
-								Or continue with
-							</span>
-						</div>
-					</div>
-
-					{/* Google Button */}
-					<button
-						type="button"
-						onClick={handleGoogleLogin}
-						className="w-full flex items-center justify-center gap-3 px-6 py-3 border border-black/20 rounded-full bg-white hover:bg-gray-50 transition-colors font-medium"
-					>
-						<svg className="w-5 h-5" viewBox="0 0 24 24">
-							<path
-								d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-								fill="#4285F4"
-							/>
-							<path
-								d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-								fill="#34A853"
-							/>
-							<path
-								d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-								fill="#FBBC05"
-							/>
-							<path
-								d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-								fill="#EA4335"
-							/>
-						</svg>
-						Google
-					</button>
-
-					{/* Sign up link */}
-					<div className="mt-6 text-center">
-						<Link
-							href="/signup"
-							className="text-gray-700 hover:text-black transition-colors"
-						>
-							Don&apos;t have an account?{" "}
-							<span className="underline">Sign up</span>
-						</Link>
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+            <div className="flex items-center justify-center px-6 py-12">
+                <div className="max-w-md w-full">
+                    {/* UWaterloo Magic Link */}
+                    <div className="rounded-2xl bg-white border border-black/20 p-6 shadow-sm">
+                        <h2 className="text-2xl font-serif italic mb-2 text-black">Sign in with your UWaterloo email</h2>
+                        <p className="text-gray-700 mb-4 text-sm">We’ll email you a magic link. Only @uwaterloo.ca emails are accepted.</p>
+                        <form onSubmit={handleSendMagicLink} className="space-y-3">
+                            <input
+                                type="email"
+                                placeholder="name@uwaterloo.ca"
+                                value={uwEmail}
+                                onChange={e => setUwEmail(e.target.value)}
+                                className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+                                required
+                            />
+                            {uwError && (
+                                <div className="p-2 bg-red-50 border border-red-200 rounded text-red-700 text-sm">{uwError}</div>
+                            )}
+                            <button
+                                type="submit"
+                                disabled={uwLoading}
+                                className="w-full px-6 py-2.5 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                            >
+                                {uwLoading ? "Sending..." : "Send magic link"}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }

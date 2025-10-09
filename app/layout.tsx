@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Merriweather, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "@/providers/SessionProvider";
 import { SourceCollectionWrapper } from "@/components/SourceCollectionWrapper";
@@ -12,8 +12,22 @@ const geistSans = Geist({
 });
 
 const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
-	subsets: ["latin"],
+    variable: "--font-geist-mono",
+    subsets: ["latin"],
+});
+
+// Curius-inspired typography
+const titleSerif = Merriweather({
+    variable: "--font-title-serif",
+    weight: ["400", "700"],
+    subsets: ["latin"],
+    display: "swap",
+});
+
+const bodySans = Source_Sans_3({
+    variable: "--font-body-sans",
+    subsets: ["latin"],
+    display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -30,8 +44,8 @@ export default async function RootLayout({
 	const hasSource = !!user?.source;
 
 	return (
-		<html lang="en">
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang="en">
+            <body className={`${geistSans.variable} ${geistMono.variable} ${titleSerif.variable} ${bodySans.variable} antialiased`}>
 				<SessionProvider>
 					<SourceCollectionWrapper initialHasSource={hasSource}>
 						{children}

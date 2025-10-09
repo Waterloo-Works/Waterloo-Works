@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/utils/prisma";
 import { redirect } from "next/navigation";
 
@@ -38,8 +39,16 @@ export default async function Navbar() {
 	return (
 		<nav className="px-6 py-6 border-b border-black/10">
 			<div className="max-w-6xl mx-auto flex justify-between items-center">
-				<Link href="/" className="text-xl font-serif italic text-black">
-					Waterloo.works
+				<Link href="/explore" className="flex items-center gap-3">
+					<Image
+						src="/favicon.ico"
+						alt="App logo"
+						width={28}
+						height={28}
+						className="rounded-md shadow-sm"
+						priority
+					/>
+					<span className="text-xl font-serif italic text-black">Waterloo.works</span>
 				</Link>
 				<div className="flex items-center gap-4">
 					<Link
@@ -51,10 +60,10 @@ export default async function Navbar() {
 					{user && (
 						<>
 							<Link
-								href="/dashboard"
+								href="/explore"
 								className="text-black hover:opacity-70 transition-opacity"
 							>
-								Dashboard
+								Explore
 							</Link>
 							{isAdmin && (
 								<Link
@@ -115,20 +124,12 @@ export default async function Navbar() {
 						</>
 					)}
 					{!user && (
-						<>
-							<Link
-								href="/login"
-								className="text-black hover:opacity-70 transition-opacity"
-							>
-								Sign in
-							</Link>
-							<Link
-								href="/signup"
-								className="px-5 py-2.5 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors"
-							>
-								Sign up
-							</Link>
-						</>
+						<Link
+							href="/login"
+							className="px-5 py-2.5 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors"
+						>
+							Sign in
+						</Link>
 					)}
 				</div>
 			</div>
