@@ -48,7 +48,7 @@ export default async function Navbar() {
 						className="rounded-md shadow-sm"
 						priority
 					/>
-					<span className="text-xl font-serif italic text-black">Waterloo.works</span>
+					<span className="text-xl font-serif italic text-black">waterloo[dot]works</span>
 				</Link>
 				<div className="flex items-center gap-4">
 					<Link

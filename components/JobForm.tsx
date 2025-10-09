@@ -121,7 +121,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
                 <p className="font-body text-zinc-700">
                     {mode === "edit"
                         ? "Update your job posting details below."
-                        : "Submit a job opportunity to share with the Waterloo.works community. Your posting will be reviewed before going live."}
+                        : "Submit a job opportunity to share with the waterloo[dot]works community. Your posting will be reviewed before going live."}
                 </p>
             </div>
 

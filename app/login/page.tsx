@@ -46,7 +46,7 @@ export default function LoginPage() {
 			<nav className="px-6 py-6">
 				<div className="max-w-6xl mx-auto flex justify-between items-center">
 					<Link href="/" className="text-xl font-serif italic text-black">
-						Waterloo.works
+						waterloo[dot]works
 					</Link>
 				</div>
 			</nav>
