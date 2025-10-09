@@ -26,7 +26,7 @@ export default function CreateAlertButton({ region, initialActive }: { region: s
               <div className="mt-0.5"><BellRing className="h-5 w-5" /></div>
               <div>
                 <div className="font-semibold">Job alert created</div>
-                <div className="text-sm/6 opacity-80">We'll send alerts for new {region} roles. Manage in notification settings.</div>
+                <div className="text-sm/6 opacity-80">We’ll send alerts for new {region} roles. Manage in notification settings.</div>
               </div>
               <button onClick={() => toast.dismiss(t)} className="ml-auto text-white/70 hover:text-white">✕</button>
             </div>
@@ -54,4 +54,3 @@ export default function CreateAlertButton({ region, initialActive }: { region: s
     </button>
   );
 }
-

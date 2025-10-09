@@ -3,6 +3,13 @@
 import { prisma } from "@/utils/prisma";
 import { createClient } from "@/utils/supabase/server";
 
+type BookmarkModel = {
+  findUnique(args: { where: { userId_jobId: { userId: string; jobId: string } } }): Promise<{ id: string } | null>;
+  delete(args: { where: { id: string } }): Promise<unknown>;
+  create(args: { data: { userId: string; jobId: string } }): Promise<unknown>;
+  findMany(args: { where: { userId: string }; select: { jobId: true } }): Promise<{ jobId: string }[]>;
+};
+
 export async function toggleBookmark(jobId: string) {
   const supabase = await createClient();
   const {
@@ -10,15 +17,18 @@ export async function toggleBookmark(jobId: string) {
   } = await supabase.auth.getUser();
   if (!user) return { success: false, error: "Not authenticated" };
 
-  const existing = await (prisma as any).bookmark.findUnique({
+  const models = prisma as unknown as { bookmark?: BookmarkModel };
+  if (!models.bookmark) return { success: false, error: "Bookmarks not initialized" };
+
+  const existing = await models.bookmark.findUnique({
     where: { userId_jobId: { userId: user.id, jobId } },
   });
 
   if (existing) {
-    await (prisma as any).bookmark.delete({ where: { id: existing.id } });
+    await models.bookmark.delete({ where: { id: existing.id } });
     return { success: true, bookmarked: false };
   } else {
-    await (prisma as any).bookmark.create({ data: { userId: user.id, jobId } });
+    await models.bookmark.create({ data: { userId: user.id, jobId } });
     return { success: true, bookmarked: true };
   }
 }
@@ -29,7 +39,9 @@ export async function getBookmarkedJobIds() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) return new Set<string>();
-  const rows = await (prisma as any).bookmark.findMany({
+  const models = prisma as unknown as { bookmark?: BookmarkModel };
+  if (!models.bookmark) return new Set<string>();
+  const rows = await models.bookmark.findMany({
     where: { userId: user.id },
     select: { jobId: true },
   });

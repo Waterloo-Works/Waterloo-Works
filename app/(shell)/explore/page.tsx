@@ -4,8 +4,8 @@ import FaviconImage from "@/components/FaviconImage";
 import ShareButton from "@/components/ShareButton";
 import BookmarkButton from "@/components/BookmarkButton";
 import CreateAlertButton from "@/components/CreateAlertButton";
-import { createClient } from "@/utils/supabase/server";
-import { prisma } from "@/utils/prisma";
+import { getBookmarkedJobIds } from "@/app/actions/bookmarks";
+import { getRegionAlertMap } from "@/app/actions/alerts";
 import { formatEmploymentType } from "@/lib/formatEmploymentType";
 import { timeAgo } from "@/lib/timeAgo";
 
@@ -16,19 +16,9 @@ export default async function ExplorePage() {
 
   const regions = groupJobsByRegion(jobs);
 
-  // Preload initial bookmark/alert state for current user
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  const bookmarked = new Set<string>();
-  const alertMap = new Map<string, boolean>();
-  if (user) {
-    const bms = await prisma.bookmark.findMany({ where: { userId: user.id }, select: { jobId: true } });
-    bms.forEach((b) => bookmarked.add(b.jobId));
-    const alerts = await prisma.jobAlert.findMany({ where: { userId: user.id }, select: { region: true, active: true } });
-    alerts.forEach((a) => alertMap.set(a.region, a.active));
-  }
+  // Preload initial bookmark/alert state (gracefully no-ops if models missing)
+  const bookmarked = await getBookmarkedJobIds();
+  const alertMap = await getRegionAlertMap();
 
   const dmRecipientId = process.env.NEXT_PUBLIC_X_DM_RECIPIENT_ID;
   const dmHref = dmRecipientId
