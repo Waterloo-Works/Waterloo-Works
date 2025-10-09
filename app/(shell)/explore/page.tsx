@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ChevronRight } from "lucide-react";
 import { getJobs } from "@/app/actions/jobs";
 import FaviconImage from "@/components/FaviconImage";
 import ShareButton from "@/components/ShareButton";
@@ -42,11 +43,20 @@ export default async function ExplorePage() {
             <section key={region} className="space-y-6">
               <div className="flex items-center justify-between">
                 <h2 className="text-2xl font-medium text-zinc-900">
-                  {region === "Remote"
-                    ? "Job picks for remote software roles"
-                    : `Job picks for software developers and engineers in ${region}`}
+                  <Link
+                    href={
+                      region === "Remote"
+                        ? { pathname: "/job-search", query: { remote: "true" } }
+                        : { pathname: "/job-search", query: { loc: region.toLowerCase() } }
+                    }
+                    className="group inline-flex items-center gap-2 hover:underline underline-offset-4"
+                  >
+                    {region === "Remote"
+                      ? "Job picks for remote software roles"
+                      : `Job picks for software developers and engineers in ${region}`}
+                    <ChevronRight className="h-5 w-5 text-zinc-500 transition-transform group-hover:translate-x-0.5" />
+                  </Link>
                 </h2>
-                {/* Global alert only; per‑region removed for now */}
               </div>
 
               <div className="grid items-stretch gap-7 lg:grid-cols-2 xl:grid-cols-3">

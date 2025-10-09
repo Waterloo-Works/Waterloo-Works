@@ -31,8 +31,15 @@ const bodySans = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
-	title: "Waterloo Works",
-	description: "A community job board connecting talent with opportunities",
+    title: "Waterloo Works",
+    description: "A community job board connecting talent with opportunities",
+};
+
+// Ensure consistent viewport behavior across Safari/iOS
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover" as const,
 };
 
 export default async function RootLayout({

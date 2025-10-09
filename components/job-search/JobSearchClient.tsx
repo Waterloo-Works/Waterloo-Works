@@ -266,6 +266,7 @@ const typeChips = [
 const locationChips = [
   { value: "new york", label: "New York" },
   { value: "san francisco", label: "San Francisco" },
+  { value: "toronto", label: "Toronto" },
 ];
 
 function Chip({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {

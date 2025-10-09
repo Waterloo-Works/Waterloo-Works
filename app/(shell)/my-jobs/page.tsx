@@ -2,7 +2,6 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getMyJobs } from "@/app/actions/jobs";
-import HeaderMinimal from "@/components/HeaderMinimal";
 import FaviconImage from "@/components/FaviconImage";
 import { formatEmploymentType } from "@/lib/formatEmploymentType";
 
@@ -42,10 +41,7 @@ export default async function MyJobsPage() {
 	const myJobs: Job[] = await getMyJobs();
 
     return (
-        <div className="min-h-svh bg-white">
-            <HeaderMinimal />
-
-			{/* Main Content */}
+            /* Main Content */
             <main className="mx-auto max-w-6xl px-6 py-12">
 				{/* Header */}
                 <div className="mb-8">
@@ -254,7 +250,6 @@ export default async function MyJobsPage() {
 						))}
 					</div>
 				)}
-			</main>
-		</div>
-	);
+            </main>
+    );
 }
