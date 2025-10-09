@@ -39,8 +39,8 @@ export default async function HeaderMinimal() {
         <MobileNav />
       </div>
 
-      {/* Center: Brand (always centered) */}
-      <div className="absolute left-1/2 -translate-x-1/2">
+      {/* Center: Brand (mobile only) */}
+      <div className="absolute left-1/2 -translate-x-1/2 lg:hidden">
         <Link href="/explore" className="text-base font-serif italic text-zinc-900">
           waterloo[dot]works
         </Link>

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   Compass,
@@ -54,17 +53,9 @@ export function AppSidebar() {
     <aside className="sticky top-0 hidden h-svh w-64 shrink-0 border-r border-zinc-200 bg-white lg:block">
       <div className="flex h-full flex-col">
         <div className="flex items-center gap-3 p-5">
-          <Link href="/explore" className="inline-flex items-center">
-            <Image
-              src="/favicon.ico"
-              alt="App logo"
-              width={36}
-              height={36}
-              className="rounded-lg shadow-sm"
-              priority
-            />
+          <Link href="/explore" className="text-base font-serif italic text-zinc-900">
+            waterloo[dot]works
           </Link>
-          <span className="text-sm font-semibold text-zinc-900">Waterloo Works</span>
         </div>
 
         <nav className="px-3 space-y-1">

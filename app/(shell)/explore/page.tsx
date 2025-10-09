@@ -2,6 +2,10 @@ import Link from "next/link";
 import { getJobs } from "@/app/actions/jobs";
 import FaviconImage from "@/components/FaviconImage";
 import ShareButton from "@/components/ShareButton";
+import BookmarkButton from "@/components/BookmarkButton";
+import CreateAlertButton from "@/components/CreateAlertButton";
+import { createClient } from "@/utils/supabase/server";
+import { prisma } from "@/utils/prisma";
 import { formatEmploymentType } from "@/lib/formatEmploymentType";
 import { timeAgo } from "@/lib/timeAgo";
 
@@ -11,6 +15,20 @@ export default async function ExplorePage() {
   const jobs = await getJobs();
 
   const regions = groupJobsByRegion(jobs);
+
+  // Preload initial bookmark/alert state for current user
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const bookmarked = new Set<string>();
+  const alertMap = new Map<string, boolean>();
+  if (user) {
+    const bms = await prisma.bookmark.findMany({ where: { userId: user.id }, select: { jobId: true } });
+    bms.forEach((b) => bookmarked.add(b.jobId));
+    const alerts = await prisma.jobAlert.findMany({ where: { userId: user.id }, select: { region: true, active: true } });
+    alerts.forEach((a) => alertMap.set(a.region, a.active));
+  }
 
   const dmRecipientId = process.env.NEXT_PUBLIC_X_DM_RECIPIENT_ID;
   const dmHref = dmRecipientId
@@ -33,14 +51,12 @@ export default async function ExplorePage() {
                     ? "Job picks for remote software roles"
                     : `Job picks for software developers and engineers in ${region}`}
                 </h2>
-                <button className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-[15px] text-zinc-700 shadow-sm">
-                  Create job alert
-                </button>
+                <CreateAlertButton region={region} initialActive={Boolean(alertMap.get(region))} />
               </div>
 
               <div className="grid items-stretch gap-7 lg:grid-cols-2 xl:grid-cols-3">
                 {regionJobs.slice(0, 3).map((job) => (
-                  <JobPreviewCard key={job.id} job={job} />)
+                  <JobPreviewCard key={job.id} job={job} initialBookmarked={bookmarked.has(job.id)} />)
                 )}
               </div>
             </section>
@@ -137,8 +153,10 @@ function groupJobsByRegion(jobs: Jobs): Record<string, Job[]> {
 
 function JobPreviewCard({
   job,
+  initialBookmarked,
 }: {
   job: Awaited<ReturnType<typeof getJobs>>[number];
+  initialBookmarked: boolean;
 }) {
   const compText = job.salaryMin && job.salaryMax
     ? `${job.salaryMin} - ${job.salaryMax}`
@@ -149,32 +167,33 @@ function JobPreviewCard({
     : undefined;
 
   return (
-    <Link
-      href={{ pathname: "/job-search", query: { selected: job.id } }}
-      className="group block h-full focus-visible:outline-none"
-    >
-      <article
-        className="flex h-full flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-6 min-h-[176px] shadow-sm transition-all hover:border-zinc-300 hover:bg-zinc-50 hover:shadow-md focus-within:ring-1 focus-within:ring-zinc-300"
-      >
-        <div className="flex items-start gap-4">
-          <FaviconImage src={job.companyImageUrl} company={job.company} />
-          <div className="min-w-0">
-            <div className="font-body text-sm text-zinc-600">{job.company}</div>
+    <article className="flex h-full flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-6 min-h-[176px] shadow-sm transition-all hover:border-zinc-300 hover:bg-zinc-50 hover:shadow-md focus-within:ring-1 focus-within:ring-zinc-300">
+      <div className="flex items-start gap-4">
+        <FaviconImage src={job.companyImageUrl} company={job.company} />
+        <div className="min-w-0">
+          <div className="font-body text-sm text-zinc-600">{job.company}</div>
+          <Link
+            href={{ pathname: "/job-search", query: { selected: job.id } }}
+            className="group block focus-visible:outline-none"
+          >
             <h3 className="font-title text-lg font-semibold text-zinc-900 group-hover:underline line-clamp-2">
               {job.position}
             </h3>
-            <div className="font-body text-[15px] text-zinc-700">
-              {compText ? `${compText} · ` : ""}{formatEmploymentType(job.employmentType)}
-            </div>
-            <div className="font-body text-sm text-zinc-500 mt-1">
-              {job.location}
-              {" · "}
-              {timeAgo(job.createdAt)}
-            </div>
+          </Link>
+          <div className="font-body text-[15px] text-zinc-700">
+            {compText ? `${compText} · ` : ""}{formatEmploymentType(job.employmentType)}
+          </div>
+          <div className="font-body text-sm text-zinc-500 mt-1">
+            {job.location}
+            {" · "}
+            {timeAgo(job.createdAt)}
           </div>
         </div>
-      </article>
-    </Link>
+        <div className="ml-auto">
+          <BookmarkButton jobId={job.id} initial={initialBookmarked} />
+        </div>
+      </div>
+    </article>
   );
 }
 
