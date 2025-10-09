@@ -2,7 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getMyJobs } from "@/app/actions/jobs";
-import Navbar from "@/components/Navbar";
+import HeaderMinimal from "@/components/HeaderMinimal";
 import FaviconImage from "@/components/FaviconImage";
 import { formatEmploymentType } from "@/lib/formatEmploymentType";
 
@@ -41,46 +41,46 @@ export default async function MyJobsPage() {
 
 	const myJobs: Job[] = await getMyJobs();
 
-	return (
-		<div className="min-h-screen bg-[#F5F1E8]">
-			<Navbar />
+    return (
+        <div className="min-h-svh bg-white">
+            <HeaderMinimal />
 
 			{/* Main Content */}
-			<main className="max-w-6xl mx-auto px-6 py-12">
+            <main className="mx-auto max-w-6xl px-6 py-12">
 				{/* Header */}
-				<div className="mb-12">
-					<h1 className="text-4xl md:text-5xl lg:text-6xl font-serif italic text-black mb-4">
-						My Job Submissions
-					</h1>
-					<p className="text-lg md:text-xl text-gray-700">
-						Track the status of your job postings
-					</p>
-				</div>
+                <div className="mb-8">
+                    <h1 className="font-title text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-2">
+                        My Job Submissions
+                    </h1>
+                    <p className="font-body text-zinc-700">
+                        Track the status of your job postings
+                    </p>
+                </div>
 
 				{/* Job Listings */}
-				{myJobs.length === 0 ? (
-					<div className="text-center py-20 bg-white/60 backdrop-blur-sm border border-black/10 rounded-lg">
-						<div className="inline-block w-16 h-16 bg-gray-200 rounded-full mb-4"></div>
-						<h3 className="text-xl font-serif mb-2">
-							No job submissions yet
-						</h3>
-						<p className="text-gray-600 mb-6">
-							Post your first job to get started
-						</p>
-						<Link
-							href="/post-job"
-							className="inline-block px-6 py-3 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors"
-						>
-							Post a Job
-						</Link>
-					</div>
-				) : (
+                {myJobs.length === 0 ? (
+                    <div className="text-center py-20 rounded-2xl bg-white ring-1 ring-zinc-200">
+                        <div className="inline-block w-16 h-16 bg-gray-200 rounded-full mb-4"></div>
+                        <h3 className="font-title text-xl text-zinc-900 mb-2">
+                            No job submissions yet
+                        </h3>
+                        <p className="font-body text-zinc-600 mb-6">
+                            Post your first job to get started
+                        </p>
+                        <Link
+                            href="/post-job"
+                            className="inline-block rounded-full bg-zinc-900 px-6 py-3 text-white hover:bg-zinc-800 transition-colors"
+                        >
+                            Post a Job
+                        </Link>
+                    </div>
+                ) : (
 					<div className="space-y-4">
 						{myJobs.map(job => (
-							<div
-								key={job.id}
-								className="bg-white/60 backdrop-blur-sm border border-black/10 rounded-lg p-6"
-							>
+                            <div
+                                key={job.id}
+                                className="rounded-2xl bg-white p-6 ring-1 ring-zinc-200 shadow-sm"
+                            >
 								<div className="space-y-4">
 									{/* Header with Status Badge */}
 									<div className="flex items-start justify-between gap-4">
@@ -89,9 +89,9 @@ export default async function MyJobsPage() {
 												src={job.companyImageUrl}
 												company={job.company}
 											/>
-											<h3 className="text-xl md:text-2xl font-serif font-semibold text-black">
-												{job.position}
-											</h3>
+                                        <h3 className="font-title text-xl md:text-2xl font-semibold text-zinc-900">
+                                            {job.position}
+                                        </h3>
 										</div>
 										{job.status === "APPROVED" ? (
 											<span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium whitespace-nowrap">
@@ -111,7 +111,7 @@ export default async function MyJobsPage() {
 									{/* Job Details Grid */}
 									<div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
 										<div>
-											<div className="text-sm text-gray-500 mb-1">
+                                            <div className="text-sm text-zinc-500 mb-1">
 												Company
 											</div>
 											{job.companyUrl ? (
@@ -119,20 +119,20 @@ export default async function MyJobsPage() {
 													href={job.companyUrl}
 													target="_blank"
 													rel="noopener noreferrer"
-													className="text-black hover:underline flex items-center gap-1"
+                                                    className="text-zinc-900 hover:underline flex items-center gap-1"
 												>
 													{job.company}
 													<span className="text-xs">↗</span>
 												</a>
 											) : (
-												<div className="text-black">
+                                                <div className="text-zinc-900">
 													{job.company}
 												</div>
 											)}
 										</div>
 
 										<div>
-											<div className="text-sm text-gray-500 mb-1">
+                                            <div className="text-sm text-zinc-500 mb-1">
 												Contact Name
 											</div>
 											{job.contactUrl ? (
@@ -140,42 +140,42 @@ export default async function MyJobsPage() {
 													href={job.contactUrl}
 													target="_blank"
 													rel="noopener noreferrer"
-													className="text-black hover:underline flex items-center gap-1"
+                                                    className="text-zinc-900 hover:underline flex items-center gap-1"
 												>
 													{job.contact}
 													<span className="text-xs">↗</span>
 												</a>
 											) : (
-												<div className="text-black">
+                                                <div className="text-zinc-900">
 													{job.contact}
 												</div>
 											)}
 										</div>
 
 										<div>
-											<div className="text-sm text-gray-500 mb-1">
+                                            <div className="text-sm text-zinc-500 mb-1">
 												Location
 											</div>
-											<div className="text-black">
+                                            <div className="text-zinc-900">
 												{job.location}
 											</div>
 										</div>
 
 										<div>
-											<div className="text-sm text-gray-500 mb-1">
+                                            <div className="text-sm text-zinc-500 mb-1">
 												Employment Type
 											</div>
-											<div className="text-black">
+                                            <div className="text-zinc-900">
 												{formatEmploymentType(job.employmentType)}
 											</div>
 										</div>
 
 										{(job.salaryMin || job.salaryMax) && (
 											<div>
-												<div className="text-sm text-gray-500 mb-1">
+                                                <div className="text-sm text-zinc-500 mb-1">
 													Salary Range
 												</div>
-												<div className="text-black">
+                                                <div className="text-zinc-900">
 													{job.salaryMin && job.salaryMax
 														? `${job.salaryMin} - ${job.salaryMax}`
 														: job.salaryMin
@@ -191,14 +191,14 @@ export default async function MyJobsPage() {
 									{/* Notes */}
 									{job.notes && (
 										<div>
-											<div className="text-sm text-gray-500 mb-1">
-												Notes
-											</div>
-											<p className="text-gray-700 whitespace-pre-wrap">
-												{job.notes}
-											</p>
-										</div>
-									)}
+                                            <div className="text-sm text-zinc-500 mb-1">
+                                                Notes
+                                            </div>
+                                            <p className="text-zinc-700 whitespace-pre-wrap">
+                                                {job.notes}
+                                            </p>
+                                        </div>
+                                    )}
 
 									{/* Rejection Reason */}
 									{job.status === "REJECTED" && job.rejectionReason && (
@@ -213,7 +213,7 @@ export default async function MyJobsPage() {
 									)}
 
 									{/* Footer */}
-									<div className="pt-4 border-t border-black/10 flex items-center justify-between text-xs text-gray-500">
+                                    <div className="pt-4 border-t border-zinc-200 flex items-center justify-between text-xs text-zinc-500">
 										<div className="flex items-center gap-4">
 											<span>
 												Submitted{" "}
@@ -242,12 +242,12 @@ export default async function MyJobsPage() {
 													</span>
 												)}
 										</div>
-										<Link
-											href={`/jobs/${job.id}/edit`}
-											className="px-4 py-2 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors text-sm font-medium"
-										>
-											Edit
-										</Link>
+                                    <Link
+                                        href={`/jobs/${job.id}/edit`}
+                                        className="rounded-full bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition-colors"
+                                    >
+                                        Edit
+                                    </Link>
 									</div>
 								</div>
 							</div>

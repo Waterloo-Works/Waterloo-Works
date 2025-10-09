@@ -34,12 +34,21 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
 		});
 
 		// Listen for auth changes
-		const {
-			data: { subscription },
-		} = supabase.auth.onAuthStateChange((_event, session) => {
-			setUser(session?.user ?? null);
-			router.refresh();
-		});
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+      // Avoid redundant refreshes that can cause extra renders on auth pages.
+      // Refresh only for meaningful transitions.
+      if (
+        event === "SIGNED_IN" ||
+        event === "SIGNED_OUT" ||
+        event === "TOKEN_REFRESHED" ||
+        event === "USER_UPDATED"
+      ) {
+        router.refresh();
+      }
+    });
 
 		return () => {
 			subscription.unsubscribe();

@@ -100,3 +100,12 @@
 
 /* Hide the global footer when the shell layout renders its own footer */
 .shell-layout + footer { display: none; }
+
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}

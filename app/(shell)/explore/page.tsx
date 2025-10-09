@@ -38,7 +38,7 @@ export default async function ExplorePage() {
                 </button>
               </div>
 
-              <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid items-stretch gap-7 md:grid-cols-2 lg:grid-cols-3">
                 {regionJobs.slice(0, 3).map((job) => (
                   <JobPreviewCard key={job.id} job={job} />)
                 )}
@@ -151,16 +151,16 @@ function JobPreviewCard({
   return (
     <Link
       href={{ pathname: "/job-search", query: { selected: job.id } }}
-      className="group block focus-visible:outline-none"
+      className="group block h-full focus-visible:outline-none"
     >
       <article
-        className="rounded-2xl border border-zinc-200 bg-white p-6 min-h-[152px] shadow-sm transition-all hover:border-zinc-300 hover:bg-zinc-50 hover:shadow-md focus-within:ring-1 focus-within:ring-zinc-300"
+        className="flex h-full flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-6 min-h-[176px] shadow-sm transition-all hover:border-zinc-300 hover:bg-zinc-50 hover:shadow-md focus-within:ring-1 focus-within:ring-zinc-300"
       >
         <div className="flex items-start gap-4">
           <FaviconImage src={job.companyImageUrl} company={job.company} />
           <div className="min-w-0">
             <div className="font-body text-sm text-zinc-600">{job.company}</div>
-            <h3 className="font-title text-lg font-semibold text-zinc-900 group-hover:underline">
+            <h3 className="font-title text-lg font-semibold text-zinc-900 group-hover:underline line-clamp-2">
               {job.position}
             </h3>
             <div className="font-body text-[15px] text-zinc-700">

@@ -81,7 +81,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 		return (
 			<div className="flex items-center justify-center px-6 py-20">
 				<div className="max-w-md w-full text-center">
-					<div className="mb-6">
+        <div className="mb-6">
 						<div className="inline-block w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
 							<svg
 								className="w-8 h-8 text-green-600"
@@ -98,10 +98,10 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 							</svg>
 						</div>
 					</div>
-					<h1 className="text-3xl font-serif italic mb-4 text-black">
-						{mode === "edit" ? "Job updated!" : "Job submitted!"}
-					</h1>
-					<p className="text-gray-700 mb-6">
+                <h1 className="font-title text-3xl font-semibold tracking-tight mb-2 text-zinc-900">
+                    {mode === "edit" ? "Job updated!" : "Job submitted!"}
+                </h1>
+                <p className="font-body text-zinc-700 mb-6">
 						{mode === "edit"
 							? "Your job posting has been updated successfully."
 							: "Your job posting has been submitted for review. We'll notify you once it's approved."}
@@ -113,17 +113,17 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 	}
 
 	return (
-		<main className="max-w-3xl mx-auto px-6 py-12">
-			<div className="mb-8">
-				<h1 className="text-4xl md:text-5xl font-serif italic text-black mb-4">
-					{mode === "edit" ? "Edit Job" : "Post a Job"}
-				</h1>
-				<p className="text-lg text-gray-700">
-					{mode === "edit"
-						? "Update your job posting details below."
-						: "Submit a job opportunity to share with the Waterloo.works community. Your posting will be reviewed before going live."}
-				</p>
-			</div>
+        <main className="mx-auto max-w-3xl px-6 py-12">
+            <div className="mb-8">
+                <h1 className="font-title text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-2">
+                    {mode === "edit" ? "Edit Job" : "Post a Job"}
+                </h1>
+                <p className="font-body text-zinc-700">
+                    {mode === "edit"
+                        ? "Update your job posting details below."
+                        : "Submit a job opportunity to share with the Waterloo.works community. Your posting will be reviewed before going live."}
+                </p>
+            </div>
 
 			<form onSubmit={handleSubmit} className="space-y-6">
 				{/* Company */}
@@ -141,7 +141,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						onChange={e =>
 							setFormData({ ...formData, company: e.target.value })
 						}
-						className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
 						required
 					/>
 				</div>
@@ -161,7 +161,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						onChange={e =>
 							setFormData({ ...formData, companyUrl: e.target.value })
 						}
-						className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
 						placeholder="https://example.com"
 					/>
 				</div>
@@ -181,7 +181,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						onChange={e =>
 							setFormData({ ...formData, position: e.target.value })
 						}
-						className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
 						required
 					/>
 				</div>
@@ -201,7 +201,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						onChange={e =>
 							setFormData({ ...formData, contact: e.target.value })
 						}
-						className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
 						required
 					/>
 				</div>
@@ -221,7 +221,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						onChange={e =>
 							setFormData({ ...formData, contactUrl: e.target.value })
 						}
-						className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
 						placeholder="https://linkedin.com/in/..."
 					/>
 				</div>
@@ -241,7 +241,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						onChange={e =>
 							setFormData({ ...formData, location: e.target.value })
 						}
-						className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
 						required
 					/>
 				</div>
@@ -267,7 +267,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 									| "OTHER",
 							})
 						}
-						className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
 						required
 					>
 						<option value="FULL_TIME">Full-Time</option>
@@ -294,7 +294,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 								setFormData({ ...formData, salaryMin: e.target.value })
 							}
 							placeholder="$80k"
-							className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+							className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
 						/>
 					</div>
 					<div>
@@ -312,7 +312,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 								setFormData({ ...formData, salaryMax: e.target.value })
 							}
 							placeholder="$120k"
-							className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+							className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
 						/>
 					</div>
 				</div>
@@ -332,7 +332,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 							setFormData({ ...formData, notes: e.target.value })
 						}
 						rows={5}
-						className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
 						placeholder="Any additional information about the job or application process."
 					></textarea>
 				</div>
