@@ -9,7 +9,6 @@ const items = [
   { label: "Feed", href: "/feed" },
   { label: "Jobs", href: "/job-search" },
   { label: "Events", href: "/events" },
-  { label: "People", href: "/people" },
   { label: "Employers", href: "/employers" },
   { label: "Notifications", href: "/notifications" },
   { label: "Inbox", href: "/inbox" },
