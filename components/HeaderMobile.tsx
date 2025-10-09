@@ -27,7 +27,7 @@ export default async function HeaderMobile() {
   })();
 
   return (
-    <header className="fixed inset-x-0 top-0 z-30 flex h-14 items-center justify-between border-b border-zinc-200 bg-white/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-white/80 lg:hidden">
+    <header className="fixed inset-x-0 top-0 z-30 flex h-14 items-center justify-between border-b border-zinc-200 bg-white/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-white/80 md:hidden">
       <MobileNav />
       <div className="absolute left-1/2 -translate-x-1/2">
         <Link href="/explore" className="text-base font-serif italic text-zinc-900">
@@ -61,4 +61,3 @@ export default async function HeaderMobile() {
     </header>
   );
 }
-
