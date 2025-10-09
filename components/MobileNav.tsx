@@ -41,9 +41,16 @@ export default function MobileNav() {
         {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
       {open && (
-        <div className="fixed left-0 right-0 top-14 z-50 mx-2">
-          <div className="pointer-events-auto rounded-2xl border border-zinc-200 bg-white shadow-xl">
-            <nav className="max-h-[calc(100vh-14rem)] overflow-y-auto p-5">
+        <div className="fixed inset-x-0 top-14 z-50 pointer-events-none">
+          <div className="pointer-events-auto w-full rounded-none border-b border-zinc-200 bg-white shadow-md">
+            <button
+              aria-label="Close menu"
+              className="absolute right-3 top-3 rounded-md p-2 text-zinc-700 hover:bg-zinc-100"
+              onClick={() => setOpen(false)}
+            >
+              <X className="h-6 w-6" />
+            </button>
+            <nav className="max-h-[50vh] overflow-y-auto px-5 py-5">
               <ul className="space-y-6">
                 {items.map((item) => (
                   <li key={item.href}>
