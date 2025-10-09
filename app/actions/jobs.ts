@@ -64,7 +64,7 @@ export async function postJob(data: {
 	contact: string;
 	contactUrl?: string;
 	location: string;
-	employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "OTHER";
+    employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP" | "OTHER";
 	salaryMin?: string;
 	salaryMax?: string;
 	notes?: string;
@@ -375,7 +375,7 @@ export async function updateJob(
 		contact: string;
 		contactUrl?: string;
 		location: string;
-		employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "OTHER";
+    employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP" | "OTHER";
 		salaryMin?: string;
 		salaryMax?: string;
 		notes?: string;

@@ -14,7 +14,7 @@ type Job = {
 	contact: string;
 	contactUrl: string | null;
 	location: string;
-	employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "OTHER";
+    employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP" | "OTHER";
 	salaryMin: string | null;
 	salaryMax: string | null;
 	notes: string | null;

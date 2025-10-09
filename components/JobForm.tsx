@@ -14,7 +14,7 @@ interface JobFormProps {
 		contact: string;
 		contactUrl?: string;
 		location: string;
-		employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "OTHER";
+    employmentType: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERNSHIP" | "OTHER";
 		salaryMin?: string;
 		salaryMax?: string;
 		notes?: string;
@@ -30,12 +30,13 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 		contact: initialData?.contact || "",
 		contactUrl: initialData?.contactUrl || "",
 		location: initialData?.location || "",
-		employmentType:
-			(initialData?.employmentType as
-				| "FULL_TIME"
-				| "PART_TIME"
-				| "CONTRACT"
-				| "OTHER") || "FULL_TIME",
+        employmentType:
+            (initialData?.employmentType as
+                | "FULL_TIME"
+                | "PART_TIME"
+                | "CONTRACT"
+                | "INTERNSHIP"
+                | "OTHER") || "FULL_TIME",
 		salaryMin: initialData?.salaryMin || "",
 		salaryMax: initialData?.salaryMax || "",
 		notes: initialData?.notes || "",
