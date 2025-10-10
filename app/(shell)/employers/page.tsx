@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import PageHeaderPortal from "@/components/PageHeaderPortal";
 import { getCompanies } from "@/app/actions/companies";
 import FaviconImage from "@/components/FaviconImage";
 
@@ -8,7 +9,10 @@ export const metadata = { title: "Employers" };
 export default async function EmployersIndexPage() {
   return (
     <div className="mx-auto max-w-6xl px-8 py-14">
-      <h1 className="mb-10 text-3xl font-semibold tracking-tight text-zinc-900">Employers</h1>
+      <PageHeaderPortal>
+        <h1 className="text-xl font-semibold tracking-tight text-zinc-900">Employers</h1>
+      </PageHeaderPortal>
+      <h1 className="mb-10 text-3xl font-semibold tracking-tight text-zinc-900 md:hidden">Employers</h1>
       <Suspense fallback={<EmployersSkeleton />}> 
         <EmployersList />
       </Suspense>

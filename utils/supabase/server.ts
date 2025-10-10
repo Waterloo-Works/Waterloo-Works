@@ -8,7 +8,8 @@ export async function createClient() {
 
 	return createServerClient(
 		process.env.NEXT_PUBLIC_SUPABASE_URL!,
-		process.env.SUPABASE_SERVICE_KEY!,
+		// Use ANON key for end-user auth flows and SSR session handling.
+		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 		{
 			cookies: {
 				getAll() {

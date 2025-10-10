@@ -46,6 +46,9 @@ export default async function HeaderMinimal() {
         </Link>
       </div>
 
+      {/* Page header slot (desktop only) */}
+      <div id="page-header-slot" className="hidden md:flex items-center gap-3 text-zinc-900" />
+
       {/* Right: Auth/avatar (always aligned far right) */}
       <div className="ml-auto flex items-center gap-3">
         {user ? (

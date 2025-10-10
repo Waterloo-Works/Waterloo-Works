@@ -5,6 +5,7 @@ import { prisma } from "@/utils/prisma";
 import FaviconImage from "@/components/FaviconImage";
 import ApprovalButtons from "./ApprovalButtons";
 import { formatEmploymentType } from "@/lib/formatEmploymentType";
+import { timeAgo } from "@/lib/timeAgo";
 
 export default async function AdminPage() {
   const supabase = await createClient();
@@ -105,9 +106,9 @@ export default async function AdminPage() {
                     )}
                   </div>
 
-                  <div className="pt-4 border-t border-zinc-200 flex items-center justify-between">
+                    <div className="pt-4 border-t border-zinc-200 flex items-center justify-between">
                     <div className="flex flex-col gap-1">
-                      <span className="text-xs text-zinc-500">Submitted {new Date(job.createdAt).toLocaleDateString()}</span>
+                      <span className="text-xs text-zinc-500">Submitted {timeAgo(job.createdAt)}</span>
                       {job.poster && (
                         <span className="text-xs text-zinc-500">by {job.poster.fullName || job.poster.email.split("@")[0]}</span>
                       )}
@@ -123,4 +124,3 @@ export default async function AdminPage() {
     </main>
   );
 }
-

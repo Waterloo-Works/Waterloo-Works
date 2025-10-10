@@ -7,9 +7,10 @@ import posthog from 'posthog-js';
 
 interface SourceCollectionModalProps {
 	hasSource: boolean;
+	onCompleted?: () => void;
 }
 
-export function SourceCollectionModal({ hasSource }: SourceCollectionModalProps) {
+export function SourceCollectionModal({ hasSource, onCompleted }: SourceCollectionModalProps) {
 	const [isOpen, setIsOpen] = useState(!hasSource);
 	const [source, setSource] = useState<string>("");
 	const [customSource, setCustomSource] = useState<string>("");
@@ -36,7 +37,11 @@ export function SourceCollectionModal({ hasSource }: SourceCollectionModalProps)
 
 		if (result.success) {
 			setIsOpen(false);
-			router.refresh();
+			if (onCompleted) {
+				onCompleted();
+			} else {
+				router.refresh();
+			}
 		} else {
 			alert("Failed to save. Please try again.");
 		}

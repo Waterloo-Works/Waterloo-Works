@@ -5,6 +5,7 @@ import type { User } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { ENABLE_AUTO_REDIRECTS } from "@/lib/config";
+import posthog from "posthog-js";
 
 type AuthData = {
 	user: User | null;
@@ -66,5 +67,13 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
 		loading,
 	};
 
-	return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
+  // Track login_success once a user is present (first time per mount)
+  if (user) {
+    try {
+      posthog.identify(user.id);
+      posthog.capture("login_success");
+    } catch {}
+  }
+
+  return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
 }

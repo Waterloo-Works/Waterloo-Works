@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { SourceCollectionModal } from "@/components/SourceCollectionModal";
 import { useSession } from "@/providers/SessionProvider";
 import { getCurrentUser } from "@/app/actions/auth";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface SourceCollectionWrapperProps {
 	initialHasSource: boolean;
@@ -16,6 +17,8 @@ export function SourceCollectionWrapper({
 }: SourceCollectionWrapperProps) {
 	const { user, loading } = useSession();
 	const [hasSource, setHasSource] = useState(initialHasSource);
+  const sp = useSearchParams();
+  const router = useRouter();
 
 	useEffect(() => {
 		// Fetch fresh user data when auth state changes
@@ -37,7 +40,14 @@ export function SourceCollectionWrapper({
 
 	return (
 		<>
-			<SourceCollectionModal hasSource={!shouldShowModal} />
+			<SourceCollectionModal
+				hasSource={!shouldShowModal}
+				onCompleted={() => {
+					const next = sp?.get("next");
+					if (next) router.push(next);
+					else router.refresh();
+				}}
+			/>
 			{children}
 		</>
 	);

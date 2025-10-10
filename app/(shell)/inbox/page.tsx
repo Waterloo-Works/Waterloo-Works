@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { listNotifications, markAllRead } from "@/app/actions/notifications";
+import { getRegionAlertMap } from "@/app/actions/alerts";
+import PageHeaderPortal from "@/components/PageHeaderPortal";
 import { createClient } from "@/utils/supabase/server";
 import { timeAgo } from "@/lib/timeAgo";
 
@@ -12,6 +14,7 @@ export default async function InboxPage() {
   } = await supabase.auth.getUser();
 
   const notifications = await listNotifications();
+  const alerts = await getRegionAlertMap();
 
   async function markAll() {
     "use server";
@@ -20,7 +23,10 @@ export default async function InboxPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-8 py-14">
-      <div className="mb-6 flex items-center justify-between">
+      <PageHeaderPortal>
+        <h1 className="text-xl font-semibold tracking-tight text-zinc-900">Inbox</h1>
+      </PageHeaderPortal>
+      <div className="mb-6 flex items-center justify-between md:hidden">
         <h1 className="text-3xl font-semibold tracking-tight text-zinc-900">Inbox</h1>
         {user && notifications.length > 0 && (
           <form action={markAll}>
@@ -33,6 +39,20 @@ export default async function InboxPage() {
 
       {(!user || notifications.length === 0) && (
         <EmptyState />
+      )}
+
+      {/* Show active job alerts so users can see subscriptions */}
+      {user && alerts.size > 0 && (
+        <div className="mb-4 rounded-2xl border border-zinc-200 bg-white p-4 font-body text-sm text-zinc-700">
+          <div className="mb-1 font-medium text-zinc-900">Active job alerts</div>
+          <div className="flex flex-wrap gap-2">
+            {Array.from(alerts.entries())
+              .filter(([, active]) => active)
+              .map(([region]) => (
+                <span key={region} className="rounded-full border border-zinc-200 bg-white px-3 py-1">{region === 'ALL' ? 'Global' : region}</span>
+              ))}
+          </div>
+        </div>
       )}
 
       <ul className="space-y-3">

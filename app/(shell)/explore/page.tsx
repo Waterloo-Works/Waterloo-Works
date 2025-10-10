@@ -3,6 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { getJobs } from "@/app/actions/jobs";
 import FaviconImage from "@/components/FaviconImage";
 import ShareButton from "@/components/ShareButton";
+import PageHeaderPortal from "@/components/PageHeaderPortal";
 import BookmarkButton from "@/components/BookmarkButton";
 import CreateAlertButton from "@/components/CreateAlertButton";
 import { getRegionAlertMap } from "@/app/actions/alerts";
@@ -14,6 +15,7 @@ export const metadata = { title: "Explore" };
 
 export default async function ExplorePage() {
   const jobs = await getJobs();
+  const captureSnippet = `try{window.posthog&&window.posthog.capture('explore_loaded')}catch{}`;
 
   const regions = groupJobsByRegion(jobs);
 
@@ -30,10 +32,22 @@ export default async function ExplorePage() {
 
   return (
     <div className="mx-auto max-w-6xl px-8 py-14">
-      <h1 className="mb-10 text-3xl font-semibold tracking-tight text-zinc-900">Explore  <div className="mb-8 flex items-center justify-end">
-        <CreateAlertButton region="ALL" initialActive={globalAlertActive} />
-      </div></h1>
-     
+      <script dangerouslySetInnerHTML={{ __html: captureSnippet }} />
+      {/* Desktop: title + actions in header */}
+      <PageHeaderPortal>
+        <h1 className="text-xl font-semibold tracking-tight text-zinc-900">Explore</h1>
+        <div className="hidden md:block">
+          <CreateAlertButton region="ALL" initialActive={globalAlertActive} />
+        </div>
+      </PageHeaderPortal>
+
+      {/* Mobile: title inside page with actions */}
+      <div className="mb-8 md:hidden">
+        <h1 className="mb-6 text-3xl font-semibold tracking-tight text-zinc-900">Explore</h1>
+        <div className="flex items-center justify-end">
+          <CreateAlertButton region="ALL" initialActive={globalAlertActive} />
+        </div>
+      </div>
 
       {Object.keys(regions).length === 0 ? (
         <EmptyState />
