@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { getAuthVariant } from "@/lib/exp/flags";
 import LoginClient from "./pageClient";
 
 export default async function LoginPage() {
-  const variant = await getAuthVariant();
   return (
     <div className="min-h-screen bg-white">
       {/* Header consistent with home */}
@@ -18,7 +16,7 @@ export default async function LoginPage() {
       {/* Content */}
       <main className="mx-auto max-w-6xl px-6 py-16 md:py-20">
         <div className="mx-auto w-full max-w-md">
-          <LoginClient variant={variant} />
+          <LoginClient />
         </div>
       </main>
     </div>

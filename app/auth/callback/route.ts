@@ -3,7 +3,6 @@ import { createClient } from "@/utils/supabase/server";
 import { createUserRecord } from "@/app/actions/auth";
 import type { EmailOtpType } from "@supabase/supabase-js";
 import { PUBLIC_APP_URL } from "@/lib/config";
-import { getAuthVariant } from "@/lib/exp/flags";
 import { prisma } from "@/utils/prisma";
 
 export const dynamic = "force-dynamic";
@@ -48,19 +47,6 @@ export async function GET(request: Request) {
         } = await supabase.auth.getUser();
 
         if (user) {
-            // Variant-based enforcement: in alum_only, restrict to @uwaterloo.ca
-            try {
-                const variant = await getAuthVariant();
-                const email = (user.email || "").toLowerCase();
-                const isUW = email.endsWith("@uwaterloo.ca");
-                if (variant === "alum_only" && !isUW) {
-                    await supabase.auth.signOut();
-                    return NextResponse.redirect(
-                        `${PUBLIC_APP_URL}/auth/auth-code-error?error=Only%20uwaterloo.ca%20emails%20are%20allowed`
-                    );
-                }
-            } catch {}
-
             await createUserRecord({
                 userId: user.id,
                 email: user.email || "",

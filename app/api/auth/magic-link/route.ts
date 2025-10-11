@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/utils/supabase/server";
-import { getAuthVariant } from "@/lib/exp/flags";
 import { PUBLIC_APP_URL } from "@/lib/config";
 
 const bodySchema = z.object({
@@ -21,16 +20,6 @@ export async function POST(req: Request) {
 
     const emailRaw = parse.data.email.trim();
     const email = emailRaw.toLowerCase();
-
-    // Variant-based enforcement
-    const variant = await getAuthVariant();
-    const enforceAlumOnly = variant === "alum_only";
-    if (enforceAlumOnly && !email.endsWith("@uwaterloo.ca")) {
-      return NextResponse.json(
-        { error: "Only @uwaterloo.ca emails are allowed." },
-        { status: 400 }
-      );
-    }
 
     const redirectTo = `${PUBLIC_APP_URL}/auth/callback`;
 
