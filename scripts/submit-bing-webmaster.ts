@@ -1,3 +1,6 @@
+// Export empty object to make this file a module (prevents global scope conflicts)
+export {};
+
 const BING_API_KEY = process.env.BING_WEBMASTER_API_KEY || "";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://waterloo.works";
 
