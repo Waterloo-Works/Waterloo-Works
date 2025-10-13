@@ -2,6 +2,7 @@ import Link from "next/link";
 import HeaderMinimal from "@/components/HeaderMinimal";
 
 export const metadata = { title: "Not Found" };
+export const dynamic = "force-dynamic";
 
 export default function NotFound() {
   return (
