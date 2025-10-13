@@ -5,8 +5,8 @@ import { usePathname, useSearchParams } from "next/navigation";
 import posthog from "posthog-js";
 
 interface PageViewTrackerProps {
-	pageType: "job" | "company" | "blog" | "jobs_index" | "companies_index" | "blog_index";
-	metadata?: Record<string, string | number | string[] | null | undefined>;
+	pageType: "job" | "company" | "blog" | "resource" | "jobs_index" | "companies_index" | "blog_index" | "resources_index";
+	metadata?: Record<string, string | number | string[] | boolean | null | undefined>;
 }
 
 export function PageViewTracker({ pageType, metadata }: PageViewTrackerProps) {

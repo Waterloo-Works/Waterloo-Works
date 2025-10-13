@@ -79,6 +79,31 @@ const blogs = defineCollection({
 	},
 });
 
+const resources = defineCollection({
+	name: "resources",
+	directory: "content/resources",
+	include: "**/*.md",
+	schema: (z) => ({
+		slug: z.string(),
+		name: z.string(),
+		url: z.string(),
+		description: z.string(),
+		logo: z.string().nullable(),
+		category: z.string(),
+		tags: z.array(z.string()),
+		verified: z.boolean(),
+		publishedAt: z.string(),
+		updatedAt: z.string(),
+	}),
+	transform: async (document, context) => {
+		const html = await compileMarkdown(context, document);
+		return {
+			...document,
+			html,
+		};
+	},
+});
+
 export default defineConfig({
-	collections: [jobs, companies, blogs],
+	collections: [jobs, companies, blogs, resources],
 });

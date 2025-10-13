@@ -26,6 +26,7 @@ export function OnboardingWrapper({
 		pathname.startsWith('/jobs') ||
 		pathname.startsWith('/companies') ||
 		pathname.startsWith('/blog') ||
+		pathname.startsWith('/resources') ||
 		pathname === '/login' ||
 		pathname === '/signup' ||
 		pathname.startsWith('/auth/')

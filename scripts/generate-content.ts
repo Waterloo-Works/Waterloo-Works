@@ -180,6 +180,55 @@ ${blog.content}
 	return blogs;
 }
 
+async function generateResourceMarkdown() {
+	console.log("🔗 Generating resource markdown files...");
+
+	const resources = await prisma.resource.findMany({
+		where: { published: true },
+		orderBy: { publishedAt: "desc" },
+	});
+
+	const resourcesDir = path.join(process.cwd(), "content/resources");
+	await fs.mkdir(resourcesDir, { recursive: true });
+
+	for (const resource of resources) {
+		const content = `---
+slug: "${resource.slug}"
+name: "${resource.name}"
+url: "${resource.url}"
+description: "${resource.description.replace(/"/g, '\\"')}"
+logo: ${resource.logo ? `"${resource.logo}"` : "null"}
+category: "${resource.category}"
+tags: ${JSON.stringify(resource.tags)}
+verified: ${resource.verified}
+publishedAt: "${resource.publishedAt?.toISOString() || resource.createdAt.toISOString()}"
+updatedAt: "${resource.updatedAt.toISOString()}"
+---
+
+# ${resource.name}
+
+**Category:** ${resource.category}
+**Website:** [${resource.url}](${resource.url})
+
+## About
+
+${resource.description}
+
+${resource.content || ""}
+
+---
+
+*${resource.verified ? "✓ Verified Resource" : "Community Submitted"}*
+`;
+
+		const filename = `${resource.slug}.md`;
+		await fs.writeFile(path.join(resourcesDir, filename), content, "utf-8");
+	}
+
+	console.log(`✅ Generated ${resources.length} resource markdown files`);
+	return resources;
+}
+
 async function main() {
 	try {
 		console.log("🚀 Starting content generation from database...\n");
@@ -192,6 +241,9 @@ async function main() {
 
 		// Generate blog markdown files
 		await generateBlogMarkdown();
+
+		// Generate resource markdown files
+		await generateResourceMarkdown();
 
 		console.log("\n✨ Content generation completed successfully!");
 	} catch (error) {
