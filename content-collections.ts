@@ -56,6 +56,29 @@ const companies = defineCollection({
 	},
 });
 
+const blogs = defineCollection({
+	name: "blogs",
+	directory: "content/blogs",
+	include: "**/*.md",
+	schema: (z) => ({
+		slug: z.string(),
+		title: z.string(),
+		excerpt: z.string().nullable(),
+		author: z.string().nullable(),
+		tags: z.array(z.string()),
+		coverImage: z.string().nullable(),
+		publishedAt: z.string(),
+		updatedAt: z.string(),
+	}),
+	transform: async (document, context) => {
+		const html = await compileMarkdown(context, document);
+		return {
+			...document,
+			html,
+		};
+	},
+});
+
 export default defineConfig({
-	collections: [jobs, companies],
+	collections: [jobs, companies, blogs],
 });

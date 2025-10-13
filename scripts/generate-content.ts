@@ -146,6 +146,40 @@ ${jobsList}
 	console.log(`✅ Generated ${companiesMap.size} company markdown files`);
 }
 
+async function generateBlogMarkdown() {
+	console.log("📝 Generating blog markdown files...");
+
+	const blogs = await prisma.blog.findMany({
+		where: { published: true },
+		orderBy: { publishedAt: "desc" },
+	});
+
+	const blogsDir = path.join(process.cwd(), "content/blogs");
+	await fs.mkdir(blogsDir, { recursive: true });
+
+	for (const blog of blogs) {
+		const content = `---
+slug: "${blog.slug}"
+title: "${blog.title}"
+excerpt: ${blog.excerpt ? `"${blog.excerpt.replace(/"/g, '\\"')}"` : "null"}
+author: ${blog.author ? `"${blog.author}"` : "null"}
+tags: ${JSON.stringify(blog.tags)}
+coverImage: ${blog.coverImage ? `"${blog.coverImage}"` : "null"}
+publishedAt: "${blog.publishedAt?.toISOString() || blog.createdAt.toISOString()}"
+updatedAt: "${blog.updatedAt.toISOString()}"
+---
+
+${blog.content}
+`;
+
+		const filename = `${blog.slug}.md`;
+		await fs.writeFile(path.join(blogsDir, filename), content, "utf-8");
+	}
+
+	console.log(`✅ Generated ${blogs.length} blog markdown files`);
+	return blogs;
+}
+
 async function main() {
 	try {
 		console.log("🚀 Starting content generation from database...\n");
@@ -155,6 +189,9 @@ async function main() {
 
 		// Generate company markdown files
 		await generateCompanyMarkdown(jobs);
+
+		// Generate blog markdown files
+		await generateBlogMarkdown();
 
 		console.log("\n✨ Content generation completed successfully!");
 	} catch (error) {

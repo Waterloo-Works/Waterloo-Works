@@ -5,12 +5,12 @@ import { updateUserSource } from "@/app/actions/auth";
 import { useRouter } from "next/navigation";
 import posthog from 'posthog-js';
 
-interface SourceCollectionModalProps {
+interface OnboardingModalProps {
 	hasSource: boolean;
 	onCompleted?: () => void;
 }
 
-export function SourceCollectionModal({ hasSource, onCompleted }: SourceCollectionModalProps) {
+export function OnboardingModal({ hasSource, onCompleted }: OnboardingModalProps) {
 	const [isOpen, setIsOpen] = useState(!hasSource);
 	const [source, setSource] = useState<string>("");
 	const [customSource, setCustomSource] = useState<string>("");

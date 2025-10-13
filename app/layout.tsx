@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Merriweather, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "@/providers/SessionProvider";
-import { SourceCollectionWrapper } from "@/components/SourceCollectionWrapper";
+import { OnboardingWrapper } from "@/components/OnboardingWrapper";
 import { getCurrentUser } from "@/app/actions/auth";
 import { Toaster as SonnerToaster } from "sonner";
 import QueryProvider from "@/providers/QueryProvider";
@@ -59,12 +59,12 @@ export default async function RootLayout({
               <PostHogProvider>
                 <SessionProvider>
 					<Suspense fallback={null}>
-						<SourceCollectionWrapper initialHasSource={hasSource}>
+						<OnboardingWrapper initialHasSource={hasSource}>
 							<QueryProvider>
 								{children}
 							</QueryProvider>
 							<SonnerToaster richColors closeButton position="top-right" />
-						</SourceCollectionWrapper>
+						</OnboardingWrapper>
 					</Suspense>
                 </SessionProvider>
               </PostHogProvider>

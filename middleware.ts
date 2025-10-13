@@ -34,12 +34,15 @@ export async function middleware(request: NextRequest) {
 	} = await supabase.auth.getUser();
 
     // Protect authenticated routes
-    const protectedRoutes = ["/jobs", "/explore", "/post-job", "/admin", "/inbox"];
+    const protectedRoutes = ["/explore", "/post-job", "/admin", "/inbox", "/my-jobs", "/dashboard", "/bookmarks"];
 	const isProtectedRoute = protectedRoutes.some(route =>
 		request.nextUrl.pathname.startsWith(route)
 	);
 
-	if (!user && isProtectedRoute) {
+	// Protect job/company edit routes specifically (not the public view pages)
+	const isEditRoute = request.nextUrl.pathname.match(/^\/(jobs|companies)\/[^\/]+\/edit/);
+
+	if (!user && (isProtectedRoute || isEditRoute)) {
 		const url = request.nextUrl.clone();
 		url.pathname = "/login";
 		return NextResponse.redirect(url);

@@ -2,6 +2,7 @@ import { allCompanies, allJobs } from "content-collections";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Metadata } from "next";
+import { PageViewTracker } from "@/components/PageViewTracker";
 
 export const dynamic = 'force-static';
 
@@ -50,6 +51,13 @@ export default async function CompanyPage({
 
 	return (
 		<div className="min-h-svh bg-white">
+			<PageViewTracker
+				pageType="company"
+				metadata={{
+					company_name: company.name,
+					job_count: company.jobCount,
+				}}
+			/>
 			<div className="mx-auto max-w-3xl px-6 py-12">
 				{/* Breadcrumbs for SEO and navigation */}
 				<nav className="mb-8 text-sm text-zinc-600" aria-label="Breadcrumb">

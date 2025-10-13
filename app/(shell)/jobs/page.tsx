@@ -1,6 +1,7 @@
 import { allJobs } from "content-collections";
 import Link from "next/link";
 import { Metadata } from "next";
+import { PageViewTracker } from "@/components/PageViewTracker";
 
 export const dynamic = 'force-static';
 
@@ -18,6 +19,7 @@ export default function JobsIndexPage() {
 
 	return (
 		<div className="min-h-svh bg-white">
+			<PageViewTracker pageType="jobs_index" metadata={{ total_jobs: jobs.length }} />
 			<div className="mx-auto max-w-4xl px-6 py-12">
 				<h1 className="font-title text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-8">
 					All Job Listings
