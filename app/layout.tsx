@@ -33,9 +33,35 @@ const bodySans = Source_Sans_3({
     display: "swap",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL ||
+    (process.env.NODE_ENV === "production" ? "https://waterloo.works" : "http://localhost:3000");
+
 export const metadata: Metadata = {
+    metadataBase: new URL(siteUrl),
     title: "Waterloo Works",
     description: "A community job board connecting talent with opportunities",
+    openGraph: {
+        title: "Waterloo Works",
+        description: "A community job board connecting talent with opportunities",
+        url: siteUrl,
+        siteName: "Waterloo Works",
+        images: [
+            {
+                url: `${siteUrl}/banner.png`,
+                width: 1200,
+                height: 630,
+                alt: "Waterloo Works - A community job board",
+            },
+        ],
+        locale: "en_US",
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Waterloo Works",
+        description: "A community job board connecting talent with opportunities",
+        images: [`${siteUrl}/banner.png`],
+    },
 };
 
 // Ensure consistent viewport behavior across Safari/iOS

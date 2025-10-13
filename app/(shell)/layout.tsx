@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import AppSidebar from "@/components/AppSidebar";
 import HeaderDesktop from "@/components/HeaderDesktop";
 import HeaderMobile from "@/components/HeaderMobile";
+import Footer from "@/components/Footer";
 
 export default function ShellLayout({ children }: { children: ReactNode }) {
   return (
@@ -12,6 +13,8 @@ export default function ShellLayout({ children }: { children: ReactNode }) {
         <HeaderMobile />
         <HeaderDesktop />
         {children}
+        {/* Consolidated site footer for shell pages */}
+        <Footer />
       </main>
     </div>
   );
