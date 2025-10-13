@@ -22,6 +22,7 @@ import { fuseOptions, type SearchDoc } from "@/lib/search/fuseConfig";
 import { normalizeJob } from "@/lib/search/normalize";
 import BookmarkButton from "@/components/BookmarkButton";
 import { useBookmarkedIds } from "@/hooks/useBookmarks";
+import EmptyState from "@/components/EmptyState";
 
 type Job = Awaited<ReturnType<typeof import("@/app/actions/jobs").getJobs>>[number];
 
@@ -184,8 +185,14 @@ export default function JobSearchClient({ jobs }: Props) {
         <div className="flex min-w-0 flex-1 bg-white">
           {selectedJob ? (
             <JobDetail job={selectedJob} initialSaved={bookmarkedIds.has(selectedJob.id)} />
+          ) : results.length === 0 ? (
+            <EmptyState
+              title="No jobs found"
+              message="Try adjusting your filters or search terms to see more results."
+              showFeedback={true}
+            />
           ) : (
-            <div className="m-auto p-8 text-center text-zinc-500">No results</div>
+            <div className="m-auto p-8 text-center text-zinc-500">Select a job to view details</div>
           )}
         </div>
       </div>

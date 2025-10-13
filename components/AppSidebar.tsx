@@ -9,6 +9,7 @@ import {
   Building2,
   Calendar,
   IdCard,
+  BookOpen,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -24,8 +25,9 @@ const nav: NavItem[] = [
   { label: "Inbox", href: "/inbox", icon: Mail, section: "primary" },
   { label: "Saved", href: "/bookmarks", icon: SquareStack, section: "primary" },
   { label: "Jobs", href: "/job-search", icon: Building2, section: "secondary" },
+  { label: "Companies", href: "/companies", icon: IdCard, section: "secondary" },
+  { label: "Resources", href: "/resources", icon: BookOpen, section: "secondary" },
   { label: "Events", href: "/events", icon: Calendar, section: "secondary" },
-  { label: "Employers", href: "/employers", icon: IdCard, section: "secondary" },
 ];
 
 export function AppSidebar() {

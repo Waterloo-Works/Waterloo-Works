@@ -1,8 +1,16 @@
-import { readFileSync } from "fs";
-import { join } from "path";
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient();
 const INDEXNOW_KEY = "c2625de7b6514de28e9ed33e320098e9";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://waterloo.works";
+
+function slugify(text: string): string {
+	return text
+		.toLowerCase()
+		.replace(/[^\w\s-]/g, "")
+		.replace(/[\s_-]+/g, "-")
+		.replace(/^-+|-+$/g, "");
+}
 
 // IndexNow API endpoints (can submit to any, they share the index)
 const INDEXNOW_ENDPOINTS = [
@@ -81,49 +89,90 @@ async function submitToIndexNow({ urls, endpoint = INDEXNOW_ENDPOINTS[0] }: Subm
 	}
 }
 
-async function getUrlsFromSitemap(): Promise<string[]> {
-	console.log("📄 Reading sitemap...");
+async function getAllUrls(): Promise<string[]> {
+	console.log("📄 Collecting URLs from database...\n");
 
-	try {
-		// Fetch the sitemap from the site
-		const sitemapUrl = `${SITE_URL}/sitemap.xml`;
-		const response = await fetch(sitemapUrl);
+	const urls: string[] = [];
 
-		if (!response.ok) {
-			throw new Error(`Failed to fetch sitemap: ${response.statusText}`);
-		}
+	// 1. Static routes
+	const staticRoutes = [
+		"/",
+		"/jobs",
+		"/companies",
+		"/blog",
+		"/resources",
+		"/explore",
+		"/post-job",
+		"/login",
+		"/signup",
+	];
+	urls.push(...staticRoutes.map((route) => `${SITE_URL}${route}`));
 
-		const xml = await response.text();
+	// 2. Job pages (approved jobs only)
+	const jobs = await prisma.job.findMany({
+		where: { status: "APPROVED" },
+		select: { position: true, company: true, location: true },
+	});
+	const jobUrls = jobs.map((job) => {
+		const slug = slugify(`${job.position}-${job.company}-${job.location}`);
+		return `${SITE_URL}/jobs/${slug}`;
+	});
+	urls.push(...jobUrls);
+	console.log(`✅ Found ${jobs.length} job pages`);
 
-		// Extract URLs from sitemap XML
-		const urlMatches = xml.matchAll(/<loc>(.*?)<\/loc>/g);
-		const urls = Array.from(urlMatches, (match) => match[1]);
+	// 3. Company pages (unique companies)
+	const companies = await prisma.job.findMany({
+		where: { status: "APPROVED" },
+		distinct: ["company"],
+		select: { company: true },
+	});
+	const companyUrls = companies.map((c) => {
+		const slug = c.company
+			.toLowerCase()
+			.replace(/[^a-z0-9]+/g, "-")
+			.replace(/^-|-$/g, "");
+		return `${SITE_URL}/companies/${slug}`;
+	});
+	urls.push(...companyUrls);
+	console.log(`✅ Found ${companies.length} company pages`);
 
-		console.log(`✅ Found ${urls.length} URLs in sitemap\n`);
-		return urls;
-	} catch (error) {
-		console.error("❌ Error reading sitemap:", error);
-		throw error;
-	}
+	// 4. Blog pages (published only)
+	const blogs = await prisma.blog.findMany({
+		where: { published: true },
+		select: { slug: true },
+	});
+	urls.push(...blogs.map((blog) => `${SITE_URL}/blog/${blog.slug}`));
+	console.log(`✅ Found ${blogs.length} blog pages`);
+
+	// 5. Resource pages (published only)
+	const resources = await prisma.resource.findMany({
+		where: { published: true },
+		select: { slug: true },
+	});
+	urls.push(...resources.map((resource) => `${SITE_URL}/resources/${resource.slug}`));
+	console.log(`✅ Found ${resources.length} resource pages`);
+
+	console.log(`\n✅ Total URLs collected: ${urls.length}\n`);
+
+	return urls;
 }
 
 async function main() {
-	console.log("🚀 IndexNow URL Submission Script");
+	console.log("🚀 IndexNow URL Submission Script (Database Source)");
 	console.log(`Site: ${SITE_URL}`);
 	console.log(`Key: ${INDEXNOW_KEY}`);
 	console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
 
 	try {
-		// Get URLs from sitemap
-		const urls = await getUrlsFromSitemap();
+		// Get URLs directly from database
+		const urls = await getAllUrls();
 
 		if (urls.length === 0) {
-			console.log("⚠️  No URLs found in sitemap");
+			console.log("⚠️  No URLs found in database");
 			return;
 		}
 
 		// IndexNow has a limit of 10,000 URLs per request
-		// For most sites, we can submit all at once
 		if (urls.length <= 10000) {
 			await submitToIndexNow({ urls });
 		} else {
@@ -148,6 +197,8 @@ async function main() {
 	} catch (error) {
 		console.error("\n❌ Script failed:", error);
 		process.exit(1);
+	} finally {
+		await prisma.$disconnect();
 	}
 }
 

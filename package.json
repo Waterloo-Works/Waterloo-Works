@@ -12,9 +12,15 @@
 		"typecheck": "tsc --noEmit",
 		"clean:next": "node -e \"fs=require('fs');try{fs.rmSync('.next',{recursive:true,force:true})}catch(e){}\"",
 		"ci:build": "pnpm run clean:next && pnpm run typecheck && next build",
+		"seo:verify": "tsx scripts/verify-indexnow.ts",
 		"seo:submit:indexnow": "tsx scripts/submit-indexnow.ts",
+		"seo:submit:indexnow:db": "tsx scripts/submit-indexnow-db.ts",
 		"seo:submit:bing": "tsx scripts/submit-bing-webmaster.ts",
-		"seo:submit:all": "pnpm run seo:submit:indexnow"
+		"seo:submit:all": "pnpm run seo:submit:indexnow:db",
+		"seo:urls:print": "tsx scripts/get-all-urls.ts print",
+		"seo:urls:raw": "tsx scripts/get-all-urls.ts raw",
+		"seo:urls:export": "tsx scripts/get-all-urls.ts export",
+		"seo:urls:indexnow": "tsx scripts/get-all-urls.ts indexnow"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^4.1.3",

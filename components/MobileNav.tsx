@@ -7,8 +7,9 @@ import { Menu, X } from "lucide-react";
 const items = [
   { label: "Explore", href: "/explore" },
   { label: "Jobs", href: "/job-search" },
+  { label: "Companies", href: "/companies" },
+  { label: "Resources", href: "/resources" },
   { label: "Events", href: "/events" },
-  { label: "Employers", href: "/employers" },
   { label: "Notifications", href: "/notifications" },
   { label: "Inbox", href: "/inbox" },
 ];
