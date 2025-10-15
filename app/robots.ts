@@ -11,7 +11,6 @@ export default function robots(): MetadataRoute.Robots {
 				disallow: [
 					'/api/',
 					'/admin/',
-					'/dashboard/',
 					'/my-jobs/',
 					'/inbox/',
 					'/bookmarks/',

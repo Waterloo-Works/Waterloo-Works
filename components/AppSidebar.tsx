@@ -56,7 +56,7 @@ export function AppSidebar() {
       <div className="flex h-full flex-col">
         <div className="flex items-center gap-3 p-5">
           <Link href="/explore" className="text-base font-serif italic text-zinc-900">
-            waterloo[dot]works
+            waterloo.works
           </Link>
         </div>
 

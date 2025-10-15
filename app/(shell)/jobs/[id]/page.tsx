@@ -204,9 +204,9 @@ export default async function JobPage({
 							href={job.contactUrl}
 							target="_blank"
 							rel="noopener noreferrer"
-							className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-8 py-3 text-white hover:bg-zinc-800 transition-colors"
+							className="flex items-center justify-center rounded-full bg-zinc-900 px-8 py-4 text-lg font-semibold text-white hover:bg-zinc-800 transition-all hover:shadow-lg w-full sm:w-auto"
 						>
-							Apply for this position
+							Apply for this Job →
 						</a>
 					</div>
 				)}

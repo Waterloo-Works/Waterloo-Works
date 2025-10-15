@@ -8,7 +8,7 @@ export default async function LoginPage() {
       <header className="px-6 py-5 border-b border-zinc-200">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
           <Link href="/" className="text-xl font-serif italic text-zinc-900">
-            waterloo[dot]works
+            waterloo.works
           </Link>
         </div>
       </header>

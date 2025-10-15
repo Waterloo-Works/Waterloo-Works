@@ -4,6 +4,7 @@ import { useState } from "react";
 import { postJob, updateJob } from "@/app/actions/jobs";
 import { useRouter } from "next/navigation";
 import posthog from 'posthog-js';
+import { VideoRecorder } from "@/components/VideoRecorder";
 
 interface JobFormProps {
 	mode: "create" | "edit";
@@ -19,6 +20,7 @@ interface JobFormProps {
 		salaryMin?: string;
 		salaryMax?: string;
 		notes?: string;
+		voiceNoteUrl?: string;
 	};
 }
 
@@ -41,10 +43,17 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 		salaryMin: initialData?.salaryMin || "",
 		salaryMax: initialData?.salaryMax || "",
 		notes: initialData?.notes || "",
+		voiceNoteUrl: initialData?.voiceNoteUrl || "",
 	});
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState(false);
 	const [submitting, setSubmitting] = useState(false);
+
+	// Helper to extract gist URL for display (before the pipe)
+	const getDisplayUrl = (url: string) => {
+		if (!url) return '';
+		return url.includes('|') ? url.split('|')[0] : url;
+	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -62,6 +71,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 			salaryMin: formData.salaryMin || undefined,
 			salaryMax: formData.salaryMax || undefined,
 			notes: formData.notes || undefined,
+			voiceNoteUrl: formData.voiceNoteUrl || undefined,
 		};
 
 		const result =
@@ -136,7 +146,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
                 <p className="font-body text-zinc-700">
                     {mode === "edit"
                         ? "Update your job posting details below."
-                        : "Submit a job opportunity to share with the waterloo[dot]works community. Your posting will be reviewed before going live."}
+                        : "Submit a job opportunity to share with the waterloo.works community. Your posting will be reviewed before going live."}
                 </p>
             </div>
 
@@ -350,6 +360,68 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
 						placeholder="Any additional information about the job or application process."
 					></textarea>
+				</div>
+
+				{/* Voice Note */}
+				<div>
+					<label className="block text-sm font-medium text-gray-700 mb-2">
+						Voice/Video Note (Optional)
+						<span className="text-xs text-zinc-500 ml-2">
+							Record a video message or paste a link to an external recording
+						</span>
+					</label>
+
+					{/* Video Recorder */}
+					<div className="mb-3">
+						<VideoRecorder
+							onVideoRecorded={url =>
+								setFormData({ ...formData, voiceNoteUrl: url })
+							}
+							currentVideoUrl={formData.voiceNoteUrl}
+						/>
+					</div>
+
+					{/* Manual URL Input */}
+					<div>
+						<div className="flex items-center justify-between mb-1.5">
+							<label htmlFor="voiceNoteUrl" className="block text-xs text-zinc-600">
+								{formData.voiceNoteUrl.includes('|') ? 'Uploaded Video:' : 'Or paste an external video URL:'}
+							</label>
+							{formData.voiceNoteUrl && (
+								<button
+									type="button"
+									onClick={() => setFormData({ ...formData, voiceNoteUrl: '' })}
+									className="text-xs text-red-600 hover:text-red-700 underline"
+								>
+									Clear
+								</button>
+							)}
+						</div>
+						<input
+							type="url"
+							id="voiceNoteUrl"
+							value={getDisplayUrl(formData.voiceNoteUrl)}
+							onChange={e =>
+								setFormData({ ...formData, voiceNoteUrl: e.target.value })
+							}
+							placeholder="https://loom.com/share/... or https://drive.google.com/..."
+							className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300 text-sm"
+							readOnly={formData.voiceNoteUrl.includes('|')}
+						/>
+						{formData.voiceNoteUrl.includes('|') && (
+							<p className="mt-1 text-xs text-green-600 flex items-center gap-1">
+								<svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+								</svg>
+								Video saved to GitHub Gist • <a href={getDisplayUrl(formData.voiceNoteUrl)} target="_blank" rel="noopener noreferrer" className="underline hover:text-green-700">View Gist Page</a>
+							</p>
+						)}
+						{!formData.voiceNoteUrl.includes('|') && (
+							<p className="mt-1 text-xs text-zinc-500">
+								Supported: Loom, YouTube, Vimeo, Google Drive, Dropbox, or direct video/audio links
+							</p>
+						)}
+					</div>
 				</div>
 
 				{/* Error Message */}

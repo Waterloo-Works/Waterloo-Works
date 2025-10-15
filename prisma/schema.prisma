@@ -41,6 +41,7 @@ model Job {
   salaryMin       String?
   salaryMax       String?
   notes           String?        @db.Text
+  voiceNoteUrl    String? // Voice note URL (Loom, SoundCloud, etc.)
   postedBy        String // User ID who posted the job
   poster          User           @relation("PostedJobs", fields: [postedBy], references: [id])
   status          JobStatus      @default(PENDING)

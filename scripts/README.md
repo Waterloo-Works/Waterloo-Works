@@ -1,359 +1,210 @@
-# SEO Scripts
+# 📋 Job Management CLI
 
-This directory contains scripts for managing URLs, sitemaps, and search engine submissions.
+A unified, user-friendly command-line tool for managing jobs on Waterloo Works.
 
-## Quick Reference
-
-```bash
-# Get all URLs programmatically from database
-pnpm seo:urls:raw                # Raw text, one URL per line (for copy/paste)
-pnpm seo:urls:print              # Print all URLs grouped by type
-pnpm seo:urls:export             # Export to all-urls.json
-pnpm seo:urls:indexnow           # Format for IndexNow API
-
-# Verify setup
-pnpm seo:verify                  # Check key file and sitemap
-
-# Submit to search engines
-pnpm seo:submit:all              # Submit all (uses database)
-pnpm seo:submit:indexnow         # From sitemap.xml
-pnpm seo:submit:indexnow:db      # From database (recommended)
-pnpm seo:submit:bing             # Bing Webmaster API
-```
-
-## URL Collection Scripts
-
-### `get-all-urls.ts`
-
-Programmatically collects all URLs from your database and groups them by type.
-
-**URL Groups:**
-1. **Static Routes** - Homepage, job board, companies, blog, resources, etc.
-2. **Job Pages** - Individual job postings (approved only, SEO-friendly slugs)
-3. **Company Pages** - Company profile pages (unique companies from jobs, SEO-friendly slugs)
-4. **Blog Pages** - Published blog posts
-5. **Resource Pages** - Published resources (webring directory)
-
-**Commands:**
+## Quick Start
 
 ```bash
-# Print raw URLs (one per line, no formatting)
-pnpm seo:urls:raw
+# Show available commands
+pnpm jobs help
 
-# Example output:
-# https://waterloo.works/
-# https://waterloo.works/jobs
-# https://waterloo.works/companies
-# https://waterloo.works/blog
-# https://waterloo.works/resources
-# https://waterloo.works/jobs/software-engineer-google-waterloo
-# https://waterloo.works/jobs/product-manager-meta-remote
-# https://waterloo.works/companies/google
-# https://waterloo.works/companies/meta
-# ...
+# Add a single job interactively
+pnpm jobs add
 
-# Print all URLs with grouping
-pnpm seo:urls:print
+# Batch upload from JSON file
+pnpm jobs upload path/to/jobs.json
 
-# Example output:
-# 📂 Static Routes (9 URLs)
-# ──────────────────────────────────────────────────
-#    1. https://waterloo.works/
-#    2. https://waterloo.works/jobs
-#    3. https://waterloo.works/companies
-#    ...
-#
-# 📂 Job Pages (45 URLs)
-# ──────────────────────────────────────────────────
-#    1. https://waterloo.works/jobs/clx123...
-#    2. https://waterloo.works/jobs/clx456...
-#    ...
+# List all jobs
+pnpm jobs list
+
+# Delete all jobs from a company
+pnpm jobs delete "Company Name"
 ```
+
+## Commands
+
+### 📝 Add Job Interactively
 
 ```bash
-# Export to JSON file
-pnpm seo:urls:export
-
-# Creates: all-urls.json
-# {
-#   "metadata": {
-#     "site": "https://waterloo.works",
-#     "totalUrls": 123,
-#     "generatedAt": "2025-01-15T10:30:00.000Z"
-#   },
-#   "groups": [...],
-#   "allUrls": [...]
-# }
+pnpm jobs add
 ```
+
+Guides you through an interactive prompt to add a single job:
+- Enter your email (must be registered)
+- Company details (name, website)
+- Job details (position, location, type)
+- Salary range (optional)
+- Application link
+- Job description
+
+### 📤 Batch Upload from JSON
 
 ```bash
-# Format for IndexNow submission
-pnpm seo:urls:indexnow
-
-# Outputs JSON array ready for IndexNow API
+pnpm jobs upload /path/to/jobs.json
 ```
 
-## Verification Script
+Upload multiple jobs from a JSON file. Supports two formats:
 
-### `verify-indexnow.ts`
-
-Verifies your IndexNow setup is correct before submitting.
-
-```bash
-pnpm seo:verify
-```
-
-**Checks:**
-- ✅ Key file accessible at `https://waterloo.works/c2625de7b6514de28e9ed33e320098e9.txt`
-- ✅ Sitemap accessible at `https://waterloo.works/sitemap.xml`
-- ✅ URL counts by type
-- ✅ Provides indexing status instructions
-
-## Submission Scripts
-
-### `submit-indexnow.ts`
-
-Submits URLs from your sitemap to IndexNow.
-
-```bash
-pnpm seo:submit:indexnow
-```
-
-**Features:**
-- Reads from `https://waterloo.works/sitemap.xml`
-- Submits to IndexNow API (Bing, Yandex, Seznam.cz)
-- Handles batching (10,000 URL limit per request)
-- Detailed logging
-
-### `submit-indexnow-db.ts` (Recommended)
-
-Submits URLs directly from database to IndexNow.
-
-```bash
-pnpm seo:submit:indexnow:db
-
-# Or use the shorthand:
-pnpm seo:submit:all
-```
-
-**Why use this over sitemap version?**
-- ✅ Always up-to-date (reads from live database)
-- ✅ No sitemap generation lag
-- ✅ Includes all published content
-- ✅ Filters by status (approved jobs, published blogs/resources)
-
-**What it submits:**
-1. Static routes (9 URLs)
-2. Approved job pages (SEO slugs: `position-company-location`)
-3. Company pages (unique companies with SEO slugs)
-4. Published blog posts
-5. Published resources
-
-**Job URL Format:**
-Jobs use SEO-friendly slugs generated from `position-company-location`:
-- "Software Engineer" at "Google" in "Waterloo" → `/jobs/software-engineer-google-waterloo`
-- "Product Manager" at "Meta" in "Remote" → `/jobs/product-manager-meta-remote`
-
-### `submit-bing-webmaster.ts`
-
-Alternative submission via Bing Webmaster API.
-
-```bash
-# Set API key first
-export BING_WEBMASTER_API_KEY=your_key_here
-
-# Submit
-pnpm seo:submit:bing
-```
-
-**When to use:**
-- Need Bing-specific features
-- Want redundancy with IndexNow
-- Monitoring Bing Webmaster analytics
-
-**Note:** IndexNow already submits to Bing, so this is optional.
-
-## Response Codes
-
-### IndexNow
-
-- **200 OK** - URLs received and will be processed
-- **202 Accepted** ✅ - URLs queued for crawling (most common, this is success!)
-- **400 Bad Request** - Check URL format and key location
-- **403 Forbidden** - Verify key file is accessible
-- **422 Unprocessable** - Invalid URL format or host mismatch
-
-### Bing Webmaster API
-
-- **200 OK** - URLs successfully submitted
-- **401 Unauthorized** - Check API key
-- **403 Forbidden** - Verify site ownership in Bing Webmaster
-
-## Workflows
-
-### Initial Setup
-
-```bash
-# 1. Verify setup
-pnpm seo:verify
-
-# 2. Check all URLs
-pnpm seo:urls:print
-
-# 3. Submit to IndexNow
-pnpm seo:submit:all
-
-# 4. Wait 24-48 hours, then check indexing:
-#    site:waterloo.works
-```
-
-### After Adding Content
-
-```bash
-# After adding new jobs, blogs, or resources:
-pnpm seo:submit:all
-
-# This submits all URLs including new content
-```
-
-### Regular Monitoring
-
-```bash
-# Weekly - Export URLs for auditing
-pnpm seo:urls:export
-
-# Review all-urls.json for:
-# - Total URL count trends
-# - URL structure consistency
-# - Missing pages
-```
-
-### Pre-Deployment
-
-```bash
-# Before deploying to production:
-pnpm seo:verify                 # Ensure setup is correct
-pnpm seo:urls:print             # Review URLs
-```
-
-### Post-Deployment
-
-```bash
-# After deploying new content:
-pnpm seo:submit:all             # Submit to search engines
-```
-
-## Automation
-
-### GitHub Actions
-
-Create `.github/workflows/submit-indexnow.yml`:
-
-```yaml
-name: Submit to IndexNow
-
-on:
-  push:
-    branches: [main, master]
-  workflow_dispatch:
-
-jobs:
-  submit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Generate Prisma Client
-        run: pnpm prisma generate
-
-      - name: Submit to IndexNow
-        run: pnpm seo:submit:all
-        env:
-          NEXT_PUBLIC_SITE_URL: https://waterloo.works
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-```
-
-### Post-Build Hook
-
-Add to `package.json`:
-
+**Standard Format:**
 ```json
-{
-  "scripts": {
-    "postbuild": "pnpm seo:submit:all"
+[
+  {
+    "position": "Software Engineer",
+    "location": "San Francisco, CA",
+    "employmentType": "FULL_TIME",
+    "salaryMin": "$120k",
+    "salaryMax": "$180k",
+    "contact": "Apply Now",
+    "contactUrl": "https://company.com/apply",
+    "description": "Job description here..."
   }
-}
+]
 ```
+
+**Ashby Format (Auto-detected):**
+The CLI automatically detects and parses Ashby job board JSON exports! Just export from Ashby and upload directly:
+
+```bash
+pnpm jobs upload ~/Downloads/ashby-jobs.json
+# CLI detects Ashby format automatically
+# Parses positions, locations, salaries, and application links
+```
+
+### 📋 List All Jobs
+
+```bash
+pnpm jobs list
+```
+
+View all approved jobs grouped by company with full details.
+
+### 🗑️ Delete Company Jobs
+
+```bash
+pnpm jobs delete "Company Name"
+```
+
+Delete all jobs from a specific company (with confirmation).
+
+## After Adding Jobs
+
+**Always regenerate content after changes:**
+
+```bash
+pnpm run generate:content
+```
+
+This creates the markdown files that power the website. Then restart your dev server to see changes.
+
+## Employment Types
+
+- `FULL_TIME` - Full-time position
+- `PART_TIME` - Part-time position  
+- `CONTRACT` - Contract work
+- `INTERNSHIP` - Internship
+- `OTHER` - Other type
+
+## Examples
+
+### Adding a Single Job
+
+```bash
+$ pnpm jobs add
+Your email: you@example.com
+Company name: Acme Corp
+Company website: https://acme.com
+Position title: Senior Engineer
+...
+✅ Job created successfully!
+```
+
+### Batch Upload (Standard Format)
+
+```bash
+$ pnpm jobs upload jobs.json
+Your email: you@example.com
+Company name: TechCorp
+Company website: https://techcorp.com
+
+📄 Reading jobs.json...
+Found 5 jobs to process
+
+✅ Created: Software Engineer
+✅ Created: Product Manager
+⏭️  Skipping: DevOps Engineer (already exists)
+...
+```
+
+### Batch Upload (Ashby Format)
+
+```bash
+$ pnpm jobs upload ~/Downloads/reducto-jobs.json
+Your email: you@example.com
+Company name: Reducto
+Company website: https://reducto.ai
+
+📄 Reading ~/Downloads/reducto-jobs.json...
+🔍 Detected Ashby format, parsing...
+Found 18 jobs to process
+
+✅ Created: Backend/AI Engineer
+✅ Created: Frontend Engineer
+...
+```
+
+### Viewing All Jobs
+
+```bash
+$ pnpm jobs list
+
+Reducto (18 jobs)
+  • Backend/AI Engineer
+    Location: San Francisco, CA | Type: FULL_TIME
+    Salary: $150k - $300k
+  • Frontend Engineer
+    ...
+```
+
+### Cleaning Up
+
+```bash
+$ pnpm jobs delete "OldCompany"
+Found 3 jobs for OldCompany:
+  - Software Engineer
+  - Product Manager
+  - Designer
+
+Delete all 3 jobs? (y/n): y
+✅ Deleted 3 jobs
+```
+
+## Tips
+
+1. **Test first** - Use `pnpm jobs add` to add one job and verify everything works
+2. **Keep JSON organized** - Group jobs by company in separate files
+3. **Always regenerate** - Run `pnpm run generate:content` after changes
+4. **Ashby support** - Just export and upload, the CLI handles parsing automatically
 
 ## Troubleshooting
 
-### "No URLs found in database"
+**"User not found"**
+- Sign up on the website first
+- Verify email address is correct
 
-- Check database connection
-- Verify jobs have `status: APPROVED`
-- Verify blogs/resources have `published: true`
+**"Job already exists"**
+- CLI skips duplicates (same company + position)
+- Use `pnpm jobs delete` first if needed
 
-### "Key file not accessible"
+**Jobs not appearing**
+- Run `pnpm run generate:content`
+- Restart dev server
+- Clear browser cache
 
-- Ensure `public/c2625de7b6514de28e9ed33e320098e9.txt` exists
-- Check file contains only the key (no extra whitespace)
-- Verify deployment includes public directory
+## Migration from Old Scripts
 
-### "403 Forbidden from IndexNow"
+All previous job management scripts have been consolidated into this CLI:
+- ✅ `add-metavoice-job.ts` → `pnpm jobs add`
+- ✅ `delete-reducto-jobs.ts` → `pnpm jobs delete "Reducto"`
+- ✅ `upload-reducto-jobs.ts` → `pnpm jobs upload ashby.json`
 
-- Key file must be accessible at exact URL
-- Check CORS/CDN settings if using Cloudflare
-- Verify domain matches sitemap URLs
-
-### "Prisma connection error"
-
-- Ensure `DATABASE_URL` environment variable is set
-- Check database is accessible from script location
-- Verify Prisma client is generated: `pnpm prisma generate`
-
-## Files
-
-```
-scripts/
-├── README.md                     # This file
-├── get-all-urls.ts              # Collect all URLs from database
-├── verify-indexnow.ts           # Verify IndexNow setup
-├── submit-indexnow.ts           # Submit from sitemap
-├── submit-indexnow-db.ts        # Submit from database (recommended)
-├── submit-bing-webmaster.ts     # Submit via Bing API
-├── generate-content.ts          # Generate markdown from database
-└── SEO_SUBMISSION_GUIDE.md      # Full SEO guide
-
-Generated files:
-├── all-urls.json                # Exported URL list (from seo:urls:export)
-```
-
-## Environment Variables
-
-```bash
-# Required
-NEXT_PUBLIC_SITE_URL=https://waterloo.works
-DATABASE_URL=postgresql://...
-
-# Optional (for Bing Webmaster API)
-BING_WEBMASTER_API_KEY=your_api_key
-```
-
-## Resources
-
-- [IndexNow Documentation](https://www.indexnow.org/documentation)
-- [Bing Webmaster Tools](https://www.bing.com/webmasters)
-- [Google Search Console](https://search.google.com/search-console)
-- [Full SEO Guide](./SEO_SUBMISSION_GUIDE.md)
+The unified CLI is more powerful and easier to use!

@@ -8,11 +8,13 @@ export default function ShellLayout({ children }: { children: ReactNode }) {
   return (
     <div className="shell-layout flex min-h-svh bg-white">
       <AppSidebar />
-      <main className="flex-1 pt-14 md:pt-0">
+      <main className="flex-1 flex flex-col">
         {/* Mutually exclusive headers */}
-        <HeaderMobile />
-        <HeaderDesktop />
-        {children}
+        <div className="pt-14 md:pt-0">
+          <HeaderMobile />
+          <HeaderDesktop />
+        </div>
+        <div className="flex-1">{children}</div>
         {/* Consolidated site footer for shell pages */}
         <Footer />
       </main>

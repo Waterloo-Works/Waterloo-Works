@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import { createUserRecord } from "@/app/actions/auth";
-import type { EmailOtpType } from "@supabase/supabase-js";
 import { PUBLIC_APP_URL } from "@/lib/config";
 import { prisma } from "@/utils/prisma";
 
@@ -12,25 +11,15 @@ export async function GET(request: Request) {
 
     try {
         const code = requestUrl.searchParams.get("code");
-        const tokenHash = requestUrl.searchParams.get("token_hash");
         const supabase = await createClient();
 
-        let error: { message: string } | null = null;
-
-        if (code) {
-            const { error: exError } = await supabase.auth.exchangeCodeForSession(code);
-            error = exError;
-        } else if (tokenHash) {
-            const { error: verifyError } = await supabase.auth.verifyOtp({
-                token_hash: tokenHash,
-                type: "magiclink" as EmailOtpType,
-            });
-            error = verifyError ?? null;
-        } else {
+        if (!code) {
             return NextResponse.redirect(
                 `${PUBLIC_APP_URL}/auth/auth-code-error?error=no_code`
             );
         }
+
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
 
         if (error) {
             console.error("Auth error:", error.message);

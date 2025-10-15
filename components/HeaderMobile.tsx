@@ -31,7 +31,7 @@ export default async function HeaderMobile() {
       <MobileNav />
       <div className="absolute left-1/2 -translate-x-1/2">
         <Link href="/explore" className="text-base font-serif italic text-zinc-900">
-          waterloo[dot]works
+          waterloo.works
         </Link>
       </div>
       {user ? (

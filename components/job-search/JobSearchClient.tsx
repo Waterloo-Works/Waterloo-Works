@@ -23,6 +23,7 @@ import { normalizeJob } from "@/lib/search/normalize";
 import BookmarkButton from "@/components/BookmarkButton";
 import { useBookmarkedIds } from "@/hooks/useBookmarks";
 import EmptyState from "@/components/EmptyState";
+import { VoiceNotePlayer } from "@/components/VoiceNotePlayer";
 
 type Job = Awaited<ReturnType<typeof import("@/app/actions/jobs").getJobs>>[number];
 
@@ -454,10 +455,43 @@ function JobDetail({ job, initialSaved }: { job: Job; initialSaved: boolean }) {
         </div>
       </div>
 
+      {job.contactUrl && (
+        <div className="mb-6">
+          <a
+            href={job.contactUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+              posthog.capture('job_apply_clicked', {
+                job_id: job.id,
+                job_position: job.position,
+                job_company: job.company,
+              });
+            }}
+            className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-sm font-medium text-white shadow-sm hover:bg-zinc-800 transition-colors"
+          >
+            {job.contact || "Apply Now"}
+          </a>
+        </div>
+      )}
 
       {job.notes && (
         <div className="mt-6 space-y-2">
           <p className="font-body whitespace-pre-wrap text-[15px] text-zinc-700">{job.notes}</p>
+        </div>
+      )}
+
+      {job.voiceNoteUrl && (
+        <div className="mt-8">
+          <h3 className="font-semibold text-zinc-900 mb-4 text-lg">
+            🎙️ Message from the Hiring Team
+          </h3>
+          <VoiceNotePlayer
+            url={job.voiceNoteUrl}
+            authorName={job.company}
+            context="employer_intro"
+            jobId={job.id}
+          />
         </div>
       )}
 

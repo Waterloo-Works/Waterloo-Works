@@ -68,6 +68,7 @@ export async function postJob(data: {
 	salaryMin?: string;
 	salaryMax?: string;
 	notes?: string;
+	voiceNoteUrl?: string;
 }) {
 	try {
 		const supabase = await createClient();
@@ -108,6 +109,7 @@ export async function postJob(data: {
 				salaryMin: data.salaryMin || null,
 				salaryMax: data.salaryMax || null,
 				notes: data.notes || null,
+				voiceNoteUrl: data.voiceNoteUrl || null,
 				postedBy: user.id,
 				status: "PENDING",
 			},
@@ -379,6 +381,7 @@ export async function updateJob(
 		salaryMin?: string;
 		salaryMax?: string;
 		notes?: string;
+		voiceNoteUrl?: string;
 	}
 ) {
 	try {
@@ -433,6 +436,7 @@ export async function updateJob(
 				salaryMin: data.salaryMin || null,
 				salaryMax: data.salaryMax || null,
 				notes: data.notes || null,
+				voiceNoteUrl: data.voiceNoteUrl || null,
 				status: newStatus,
 				// Clear rejection reason if it was rejected
 				rejectionReason:

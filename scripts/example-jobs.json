@@ -1,0 +1,22 @@
+[
+  {
+    "position": "Senior Software Engineer",
+    "location": "San Francisco, CA",
+    "employmentType": "FULL_TIME",
+    "salaryMin": "$150k",
+    "salaryMax": "$200k",
+    "contact": "Apply Now",
+    "contactUrl": "https://company.com/careers/senior-engineer",
+    "description": "We're looking for a senior software engineer to join our team.\n\n## Requirements\n- 5+ years of experience\n- Strong React/Node.js skills\n- Startup experience preferred\n\n## Benefits\n- Competitive salary + equity\n- Health insurance\n- Flexible work schedule"
+  },
+  {
+    "position": "Product Designer",
+    "location": "Remote",
+    "employmentType": "FULL_TIME",
+    "salaryMin": "$120k",
+    "salaryMax": "$160k",
+    "contact": "Apply Now",
+    "contactUrl": "https://company.com/careers/designer",
+    "description": "Join our design team to create beautiful user experiences.\n\n## Requirements\n- 3+ years of product design experience\n- Figma proficiency\n- Portfolio required"
+  }
+]

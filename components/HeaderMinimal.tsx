@@ -42,7 +42,7 @@ export default async function HeaderMinimal() {
       {/* Center: Brand (mobile/tablet only) */}
       <div className="absolute left-1/2 -translate-x-1/2 lg:hidden">
         <Link href="/explore" className="text-base font-serif italic text-zinc-900">
-          waterloo[dot]works
+          waterloo.works
         </Link>
       </div>
 
@@ -73,12 +73,6 @@ export default async function HeaderMinimal() {
                     className="flex items-center gap-3 px-5 py-2.5 text-sm text-zinc-900 hover:bg-zinc-50 transition-colors"
                   >
                     <span>My Job Submissions</span>
-                  </Link>
-                  <Link
-                    href="/post-job"
-                    className="flex items-center gap-3 px-5 py-2.5 text-sm text-zinc-900 hover:bg-zinc-50 transition-colors"
-                  >
-                    <span>Post a Job</span>
                   </Link>
                   {isAdmin && (
                     <Link

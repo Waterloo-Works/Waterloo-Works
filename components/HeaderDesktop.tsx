@@ -51,9 +51,6 @@ export default async function HeaderDesktop() {
                 <Link href="/my-jobs" className="flex items-center gap-3 px-5 py-2.5 text-sm text-zinc-900 transition-colors hover:bg-zinc-50">
                   <span>My Job Submissions</span>
                 </Link>
-                <Link href="/post-job" className="flex items-center gap-3 px-5 py-2.5 text-sm text-zinc-900 transition-colors hover:bg-zinc-50">
-                  <span>Post a Job</span>
-                </Link>
                 {isAdmin && (
                   <Link href="/admin" className="flex items-center gap-3 px-5 py-2.5 text-sm text-zinc-900 transition-colors hover:bg-zinc-50">
                     <span>Admin</span>
