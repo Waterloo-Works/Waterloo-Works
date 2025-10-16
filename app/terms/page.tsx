@@ -24,8 +24,8 @@ export default function TermsOfServicePage() {
 
         <div className="prose prose-zinc max-w-none font-body">
           <p className="text-zinc-700">
-            These Terms of Service ("Terms") govern your access to and use of {siteName}
-            (the "Service"). By accessing or using the Service, you agree to be bound by
+            These Terms of Service (&quot;Terms&quot;) govern your access to and use of {siteName}
+            (the &quot;Service&quot;). By accessing or using the Service, you agree to be bound by
             these Terms. If you do not agree to these Terms, do not use the Service.
           </p>
 
@@ -57,7 +57,7 @@ export default function TermsOfServicePage() {
           <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">4. User Content</h2>
           <p className="text-zinc-700">
             You retain ownership of content you submit, post, or display on or through the Service
-            ("User Content"). By providing User Content, you grant {siteName} a worldwide,
+            (&quot;User Content&quot;). By providing User Content, you grant {siteName} a worldwide,
             non-exclusive, royalty-free license to use, reproduce, modify, adapt, publish, translate,
             distribute, and display such content solely to operate and improve the Service. You
             represent that you have all necessary rights to provide the User Content and that it does
@@ -89,7 +89,7 @@ export default function TermsOfServicePage() {
 
           <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">8. Disclaimer of Warranties</h2>
           <p className="text-zinc-700">
-            THE SERVICE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY
+            THE SERVICE IS PROVIDED ON AN &quot;AS IS&quot; AND &quot;AS AVAILABLE&quot; BASIS WITHOUT WARRANTIES OF ANY
             KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING BUT NOT LIMITED TO IMPLIED
             WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE
             DO NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE.
@@ -132,7 +132,7 @@ export default function TermsOfServicePage() {
           <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">13. Changes to These Terms</h2>
           <p className="text-zinc-700">
             We may update these Terms from time to time. We will post the updated Terms on this page
-            and update the "Last updated" date. Your continued use of the Service after any changes
+            and update the &quot;Last updated&quot; date. Your continued use of the Service after any changes
             constitutes acceptance of the updated Terms.
           </p>
 
@@ -150,4 +150,3 @@ export default function TermsOfServicePage() {
     </div>
   );
 }
-
