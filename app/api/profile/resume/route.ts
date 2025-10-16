@@ -46,7 +46,11 @@ export async function POST(request: NextRequest) {
 		try {
 			const reductoResult = await parseResumeWithReducto(buffer, file.name);
 			resumeText = reductoResult.text;
-			console.log(`✅ Reducto parsing completed in ${reductoResult.duration.toFixed(2)}s`);
+			if (reductoResult.duration) {
+				console.log(`✅ Reducto parsing completed in ${reductoResult.duration.toFixed(2)}s`);
+			} else {
+				console.log(`✅ Reducto parsing completed`);
+			}
 			console.log(`📝 Extracted ${resumeText.length} characters`);
 		} catch (error) {
 			parsingError = error instanceof Error ? error.message : 'Reducto parsing failed';
@@ -90,7 +94,7 @@ export async function POST(request: NextRequest) {
 		};
 
 		// Simple completion score calculation
-		const calculateCompletionScore = (data: any): number => {
+		const calculateCompletionScore = (data: Record<string, unknown>): number => {
 			let score = 0;
 			if (data.resumeUrl) score += 15;
 			if (data.headline) score += 8;
@@ -98,12 +102,12 @@ export async function POST(request: NextRequest) {
 			if (data.currentRole) score += 7;
 			if (data.yearsOfExperience) score += 5;
 			if (data.experienceSummary) score += 10;
-			if (data.skills?.length > 0) score += 15;
-			if (data.primarySkills?.length > 0) score += 10;
+			if (Array.isArray(data.skills) && data.skills.length > 0) score += 15;
+			if (Array.isArray(data.primarySkills) && data.primarySkills.length > 0) score += 10;
 			if (data.degree) score += 7;
 			if (data.school) score += 5;
 			if (data.graduationYear) score += 3;
-			if (data.desiredRoles?.length > 0) score += 5;
+			if (Array.isArray(data.desiredRoles) && data.desiredRoles.length > 0) score += 5;
 			if (data.linkedinUrl || data.githubUrl || data.portfolioUrl) score += 5;
 			return Math.min(score, 100);
 		};

@@ -3,13 +3,31 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
+interface ExtractedData {
+	headline?: string;
+	location?: string;
+	currentRole?: string;
+	yearsOfExperience?: number;
+	experienceSummary?: string;
+	skills: string[];
+	primarySkills: string[];
+	degree?: string;
+	school?: string;
+	graduationYear?: number;
+	desiredRoles: string[];
+	linkedinUrl?: string;
+	githubUrl?: string;
+	portfolioUrl?: string;
+	personalWebsite?: string;
+}
+
 interface ResumeUploaderProps {
 	currentFile?: string | null;
 	currentFileName?: string | null;
 	onUploadSuccess?: (data: {
 		url: string;
 		fileName: string;
-		extractedData?: any;
+		extractedData?: ExtractedData;
 		parsingError?: string | null;
 	}) => void;
 }

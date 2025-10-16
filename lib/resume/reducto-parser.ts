@@ -3,13 +3,29 @@
  * Extracts text from resume PDFs using Reducto pipeline
  */
 
-import Reducto from 'reductoai';
+import Reducto, { toFile } from 'reductoai';
 
+const REDUCTO_API_KEY = process.env.REDUCTO_API_KEY!;
 const REDUCTO_PIPELINE_ID = process.env.REDUCTO_PIPELINE_ID!;
+
+interface ReductoChunk {
+  content: string;
+  embed: string;
+  enriched: string | null;
+  enrichment_success: boolean;
+  blocks: Array<{
+    type: string;
+    bbox: Record<string, unknown>;
+    content: string;
+    image_url: string | null;
+    confidence: string;
+    granular_confidence: Record<string, unknown>;
+  }>;
+}
 
 export interface ReductoParseResult {
   text: string;
-  chunks: any[];
+  chunks: ReductoChunk[];
   duration: number;
   success: boolean;
 }
@@ -24,37 +40,46 @@ export async function parseResumeWithReducto(
   fileName: string
 ): Promise<ReductoParseResult> {
   try {
-    const client = new Reducto();
-
-    // Upload file to Reducto (returns Upload object with file_id and presigned_url)
-    const upload = await client.upload({
-      file: fileBuffer,
-      extension: fileName.split('.').pop() || 'pdf'
+    const client = new Reducto({
+      apiKey: REDUCTO_API_KEY
     });
 
-    console.log('Reducto upload successful:', upload.file_id);
-    console.log('Presigned URL:', upload.presigned_url);
+    console.log('🔄 Uploading file and running pipeline...');
 
-    // Run pipeline - use presigned_url if available, otherwise use Upload object
-    const input = upload.presigned_url || upload;
-    console.log('Using input for pipeline:', typeof input === 'string' ? input : 'Upload object');
+    // Step 1: Upload file to Reducto
+    const file = await toFile(fileBuffer, fileName);
+    const upload = await client.upload({ file });
+
+    console.log('✅ File uploaded:', upload.file_id);
+
+    // Step 2: Run pipeline using the input from upload
+    // Use presigned_url if available, otherwise use file_id directly (already has reducto:// prefix)
+    const inputUrl = upload.presigned_url || upload.file_id;
+    console.log('📄 Running pipeline with input:', inputUrl);
 
     const result = await client.pipeline.run({
-      input: input,
+      input: inputUrl,  // Pipeline expects "input" parameter (not document_url)
       pipeline_id: REDUCTO_PIPELINE_ID
     });
 
-    console.log('Reducto pipeline completed in', result.duration, 'seconds');
+    console.log('✅ Reducto pipeline completed');
 
-    // Extract text from chunks
-    const text = result.result?.chunks
-      ?.map((chunk: any) => chunk.content)
+    // Extract text from chunks - pipeline result is nested under result.parse.result.chunks
+    const parseResult = result.result?.parse?.result as { chunks?: ReductoChunk[] } | undefined;
+    const chunks = parseResult?.chunks || [];
+    const text = chunks
+      .map((chunk) => chunk.content)
       .join('\n\n') || '';
+
+    const duration = (result.result?.parse?.duration as number | undefined) || 0;
+
+    console.log(`📝 Extracted ${text.length} characters from ${chunks.length} chunks`);
+    console.log(`⏱️  Duration: ${duration.toFixed(2)}s`);
 
     return {
       text,
-      chunks: result.result?.chunks || [],
-      duration: result.duration,
+      chunks,
+      duration,
       success: true
     };
   } catch (error) {
