@@ -135,6 +135,37 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Subtle decorative line grid inspired by radar/technical UI.
+     - grid-overlay-vert: wide vertical columns with a stronger center line.
+     - grid-overlay-ticks: short tick marks along the top. */
+  .grid-overlay-vert {
+    background-image:
+      linear-gradient(90deg,
+        transparent calc(50% - 0.5px),
+        rgb(228 228 231 / 0.8) calc(50% - 0.5px),
+        rgb(228 228 231 / 0.8) calc(50% + 0.5px),
+        transparent calc(50% + 0.5px)
+      ),
+      repeating-linear-gradient(90deg,
+        rgb(228 228 231 / 0.5) 0,
+        rgb(228 228 231 / 0.5) 1px,
+        transparent 1px,
+        transparent 80px
+      );
+    background-repeat: no-repeat, repeat;
+    background-position: center;
+  }
+
+  .grid-overlay-ticks {
+    background-image: repeating-linear-gradient(90deg,
+      rgb(161 161 170 / 0.7) 0,
+      rgb(161 161 170 / 0.7) 1px,
+      transparent 1px,
+      transparent 24px
+    );
+    background-position: center top;
+  }
 }
 
 @layer components {
