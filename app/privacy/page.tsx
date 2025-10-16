@@ -30,7 +30,7 @@ export default function PrivacyPolicyPage() {
             policy.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">1. Information We Collect</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">1. Information We Collect</h2>
           <ul className="list-disc pl-6 text-zinc-700">
             <li>
               Account Information: If you sign in, we may receive your name, email address,
@@ -52,7 +52,7 @@ export default function PrivacyPolicyPage() {
             </li>
           </ul>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">2. How We Use Information</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">2. How We Use Information</h2>
           <ul className="list-disc pl-6 text-zinc-700">
             <li>Provide, maintain, and improve the Service.</li>
             <li>Authenticate users and secure accounts.</li>
@@ -62,21 +62,21 @@ export default function PrivacyPolicyPage() {
             <li>Detect, prevent, and address technical or security issues.</li>
           </ul>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">3. Legal Bases</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">3. Legal Bases</h2>
           <p className="text-zinc-700">
             Where applicable, our legal bases include your consent, performance of a contract,
             compliance with legal obligations, and our legitimate interests in operating,
             improving, and securing the Service.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">4. Sharing of Information</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">4. Sharing of Information</h2>
           <p className="text-zinc-700">
             We may share information with service providers that help us operate the Service
             (for example, hosting, authentication, analytics), to comply with law, or in
             connection with a business transfer. We do not sell your personal information.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">5. Data Retention</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">5. Data Retention</h2>
           <p className="text-zinc-700">
             We retain information for as long as necessary to provide the Service and for
             legitimate and essential purposes such as maintaining security, complying with
@@ -84,7 +84,7 @@ export default function PrivacyPolicyPage() {
             the type of data and your account activity.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">6. Your Rights and Choices</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">6. Your Rights and Choices</h2>
           <ul className="list-disc pl-6 text-zinc-700">
             <li>Access, correct, or delete your account information.</li>
             <li>Opt out of non-essential analytics where offered.</li>
@@ -92,14 +92,14 @@ export default function PrivacyPolicyPage() {
             <li>Contact us to exercise additional rights available in your region.</li>
           </ul>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">7. International Transfers</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">7. International Transfers</h2>
           <p className="text-zinc-700">
             We may process and store information in countries other than where you live.
             When we transfer personal data internationally, we take appropriate measures to
             protect it under applicable laws.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">8. Children&apos;s Privacy</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">8. Children&apos;s Privacy</h2>
           <p className="text-zinc-700">
             The Service is not directed to children under the age of 13, and we do not
             knowingly collect personal information from children. If you believe a child has
@@ -107,14 +107,14 @@ export default function PrivacyPolicyPage() {
             to remove such information.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">9. Changes to This Policy</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">9. Changes to This Policy</h2>
           <p className="text-zinc-700">
             We may update this policy from time to time. We will post the updated policy on
             this page and update the &quot;Last updated&quot; date. Your continued use of the Service
             after changes means you accept the updated policy.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">10. Contact Us</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">10. Contact Us</h2>
           <p className="text-zinc-700">
             If you have questions about this policy, please contact us at
             {" "}

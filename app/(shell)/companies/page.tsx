@@ -26,7 +26,7 @@ export default function CompaniesIndexPage() {
 		<div className="min-h-svh bg-white">
 			<PageViewTracker pageType="companies_index" metadata={{ total_companies: companies.length }} />
 			<div className="mx-auto max-w-4xl px-6 py-12">
-				<h1 className="font-title text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-8">
+				<h1 className="font-header text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-8">
 					Hiring Companies
 				</h1>
 

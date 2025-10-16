@@ -195,7 +195,7 @@ function JobPreviewCard({
             href={{ pathname: "/job-search", query: { selected: job.id } }}
             className="group block focus-visible:outline-none"
           >
-            <h3 className="font-title text-lg font-semibold text-zinc-900 group-hover:underline line-clamp-2">
+            <h3 className="font-header text-lg font-semibold text-zinc-900 group-hover:underline line-clamp-2">
               {job.position}
             </h3>
           </Link>
@@ -220,7 +220,7 @@ function EmptyState() {
   return (
     <div className="text-center py-20">
       <div className="inline-block h-16 w-16 rounded-full bg-zinc-100 mb-4" />
-      <h3 className="font-title text-xl text-zinc-900 mb-2">No listings yet</h3>
+      <h3 className="font-header text-xl text-zinc-900 mb-2">No listings yet</h3>
       <p className="font-body text-zinc-600">Check back soon for fresh roles.</p>
     </div>
   );

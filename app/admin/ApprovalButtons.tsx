@@ -59,7 +59,7 @@ export default function ApprovalButtons({ jobId }: { jobId: string }) {
 			{showRejectModal && (
 				<div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
 					<div className="bg-[#F5F1E8] rounded-lg max-w-md w-full p-6">
-						<h3 className="text-xl font-serif mb-4">Reject Job Submission</h3>
+						<h3 className="text-xl font-header mb-4">Reject Job Submission</h3>
 						<p className="text-gray-700 mb-4">
 							Please provide a reason for rejecting this job posting:
 						</p>

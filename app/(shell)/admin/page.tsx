@@ -29,17 +29,17 @@ export default async function AdminPage() {
   return (
     <main className="mx-auto max-w-6xl px-6 py-12">
       <div className="mb-8">
-        <h1 className="font-title text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-2">Admin Dashboard</h1>
+        <h1 className="font-header text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-2">Admin Dashboard</h1>
         <p className="font-body text-zinc-700">Review and approve job submissions</p>
       </div>
 
       <div>
-        <h2 className="text-xl font-title font-semibold text-zinc-900 mb-4">Pending Submissions ({pendingJobs.length})</h2>
+        <h2 className="text-xl font-header font-semibold text-zinc-900 mb-4">Pending Submissions ({pendingJobs.length})</h2>
 
         {pendingJobs.length === 0 ? (
           <div className="text-center py-20 rounded-2xl bg-white ring-1 ring-zinc-200">
             <div className="inline-block w-16 h-16 bg-zinc-100 rounded-full mb-4" />
-            <h3 className="font-title text-xl text-zinc-900 mb-2">No pending submissions</h3>
+            <h3 className="font-header text-xl text-zinc-900 mb-2">No pending submissions</h3>
             <p className="font-body text-zinc-600">All job submissions have been reviewed</p>
           </div>
         ) : (
@@ -50,7 +50,7 @@ export default async function AdminPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex items-start gap-3 flex-1">
                       <FaviconImage src={job.companyImageUrl} company={job.company} />
-                      <h3 className="font-title text-xl md:text-2xl font-semibold text-zinc-900">{job.position}</h3>
+                      <h3 className="font-header text-xl md:text-2xl font-semibold text-zinc-900">{job.position}</h3>
                     </div>
                     <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-medium">Pending Review</span>
                   </div>

@@ -11,7 +11,7 @@ export default function ShellError({ error, reset }: { error: Error & { digest?:
 
   return (
     <div className="mx-auto max-w-3xl px-8 py-20">
-      <h1 className="font-title text-2xl font-semibold text-zinc-900">Something went wrong</h1>
+      <h1 className="font-header text-2xl font-semibold text-zinc-900">Something went wrong</h1>
       <p className="mt-2 font-body text-zinc-600">
         Try reloading this page. If you use Safari, temporarily disable extensions and refresh.
       </p>
@@ -31,4 +31,3 @@ export default function ShellError({ error, reset }: { error: Error & { digest?:
     </div>
   );
 }
-

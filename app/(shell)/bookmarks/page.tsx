@@ -33,7 +33,7 @@ async function SavedList() {
     return (
       <div className="text-center py-20">
         <div className="inline-block h-16 w-16 rounded-full bg-zinc-100 mb-4" />
-        <h3 className="font-title text-xl text-zinc-900 mb-2">No saved jobs yet</h3>
+        <h3 className="font-header text-xl text-zinc-900 mb-2">No saved jobs yet</h3>
         <p className="font-body text-zinc-600">Tap the bookmark icon on any job to save it for later.</p>
         <div className="mt-6">
           <Link href="/explore" className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-50">Back to Explore</Link>
@@ -51,7 +51,7 @@ async function SavedList() {
             <div className="min-w-0">
               <div className="font-body text-sm text-zinc-600">{job.company}</div>
               <Link href={{ pathname: "/job-search", query: { selected: job.id } }} className="group block">
-                <h3 className="font-title text-lg font-semibold text-zinc-900 group-hover:underline line-clamp-2">{job.position}</h3>
+                <h3 className="font-header text-lg font-semibold text-zinc-900 group-hover:underline line-clamp-2">{job.position}</h3>
               </Link>
               <div className="font-body text-[15px] text-zinc-700">
                 {job.salaryMin && job.salaryMax ? `${job.salaryMin} - ${job.salaryMax} · ` : ""}

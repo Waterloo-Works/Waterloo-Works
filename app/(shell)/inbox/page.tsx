@@ -60,7 +60,7 @@ export default async function InboxPage() {
           <li key={n.id} className="rounded-2xl border border-zinc-200 bg-white p-4">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <div className="font-title text-zinc-900">
+                <div className="font-header text-zinc-900">
                   {n.type === "job_alert" ? "New job posted" : "Notification"}
                 </div>
                 <div className="font-body text-sm text-zinc-700">
@@ -100,7 +100,7 @@ function EmptyState() {
   return (
     <div className="rounded-2xl bg-white p-6 text-center ring-1 ring-zinc-200">
       <div className="mx-auto mb-3 h-16 w-16 rounded-full bg-zinc-100" />
-      <div className="font-title text-lg text-zinc-900">No notifications</div>
+      <div className="font-header text-lg text-zinc-900">No notifications</div>
       <div className="font-body text-zinc-600">New job alerts will appear here.</div>
     </div>
   );

@@ -4,7 +4,7 @@ export default async function EventsPage() {
   return (
     <main className="mx-auto max-w-6xl px-6 py-12">
       <div className="mb-8">
-        <h1 className="font-title text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-2">Events</h1>
+        <h1 className="font-header text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-2">Events</h1>
         <p className="font-body text-zinc-700">Community‑hosted events and meetups.</p>
       </div>
 

@@ -126,7 +126,7 @@ export default async function CompanyPage({
 							/>
 						)}
 						<div className="flex-1">
-							<h1 className="font-title text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900">
+							<h1 className="font-header text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900">
 								{company.name}
 							</h1>
 							<p className="text-zinc-600 mt-2">
@@ -158,7 +158,7 @@ export default async function CompanyPage({
 				{/* Job listings for this company - Important for internal linking and pSEO */}
 				{companyJobs.length > 0 && (
 					<div className="mt-12 pt-8 border-t border-zinc-200">
-						<h2 className="font-title text-2xl font-semibold text-zinc-900 mb-6">
+						<h2 className="font-header text-2xl font-semibold text-zinc-900 mb-6">
 							Current Openings
 						</h2>
 						<div className="space-y-4">

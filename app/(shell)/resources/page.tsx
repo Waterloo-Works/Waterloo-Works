@@ -36,7 +36,7 @@ export default function ResourcesIndexPage() {
 			<div className="mx-auto max-w-6xl px-6 py-12">
 				{/* Header */}
 				<div className="mb-12">
-					<h1 className="font-title text-4xl md:text-5xl font-semibold tracking-tight text-zinc-900 mb-4">
+					<h1 className="font-header text-4xl md:text-5xl font-semibold tracking-tight text-zinc-900 mb-4">
 						Resource Directory
 					</h1>
 					<p className="text-xl text-zinc-600">
@@ -47,7 +47,7 @@ export default function ResourcesIndexPage() {
 				{/* Categories */}
 				{categories.map((category) => (
 					<div key={category} className="mb-12">
-						<h2 className="font-title text-2xl font-semibold text-zinc-900 mb-6 border-b border-zinc-200 pb-2">
+						<h2 className="font-header text-2xl font-semibold text-zinc-900 mb-6 border-b border-zinc-200 pb-2">
 							{category}
 						</h2>
 

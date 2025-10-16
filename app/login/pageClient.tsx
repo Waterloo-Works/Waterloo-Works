@@ -43,7 +43,7 @@ export default function LoginClient() {
 
   return (
     <div className="rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm transition-all hover:border-zinc-300 hover:bg-zinc-50 hover:shadow-md">
-      <h2 className="font-title text-2xl font-semibold text-zinc-900 mb-2">Sign in</h2>
+      <h2 className="font-header text-2xl font-semibold text-zinc-900 mb-2">Sign in</h2>
       <p className="font-body text-zinc-700 mb-6 text-sm">
         Sign in with your Google account to get started.
       </p>

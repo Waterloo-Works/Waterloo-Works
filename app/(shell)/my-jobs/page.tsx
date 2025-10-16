@@ -45,7 +45,7 @@ export default async function MyJobsPage() {
             <main className="mx-auto max-w-6xl px-6 py-12">
 				{/* Header */}
                 <div className="mb-8">
-                    <h1 className="font-title text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-2">
+                    <h1 className="font-header text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-2">
                         My Job Submissions
                     </h1>
                     <p className="font-body text-zinc-700">
@@ -57,7 +57,7 @@ export default async function MyJobsPage() {
                 {myJobs.length === 0 ? (
                     <div className="text-center py-20 rounded-2xl bg-white ring-1 ring-zinc-200">
                         <div className="inline-block w-16 h-16 bg-gray-200 rounded-full mb-4"></div>
-                        <h3 className="font-title text-xl text-zinc-900 mb-2">
+                        <h3 className="font-header text-xl text-zinc-900 mb-2">
                             No job submissions yet
                         </h3>
                         <p className="font-body text-zinc-600 mb-6">
@@ -85,7 +85,7 @@ export default async function MyJobsPage() {
 												src={job.companyImageUrl}
 												company={job.company}
 											/>
-                                        <h3 className="font-title text-xl md:text-2xl font-semibold text-zinc-900">
+                                        <h3 className="font-header text-xl md:text-2xl font-semibold text-zinc-900">
                                             {job.position}
                                         </h3>
 										</div>

@@ -23,7 +23,7 @@ export default function BlogIndexPage() {
 			<PageViewTracker pageType="blog_index" metadata={{ total_posts: blogs.length }} />
 			<div className="mx-auto max-w-4xl px-6 py-12">
 				<div className="mb-12">
-					<h1 className="font-title text-4xl md:text-5xl font-semibold tracking-tight text-zinc-900 mb-4">
+					<h1 className="font-header text-4xl md:text-5xl font-semibold tracking-tight text-zinc-900 mb-4">
 						Blog
 					</h1>
 					<p className="text-xl text-zinc-600">
@@ -67,7 +67,7 @@ export default function BlogIndexPage() {
 										)}
 
 										{/* Title */}
-										<h2 className="font-title text-2xl md:text-3xl font-semibold text-zinc-900 group-hover:text-blue-600 transition-colors">
+										<h2 className="font-header text-2xl md:text-3xl font-semibold text-zinc-900 group-hover:text-blue-600 transition-colors">
 											{blog.title}
 										</h2>
 

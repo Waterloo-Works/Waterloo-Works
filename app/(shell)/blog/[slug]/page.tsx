@@ -110,7 +110,7 @@ export default async function BlogPostPage({
 						)}
 
 						{/* Title */}
-						<h1 className="font-title text-3xl md:text-5xl font-semibold tracking-tight text-zinc-900 mb-6">
+						<h1 className="font-header text-3xl md:text-5xl font-semibold tracking-tight text-zinc-900 mb-6">
 							{blog.title}
 						</h1>
 
@@ -149,7 +149,7 @@ export default async function BlogPostPage({
 				{/* Related blogs for internal linking */}
 				{relatedBlogs.length > 0 && (
 					<div className="mt-16 pt-12 border-t border-zinc-200">
-						<h2 className="font-title text-2xl font-semibold text-zinc-900 mb-8">
+						<h2 className="font-header text-2xl font-semibold text-zinc-900 mb-8">
 							Related Articles
 						</h2>
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
