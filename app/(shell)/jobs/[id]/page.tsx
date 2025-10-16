@@ -17,7 +17,7 @@ export async function generateMetadata({
 }: {
 	params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-	const { id } = await params;
+	const { id} = await params;
 	const job = (allJobs || []).find((j) => j.slug === id);
 
 	if (!job) {
@@ -26,9 +26,42 @@ export async function generateMetadata({
 		};
 	}
 
+	const title = `${job.title} at ${job.company}`;
+	const description = `${job.title} position at ${job.company} in ${job.location}. ${job.salaryMin && job.salaryMax ? `Salary: $${job.salaryMin} - $${job.salaryMax}. ` : ''}Apply now on Waterloo Works.`;
+
+	// Generate OG image URL with job details
+	const ogImageUrl = new URL(`/api/og/job`, process.env.NEXT_PUBLIC_APP_URL || 'https://waterloo.works');
+	ogImageUrl.searchParams.set('title', job.title);
+	ogImageUrl.searchParams.set('company', job.company);
+	ogImageUrl.searchParams.set('location', job.location);
+	if (job.salaryMin && job.salaryMax) {
+		ogImageUrl.searchParams.set('salary', `$${job.salaryMin}-$${job.salaryMax}`);
+	}
+
 	return {
-		title: `${job.title} at ${job.company} | Waterloo Works`,
-		description: `${job.title} position at ${job.company} in ${job.location}`,
+		title: `${title} | Waterloo Works`,
+		description,
+		openGraph: {
+			title,
+			description,
+			type: 'website',
+			url: `/jobs/${job.slug}`,
+			siteName: 'Waterloo Works',
+			images: [
+				{
+					url: ogImageUrl.toString(),
+					width: 1200,
+					height: 630,
+					alt: title,
+				},
+			],
+		},
+		twitter: {
+			card: 'summary_large_image',
+			title,
+			description,
+			images: [ogImageUrl.toString()],
+		},
 	};
 }
 

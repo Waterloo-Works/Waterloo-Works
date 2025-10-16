@@ -26,9 +26,38 @@ export async function generateMetadata({
 		};
 	}
 
+	const title = `${company.name} Jobs`;
+	const description = `View ${company.jobCount} open ${company.jobCount === 1 ? 'position' : 'positions'} at ${company.name}. Find internships and full-time roles for Waterloo students.`;
+
+	// Generate OG image URL with company details
+	const ogImageUrl = new URL(`/api/og/company`, process.env.NEXT_PUBLIC_APP_URL || 'https://waterloo.works');
+	ogImageUrl.searchParams.set('name', company.name);
+	ogImageUrl.searchParams.set('jobCount', company.jobCount.toString());
+
 	return {
-		title: `${company.name} Jobs | Waterloo Works`,
-		description: `View ${company.jobCount} open positions at ${company.name}`,
+		title: `${title} | Waterloo Works`,
+		description,
+		openGraph: {
+			title,
+			description,
+			type: 'website',
+			url: `/companies/${company.slug}`,
+			siteName: 'Waterloo Works',
+			images: [
+				{
+					url: ogImageUrl.toString(),
+					width: 1200,
+					height: 630,
+					alt: title,
+				},
+			],
+		},
+		twitter: {
+			card: 'summary_large_image',
+			title,
+			description,
+			images: [ogImageUrl.toString()],
+		},
 	};
 }
 
