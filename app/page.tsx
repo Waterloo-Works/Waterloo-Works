@@ -56,38 +56,39 @@ export default async function Home() {
             showTopTicks
             showBottomTicks
             showNodes
-            style={{ ['--ticks-top-offset' as any]: '66px', ['--hairline-top' as any]: '64px' }}
+            showBottomNodes
+            style={{ ['--ticks-top-offset' as any]: '66px', ['--hairline-top' as any]: '64px', ['--hairline-bottom' as any]: '8px' }}
           />
 
           {/* Layer 3: Content */}
-          <div className="relative z-30 mx-auto max-w-4xl px-6 py-20 md:py-32">
-            <h2 className="font-header text-h2 tracking-tight-04 leading-heading mb-2 text-zinc-50">
+          <div className="relative z-30 mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center px-6 text-center">
+            <h2 className="font-header text-h2 tracking-tight-04 leading-heading mb-3 text-zinc-50">
               Curated opportunities for alum
             </h2>
 
-            <p className="font-body tracking-wide-01 leading-body mt-2 md:mt-3 mb-8 md:mb-10 max-w-3xl text-zinc-200 text-lg md:text-xl">
+            <p className="font-body tracking-wide-01 leading-body mt-2 md:mt-3 mb-10 max-w-2xl text-zinc-200 text-lg md:text-xl">
               Alum can post opportunities, apply, or forward roles to people who actually want them.
             </p>
 
             {/* Choice cards */}
-            <div className="mt-12 grid gap-5 md:grid-cols-2">
+            <div className="grid w-full max-w-2xl gap-5 md:grid-cols-2">
               <Link href="/explore" className="group">
-                <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-8 backdrop-blur-sm transition-colors hover:bg-white">
-                  <p className="font-body tracking-wide-01 leading-body text-sm text-zinc-600">Alum</p>
-                  <h3 className="font-header text-h3 tracking-tight-02 leading-heading mt-2 text-zinc-900">Find your next job</h3>
-                  <span className="ds-chip mt-6 gap-2 group-hover:bg-zinc-50">
-                    <span>↗</span>
+                <div className="ds-card-washi ds-cta-card h-[300px] md:h-[320px] flex flex-col items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+                  <p className="font-body tracking-wide-01 leading-body text-sm text-zinc-700">Alum</p>
+                  <h3 className="font-header text-h3 tracking-tight-02 leading-heading text-zinc-900">Find your next job</h3>
+                  <span className="ds-chip gap-2 hover:bg-white/90">
+                    <span className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
                     <span>Explore jobs</span>
                   </span>
                 </div>
               </Link>
 
               <Link href="/post-job" className="group">
-                <div className="rounded-2xl border border-zinc-200/70 bg-white/80 p-8 backdrop-blur-sm transition-colors hover:bg-white">
-                  <p className="font-body tracking-wide-01 leading-body text-sm text-zinc-600">Employers</p>
-                  <h3 className="font-header text-h3 tracking-tight-02 leading-heading mt-2 text-zinc-900">Hire top talent</h3>
-                  <span className="ds-chip mt-6 gap-2 group-hover:bg-zinc-50">
-                    <span>✏️</span>
+                <div className="ds-card-washi ds-cta-card h-[300px] md:h-[320px] flex flex-col items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+                  <p className="font-body tracking-wide-01 leading-body text-sm text-zinc-700">Employers</p>
+                  <h3 className="font-header text-h3 tracking-tight-02 leading-heading text-zinc-900">Hire top talent</h3>
+                  <span className="ds-chip gap-2 hover:bg-white/90">
+                    <span className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5">✏️</span>
                     <span>Post a job</span>
                   </span>
                 </div>
@@ -96,23 +97,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-4xl px-6 py-16 md:py-24 space-y-10">
-          <h3 className="font-header text-h3 tracking-tight-02 leading-heading text-zinc-900">How it works</h3>
-          <div className="grid gap-8 md:grid-cols-3">
-            <div className="ds-card">
-              <h3 className="font-header text-h3 tracking-tight-02 leading-heading text-zinc-900">Discover</h3>
-              <p className="font-body tracking-wide-01 leading-body mt-2 text-zinc-700">Browse jobs posted by other alum.</p>
-            </div>
-            <div className="ds-card">
-              <h3 className="font-header text-h3 tracking-tight-02 leading-heading text-zinc-900">Apply</h3>
-              <p className="font-body tracking-wide-01 leading-body mt-2 text-zinc-700">See a fit? Click apply.</p>
-            </div>
-            <div className="ds-card">
-              <h3 className="font-header text-h3 tracking-tight-02 leading-heading text-zinc-900">Share</h3>
-              <p className="font-body tracking-wide-01 leading-body mt-2 text-zinc-700">Forward roles to people you know who’d want them.</p>
-            </div>
-          </div>
-        </section>
+       
       </main>
       <Footer />
     </div>

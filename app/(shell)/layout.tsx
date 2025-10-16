@@ -23,7 +23,8 @@ export default function ShellLayout({ children }: { children: ReactNode }) {
           showTopTicks
           showBottomTicks
           showNodes
-          style={{ ['--ticks-top-offset' as any]: '8px', ['--hairline-top' as any]: '0px' }}
+          showBottomNodes
+          style={{ ['--ticks-top-offset' as any]: '8px', ['--hairline-top' as any]: '0px', ['--hairline-bottom' as any]: '8px' }}
         />
         <div className="flex-1">{children}</div>
         {/* Consolidated site footer for shell pages */}

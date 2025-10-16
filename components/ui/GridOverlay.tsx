@@ -10,6 +10,8 @@ type Props = {
   showBottomTicks?: boolean;
   variant?: "full" | "sides";
   showNodes?: boolean;
+  showBottomNodes?: boolean;
+  showBottomHairline?: boolean;
   className?: string;
   style?: CSSProperties;
 };
@@ -21,6 +23,8 @@ export default function GridOverlay({
   showBottomTicks = false,
   variant = "full",
   showNodes = true,
+  showBottomNodes = true,
+  showBottomHairline = true,
   className,
   style: styleProp,
 }: Props) {
@@ -43,8 +47,12 @@ export default function GridOverlay({
       {/* Tickers */}
       {showTopTicks && <div className="grid-overlay-ticks h-6 opacity-60" />}
       {showBottomTicks && <div className="grid-overlay-ticks-bottom h-6 opacity-60" />}
+      {showBottomHairline && <div className="grid-overlay-hairline-bottom" />}
       {showNodes && variant === "sides" && (
         <div className="grid-overlay-nodes" />
+      )}
+      {showBottomNodes && variant === "sides" && (
+        <div className="grid-overlay-nodes-bottom" />
       )}
     </div>
   );
