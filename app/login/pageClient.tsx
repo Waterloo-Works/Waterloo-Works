@@ -11,10 +11,18 @@ export default function LoginClient() {
     posthog.capture("google_signin_clicked");
     try {
       const supabase = createClient();
+
+      // Preserve the 'next' parameter if present
+      const searchParams = new URLSearchParams(window.location.search);
+      const next = searchParams.get('next');
+      const callbackUrl = next
+        ? `${window.location.origin}/auth/callback?next=${encodeURIComponent(next)}`
+        : `${window.location.origin}/auth/callback`;
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: callbackUrl,
           queryParams: { prompt: "select_account" },
         },
       });
@@ -27,7 +35,7 @@ export default function LoginClient() {
         return;
       }
       // Fallback: Supabase should handle redirect automatically, but guard anyway
-      window.location.href = `${window.location.origin}/auth/callback`;
+      window.location.href = callbackUrl;
     } catch (e) {
       setError("Google sign-in is unavailable.");
     }
