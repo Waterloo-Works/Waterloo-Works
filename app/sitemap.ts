@@ -54,6 +54,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: 'yearly' as const,
 			priority: 0.2,
 		},
+		{
+			url: `${baseUrl}/privacy`,
+			lastModified: new Date(),
+			changeFrequency: 'yearly' as const,
+			priority: 0.2,
+		},
 	];
 
 	// Guard against undefined imports during build by defaulting to []
