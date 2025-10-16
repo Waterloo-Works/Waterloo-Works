@@ -1,88 +1,31 @@
 import Link from "next/link";
 
 export default function Footer() {
-	return (
-		<footer className="border-t border-zinc-200 bg-white">
-			<div className="mx-auto max-w-6xl px-6 py-12">
-				<div className="grid grid-cols-2 gap-8 md:gap-16">
-					{/* Browse Section */}
-					<div>
-						<h3 className="mb-4 text-sm font-semibold text-zinc-900">Browse</h3>
-						<ul className="space-y-3">
-							<li>
-								<Link
-									href="/jobs"
-									className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
-								>
-									Jobs
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="/companies"
-									className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
-								>
-									Companies
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="/resources"
-									className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
-								>
-									Resources
-								</Link>
-							</li>
-						</ul>
-					</div>
+  // Lean, single-row footer with subtle separators.
+  const links = [
+    { href: "/jobs", label: "Jobs" },
+    { href: "/companies", label: "Companies" },
+    { href: "/resources", label: "Resources" },
+    { href: "/explore", label: "Explore" },
+    { href: "/post-job", label: "Post a Job" },
+    { href: "/terms", label: "Terms" },
+    { href: "/privacy", label: "Privacy" },
+  ];
 
-					{/* For Employers Section */}
-					<div>
-						<h3 className="mb-4 text-sm font-semibold text-zinc-900">For Employers</h3>
-						<ul className="space-y-3">
-							<li>
-								<Link
-									href="/post-job"
-									className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
-								>
-									Post a Job
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="/explore"
-									className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
-								>
-									Explore
-								</Link>
-							</li>
-						</ul>
-					</div>
-
-					{/* Legal Section */}
-					<div>
-						<h3 className="mb-4 text-sm font-semibold text-zinc-900">Legal</h3>
-						<ul className="space-y-3">
-							<li>
-								<Link
-									href="/terms"
-									className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
-								>
-									Terms of Service
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="/privacy"
-									className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
-								>
-									Privacy Policy
-								</Link>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</footer>
-	);
+  return (
+    <footer className="border-t border-zinc-200 bg-white">
+      <div className="mx-auto max-w-6xl px-6 py-6">
+        <nav aria-label="Footer" className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-zinc-600">
+          {links.map((item, idx) => (
+            <span key={item.href} className="flex items-center">
+              {idx > 0 && <span className="mx-2 text-zinc-300">·</span>}
+              <Link href={item.href} className="hover:text-zinc-900 transition-colors">
+                {item.label}
+              </Link>
+            </span>
+          ))}
+        </nav>
+      </div>
+    </footer>
+  );
 }
