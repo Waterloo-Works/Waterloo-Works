@@ -23,7 +23,7 @@ export function OnboardingWrapper({
     const router = useRouter();
     const pathname = usePathname();
 
-	// Check if current route is public (SEO pages)
+	// Check if current route is public (SEO pages) or should skip onboarding
     const isPublicRoute = pathname ? (
         pathname === '/' ||
         pathname.startsWith('/jobs') ||
@@ -32,7 +32,8 @@ export function OnboardingWrapper({
         pathname.startsWith('/resources') ||
         pathname === '/login' ||
         pathname === '/signup' ||
-        pathname.startsWith('/auth/')
+        pathname.startsWith('/auth/') ||
+        pathname.startsWith('/profile') // Skip onboarding on all profile pages
     ) : false;
 
     useEffect(() => {
@@ -57,15 +58,16 @@ export function OnboardingWrapper({
 	}, [user, loading, isPublicRoute]);
 
 	// Don't show modal on public routes or if user is not logged in or still loading
-	const shouldShowModal = !isPublicRoute && !loading && user && !hasSource;
+	const shouldShowModal = mounted && !isPublicRoute && !loading && user && !hasSource;
 
     return (
         <>
             {children}
-            {mounted && (
+            {shouldShowModal && (
                 <OnboardingModal
-                    hasSource={!shouldShowModal}
+                    hasSource={false}
                     onCompleted={() => {
+                        setHasSource(true);
                         const next = sp?.get("next");
                         if (next) router.push(next);
                         else router.refresh();

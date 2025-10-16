@@ -48,6 +48,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: 'monthly' as const,
 			priority: 0.5,
 		},
+		{
+			url: `${baseUrl}/terms`,
+			lastModified: new Date(),
+			changeFrequency: 'yearly' as const,
+			priority: 0.2,
+		},
 	];
 
 	// Guard against undefined imports during build by defaulting to []

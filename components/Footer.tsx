@@ -58,6 +58,21 @@ export default function Footer() {
 							</li>
 						</ul>
 					</div>
+
+					{/* Legal Section */}
+					<div>
+						<h3 className="mb-4 text-sm font-semibold text-zinc-900">Legal</h3>
+						<ul className="space-y-3">
+							<li>
+								<Link
+									href="/terms"
+									className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors"
+								>
+									Terms of Service
+								</Link>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</footer>
