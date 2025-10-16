@@ -60,7 +60,7 @@ export function OnboardingModal({ hasSource, onCompleted }: OnboardingModalProps
 
 			{/* Modal content */}
 			<div className="relative z-10 w-full max-w-md bg-white border border-black/20 rounded-lg p-8 shadow-xl">
-				<h2 className="text-3xl md:text-4xl font-serif italic mb-4 text-black">
+				<h2 className="text-3xl md:text-4xl font-header italic mb-4 text-black">
 					Welcome!
 				</h2>
 				<p className="text-lg text-gray-700 mb-6">

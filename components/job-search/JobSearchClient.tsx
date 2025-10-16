@@ -406,7 +406,7 @@ function ResultsList({
             <FaviconImage src={j.companyImageUrl} company={j.company} />
             <div className="min-w-0 flex-1">
               <div className="font-body text-sm text-zinc-600">{j.company}</div>
-              <div className="font-title text-lg font-semibold text-zinc-900">{j.position}</div>
+              <div className="font-header text-lg font-semibold text-zinc-900">{j.position}</div>
               <div className="font-body text-[15px] text-zinc-700">
                 {j.salaryMin && j.salaryMax ? `${j.salaryMin} - ${j.salaryMax} · ` : ""}
                 {formatEmploymentType(j.employmentType)}
@@ -442,7 +442,7 @@ function JobDetail({ job, initialSaved }: { job: Job; initialSaved: boolean }) {
           <FaviconImage src={job.companyImageUrl} company={job.company} />
           <div>
             <div className="font-body text-sm text-zinc-600">{job.company}</div>
-            <h1 className="font-title text-2xl font-semibold text-zinc-900">{job.position}</h1>
+            <h1 className="font-header text-2xl font-semibold text-zinc-900">{job.position}</h1>
             <div className="font-body text-[15px] text-zinc-700">
               {compText ? `${compText} · ` : ""}
               {formatEmploymentType(job.employmentType)}

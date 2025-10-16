@@ -57,7 +57,7 @@ export function AppSidebar() {
     <aside className="sticky top-0 z-40 hidden h-screen w-48 shrink-0 border-r border-zinc-200 bg-white md:block">
       <div className="flex h-full flex-col">
         <div className="flex items-center gap-3 p-5">
-          <Link href="/explore" className="text-base font-serif italic text-zinc-900">
+          <Link href="/explore" className="text-base font-header italic text-zinc-900">
             waterloo.works
           </Link>
         </div>

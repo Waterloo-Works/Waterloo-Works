@@ -41,7 +41,7 @@ export default async function HeaderMinimal() {
 
       {/* Center: Brand (mobile/tablet only) */}
       <div className="absolute left-1/2 -translate-x-1/2 lg:hidden">
-        <Link href="/explore" className="text-base font-serif italic text-zinc-900">
+        <Link href="/explore" className="text-base font-header italic text-zinc-900">
           waterloo.works
         </Link>
       </div>

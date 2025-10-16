@@ -14,7 +14,7 @@ export default function EmptyState({
 	return (
 		<div className="flex flex-col items-center justify-center py-16 px-6 text-center">
 			<div className="mb-4 text-6xl">🔍</div>
-			<h3 className="font-title text-xl font-semibold text-zinc-900 mb-2">
+			<h3 className="font-header text-xl font-semibold text-zinc-900 mb-2">
 				{title}
 			</h3>
 			<p className="font-body text-zinc-600 mb-6 max-w-md">

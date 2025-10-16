@@ -7,7 +7,7 @@ export default async function LoginPage() {
       {/* Header consistent with home */}
       <header className="px-6 py-5 border-b border-zinc-200">
         <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <Link href="/" className="text-xl font-serif italic text-zinc-900">
+          <Link href="/" className="text-xl font-header italic text-zinc-900">
             waterloo.works
           </Link>
         </div>

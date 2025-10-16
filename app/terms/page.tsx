@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Heading } from "@/components/ui/Heading";
-import { Text } from "@/components/ui/Text";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -20,8 +18,8 @@ export default function TermsOfServicePage() {
     <div className="bg-white">
       <div className="mx-auto max-w-3xl px-6 py-12">
         <header className="mb-8">
-          <Heading as="h2" className="text-zinc-900">Terms of Service</Heading>
-          <Text className="mt-2 text-sm text-zinc-500">Last updated: {lastUpdated}</Text>
+          <h2 className="font-header text-h2 tracking-tight-04 leading-heading text-zinc-900">Terms of Service</h2>
+          <p className="font-body tracking-wide-01 leading-body mt-2 text-sm text-zinc-500">Last updated: {lastUpdated}</p>
         </header>
 
         <div className="prose prose-zinc max-w-none font-body">
@@ -31,14 +29,14 @@ export default function TermsOfServicePage() {
             these Terms. If you do not agree to these Terms, do not use the Service.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">1. Eligibility</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">1. Eligibility</h2>
           <p className="text-zinc-700">
             You must be at least the age of majority in your jurisdiction and have the legal
             capacity to enter into these Terms. If you access the Service on behalf of an
             organization, you represent that you have authority to bind that organization.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">2. Accounts and Authentication</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">2. Accounts and Authentication</h2>
           <p className="text-zinc-700">
             To use certain features, you may need an account authenticated through a third party
             identity provider (e.g., Google Sign-In). You are responsible for maintaining the
@@ -46,7 +44,7 @@ export default function TermsOfServicePage() {
             promptly notify us of any unauthorized use of your account.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">3. Acceptable Use</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">3. Acceptable Use</h2>
           <p className="text-zinc-700">
             You agree not to misuse the Service. For example, you shall not: (a) access or use the
             Service in any manner that could damage, disable, overburden, or impair it; (b) interfere
@@ -56,7 +54,7 @@ export default function TermsOfServicePage() {
             violate any applicable law or third-party rights.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">4. User Content</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">4. User Content</h2>
           <p className="text-zinc-700">
             You retain ownership of content you submit, post, or display on or through the Service
             (&quot;User Content&quot;). By providing User Content, you grant {siteName} a worldwide,
@@ -66,7 +64,7 @@ export default function TermsOfServicePage() {
             not infringe or violate any third-party rights or laws.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">5. Intellectual Property</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">5. Intellectual Property</h2>
           <p className="text-zinc-700">
             The Service and its original content, features, and functionality are and will remain the
             exclusive property of {siteName} and its licensors. These Terms do not grant you any
@@ -74,7 +72,7 @@ export default function TermsOfServicePage() {
             brand features without prior written consent.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">6. Third-Party Services</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">6. Third-Party Services</h2>
           <p className="text-zinc-700">
             The Service may integrate with or link to third-party products or services (such as
             authentication providers or analytics). We do not control and are not responsible for
@@ -82,14 +80,14 @@ export default function TermsOfServicePage() {
             terms and privacy policies.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">7. Paid Features</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">7. Paid Features</h2>
           <p className="text-zinc-700">
             If paid features or subscriptions are offered, additional terms, pricing, and billing
             policies may apply. Unless otherwise stated, fees are non-refundable, except where
             required by law.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">8. Disclaimer of Warranties</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">8. Disclaimer of Warranties</h2>
           <p className="text-zinc-700">
             THE SERVICE IS PROVIDED ON AN &quot;AS IS&quot; AND &quot;AS AVAILABLE&quot; BASIS WITHOUT WARRANTIES OF ANY
             KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING BUT NOT LIMITED TO IMPLIED
@@ -97,7 +95,7 @@ export default function TermsOfServicePage() {
             DO NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">9. Limitation of Liability</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">9. Limitation of Liability</h2>
           <p className="text-zinc-700">
             TO THE MAXIMUM EXTENT PERMITTED BY LAW, {siteName} AND ITS AFFILIATES, OFFICERS,
             EMPLOYEES, AGENTS, SUPPLIERS, AND LICENSORS SHALL NOT BE LIABLE FOR ANY INDIRECT,
@@ -108,7 +106,7 @@ export default function TermsOfServicePage() {
             UNAUTHORIZED ACCESS, USE, OR ALTERATION OF YOUR TRANSMISSIONS OR CONTENT.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">10. Indemnification</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">10. Indemnification</h2>
           <p className="text-zinc-700">
             You agree to defend, indemnify, and hold harmless {siteName} and its affiliates from and
             against any claims, liabilities, damages, losses, and expenses, including reasonable
@@ -116,14 +114,14 @@ export default function TermsOfServicePage() {
             violation of these Terms.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">11. Termination</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">11. Termination</h2>
           <p className="text-zinc-700">
             We may suspend or terminate your access to the Service at any time, with or without cause
             or notice, including for any violation of these Terms. Upon termination, your right to use
             the Service will immediately cease.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">12. Governing Law</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">12. Governing Law</h2>
           <p className="text-zinc-700">
             These Terms are governed by the laws of the jurisdiction in which {siteName} is
             established, without regard to its conflict of laws principles. You agree to the
@@ -131,14 +129,14 @@ export default function TermsOfServicePage() {
             of or relating to these Terms or the Service.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">13. Changes to These Terms</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">13. Changes to These Terms</h2>
           <p className="text-zinc-700">
             We may update these Terms from time to time. We will post the updated Terms on this page
             and update the &quot;Last updated&quot; date. Your continued use of the Service after any changes
             constitutes acceptance of the updated Terms.
           </p>
 
-          <h2 className="font-title text-lg font-semibold text-zinc-900 mt-8">14. Contact Us</h2>
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">14. Contact Us</h2>
           <p className="text-zinc-700">
             If you have questions about these Terms, please contact us at
             {" "}

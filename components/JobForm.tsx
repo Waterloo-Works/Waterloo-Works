@@ -74,12 +74,12 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 			voiceNoteUrl: formData.voiceNoteUrl || undefined,
 		};
 
-		const result =
-			mode === "edit" && jobId
-				? await updateJob(jobId, jobData)
-				: await postJob(jobData);
+    const result =
+            mode === "edit" && jobId
+                ? await updateJob(jobId, jobData)
+                : await postJob(jobData);
 
-		if (result.success) {
+        if (result.success) {
 			posthog.capture('job_form_submitted', {
                 mode: mode,
                 jobId: jobId,
@@ -90,14 +90,20 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
             });
 			setSuccess(true);
 			setTimeout(() => router.push("/my-jobs"), 2000);
-		} else {
-			posthog.capture('job_form_submission_failed', {
+        } else {
+            // If user is not authenticated, redirect to login and preserve intent
+            if (result.error && /logged in/i.test(result.error)) {
+                router.push("/login?next=/post-job");
+                setSubmitting(false);
+                return;
+            }
+            posthog.capture('job_form_submission_failed', {
                 mode: mode,
                 jobId: jobId,
                 error: result.error || `Failed to ${mode} job`
             });
-			setError(result.error || `Failed to ${mode} job`);
-		}
+            setError(result.error || `Failed to ${mode} job`);
+        }
 
 		setSubmitting(false);
 	};
