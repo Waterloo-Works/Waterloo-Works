@@ -49,7 +49,15 @@ export default async function Home() {
           <div className="pointer-events-none absolute inset-x-0 top-0 h-40 md:h-48 z-10 bg-gradient-to-b from-white/30 via-white/10 to-transparent" />
 
           {/* Decorative side rails only, to frame content */}
-          <GridOverlay className="z-20" fullHeight variant="sides" />
+          <GridOverlay
+            className="z-20"
+            fullHeight
+            variant="sides"
+            showTopTicks
+            showBottomTicks
+            showNodes
+            style={{ ['--ticks-top-offset' as any]: '66px', ['--hairline-top' as any]: '64px' }}
+          />
 
           {/* Layer 3: Content */}
           <div className="relative z-30 mx-auto max-w-4xl px-6 py-20 md:py-32">

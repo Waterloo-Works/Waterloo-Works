@@ -16,7 +16,15 @@ export default function ShellLayout({ children }: { children: ReactNode }) {
           <HeaderDesktop />
         </div>
         {/* Side rails at container edges for layout separation */}
-        <GridOverlay className="z-10" fullHeight variant="sides" />
+        <GridOverlay
+          className="z-10"
+          fullHeight
+          variant="sides"
+          showTopTicks
+          showBottomTicks
+          showNodes
+          style={{ ['--ticks-top-offset' as any]: '8px', ['--hairline-top' as any]: '0px' }}
+        />
         <div className="flex-1">{children}</div>
         {/* Consolidated site footer for shell pages */}
         <Footer />
