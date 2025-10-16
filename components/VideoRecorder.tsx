@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import posthog from 'posthog-js';
 import { chunkVideoBlob } from '@/lib/video-chunking';
+import type { RecordRTCPromisesHandler } from 'recordrtc';
 
 /**
  * VideoRecorder Component
@@ -15,6 +16,12 @@ import { chunkVideoBlob } from '@/lib/video-chunking';
 interface VideoRecorderProps {
   onVideoRecorded: (url: string) => void;
   currentVideoUrl?: string;
+}
+
+interface GistFile {
+  name: string;
+  url: string;
+  size: number;
 }
 
 type RecordingMode = 'camera' | 'screen' | 'screen-camera';
@@ -32,7 +39,7 @@ export function VideoRecorder({ onVideoRecorded, currentVideoUrl }: VideoRecorde
   const [uploadProgress, setUploadProgress] = useState<string>('');
 
   const videoPreviewRef = useRef<HTMLVideoElement>(null);
-  const recorderRef = useRef<any>(null);
+  const recorderRef = useRef<RecordRTCPromisesHandler | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -75,7 +82,7 @@ export function VideoRecorder({ onVideoRecorded, currentVideoUrl }: VideoRecorde
         });
       } else if (recordingMode === 'screen') {
         // Screen only with system audio
-        const screenStream = await (navigator.mediaDevices as any).getDisplayMedia({
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({
           video: {
             width: { ideal: 1920 },
             height: { ideal: 1080 },
@@ -103,7 +110,7 @@ export function VideoRecorder({ onVideoRecorded, currentVideoUrl }: VideoRecorde
         ]);
       } else {
         // Screen + Camera (picture-in-picture)
-        const screenStream = await (navigator.mediaDevices as any).getDisplayMedia({
+        const screenStream = await navigator.mediaDevices.getDisplayMedia({
           video: {
             width: { ideal: 1920 },
             height: { ideal: 1080 },
@@ -148,13 +155,17 @@ export function VideoRecorder({ onVideoRecorded, currentVideoUrl }: VideoRecorde
         context: 'job_voice_note',
         mode: recordingMode,
       });
-    } catch (err: any) {
+    } catch (err) {
       console.error('Media initialization error:', err);
 
-      if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-        setError('Permission denied. Please allow access and try again.');
-      } else if (err.name === 'NotFoundError') {
-        setError('No camera or microphone found.');
+      if (err instanceof DOMException) {
+        if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+          setError('Permission denied. Please allow access and try again.');
+        } else if (err.name === 'NotFoundError') {
+          setError('No camera or microphone found.');
+        } else {
+          setError(`Failed to access ${recordingMode === 'camera' ? 'camera/microphone' : 'screen'}.`);
+        }
       } else {
         setError(`Failed to access ${recordingMode === 'camera' ? 'camera/microphone' : 'screen'}.`);
       }
@@ -162,7 +173,7 @@ export function VideoRecorder({ onVideoRecorded, currentVideoUrl }: VideoRecorde
       posthog.capture('video_recorder_error', {
         context: 'job_voice_note',
         mode: recordingMode,
-        error: err.message,
+        error: err instanceof Error ? err.message : String(err),
       });
     }
   };
@@ -253,13 +264,13 @@ export function VideoRecorder({ onVideoRecorded, currentVideoUrl }: VideoRecorde
       // Return the gist data with video file URLs
       // Format: gist_url|video_urls (comma-separated if multiple chunks)
       const videoExtensions = ['.webm', '.mp4', '.mov', '.avi', '.mkv', '.m4v', '.ogg'];
-      const videoUrls = result.files
-        .filter((f: any) => {
+      const videoUrls = (result.files as GistFile[])
+        .filter((f) => {
           const fileName = f.name.toLowerCase();
           // Check if filename contains a video extension (handles both clean and codec-suffixed names)
           return videoExtensions.some(ext => fileName.includes(ext)) && f.name !== 'README.md';
         })
-        .map((f: any) => f.url)
+        .map((f) => f.url)
         .join(',');
 
       // Return format: "gist_url|video_urls"
@@ -267,16 +278,17 @@ export function VideoRecorder({ onVideoRecorded, currentVideoUrl }: VideoRecorde
       console.log('📹 Video uploaded! Full URL:', finalUrl);
       console.log('  - Gist page:', result.gistUrl);
       console.log('  - Video URLs:', videoUrls);
-      console.log('  - All files:', result.files.map((f: any) => f.name));
+      console.log('  - All files:', (result.files as GistFile[]).map((f) => f.name));
       return finalUrl;
 
-    } catch (err: any) {
+    } catch (err) {
       console.error('Upload error:', err);
-      setError(`Upload failed: ${err.message}`);
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      setError(`Upload failed: ${errorMessage}`);
 
       posthog.capture('video_upload_failed', {
         context: 'job_voice_note',
-        error: err.message,
+        error: errorMessage,
       });
 
       return null;
@@ -358,7 +370,7 @@ export function VideoRecorder({ onVideoRecorded, currentVideoUrl }: VideoRecorde
     if (currentVideoUrl && currentVideoUrl !== recordedVideoUrl) {
       setRecordedVideoUrl(currentVideoUrl);
     }
-  }, [currentVideoUrl]);
+  }, [currentVideoUrl, recordedVideoUrl]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -444,7 +456,7 @@ export function VideoRecorder({ onVideoRecorded, currentVideoUrl }: VideoRecorde
               <svg className="w-16 h-16 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
-              <p className="text-sm">Click "Start Recording" to begin</p>
+              <p className="text-sm">Click &quot;Start Recording&quot; to begin</p>
             </div>
           </div>
         )}

@@ -7,7 +7,7 @@ import { PageViewTracker } from "@/components/PageViewTracker";
 export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
-	return allJobs.map((job) => ({
+	return (allJobs || []).map((job) => ({
 		id: job.slug,
 	}));
 }
@@ -18,7 +18,7 @@ export async function generateMetadata({
 	params: Promise<{ id: string }>;
 }): Promise<Metadata> {
 	const { id } = await params;
-	const job = allJobs.find((j) => j.slug === id);
+	const job = (allJobs || []).find((j) => j.slug === id);
 
 	if (!job) {
 		return {
@@ -38,14 +38,14 @@ export default async function JobPage({
 	params: Promise<{ id: string }>;
 }) {
 	const { id } = await params;
-	const job = allJobs.find((j) => j.slug === id);
+	const job = (allJobs || []).find((j) => j.slug === id);
 
 	if (!job) {
 		notFound();
 	}
 
 	// Find related jobs (same company or location) for internal linking
-	const relatedJobs = allJobs
+	const relatedJobs = (allJobs || [])
 		.filter(
 			(j) =>
 				j.slug !== job.slug &&

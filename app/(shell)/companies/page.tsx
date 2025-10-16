@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function CompaniesIndexPage() {
 	// Sort by job count descending, then by latest job date
-	const companies = allCompanies.sort((a, b) => {
+	const companies = (allCompanies || []).sort((a, b) => {
 		if (b.jobCount !== a.jobCount) {
 			return b.jobCount - a.jobCount;
 		}

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function ResourcesIndexPage() {
 	// Sort by verified first, then by most recent
-	const resources = allResources.sort((a, b) => {
+	const resources = (allResources || []).sort((a, b) => {
 		if (a.verified !== b.verified) {
 			return b.verified ? 1 : -1;
 		}

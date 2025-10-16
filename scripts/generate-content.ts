@@ -32,12 +32,20 @@ function formatEmploymentType(type: string): string {
 }
 
 async function generateJobMarkdown() {
-	console.log("📝 Generating job markdown files...");
-
-	const jobs = await prisma.job.findMany({
-		where: { status: "APPROVED" },
-		orderBy: { createdAt: "desc" },
-	});
+    console.log("📝 Generating job markdown files...");
+    let jobs: any[] = [];
+    try {
+        jobs = await prisma.job.findMany({
+            where: { status: "APPROVED" },
+            orderBy: { createdAt: "desc" },
+        });
+    } catch (err) {
+        console.warn(
+            "⚠️  Skipping job markdown generation – database not reachable.",
+            (err as Error)?.message || err
+        );
+        return [];
+    }
 
 	const jobsDir = path.join(process.cwd(), "content/jobs");
 	await fs.mkdir(jobsDir, { recursive: true });
@@ -147,12 +155,20 @@ ${jobsList}
 }
 
 async function generateBlogMarkdown() {
-	console.log("📝 Generating blog markdown files...");
-
-	const blogs = await prisma.blog.findMany({
-		where: { published: true },
-		orderBy: { publishedAt: "desc" },
-	});
+    console.log("📝 Generating blog markdown files...");
+    let blogs: any[] = [];
+    try {
+        blogs = await prisma.blog.findMany({
+            where: { published: true },
+            orderBy: { publishedAt: "desc" },
+        });
+    } catch (err) {
+        console.warn(
+            "⚠️  Skipping blog markdown generation – database not reachable.",
+            (err as Error)?.message || err
+        );
+        return [];
+    }
 
 	const blogsDir = path.join(process.cwd(), "content/blogs");
 	await fs.mkdir(blogsDir, { recursive: true });
@@ -181,12 +197,20 @@ ${blog.content}
 }
 
 async function generateResourceMarkdown() {
-	console.log("🔗 Generating resource markdown files...");
-
-	const resources = await prisma.resource.findMany({
-		where: { published: true },
-		orderBy: { publishedAt: "desc" },
-	});
+    console.log("🔗 Generating resource markdown files...");
+    let resources: any[] = [];
+    try {
+        resources = await prisma.resource.findMany({
+            where: { published: true },
+            orderBy: { publishedAt: "desc" },
+        });
+    } catch (err) {
+        console.warn(
+            "⚠️  Skipping resource markdown generation – database not reachable.",
+            (err as Error)?.message || err
+        );
+        return [];
+    }
 
 	const resourcesDir = path.join(process.cwd(), "content/resources");
 	await fs.mkdir(resourcesDir, { recursive: true });
@@ -230,28 +254,27 @@ ${resource.content || ""}
 }
 
 async function main() {
-	try {
-		console.log("🚀 Starting content generation from database...\n");
+    try {
+        console.log("🚀 Starting content generation from database...\n");
 
-		// Generate job markdown files
-		const jobs = await generateJobMarkdown();
+        // Generate job markdown files (tolerate failures)
+        const jobs = await generateJobMarkdown();
 
-		// Generate company markdown files
-		await generateCompanyMarkdown(jobs);
+        // Generate company markdown files (no-op if `jobs` empty)
+        await generateCompanyMarkdown(jobs);
 
-		// Generate blog markdown files
-		await generateBlogMarkdown();
+        // Generate blog markdown files (tolerate failures)
+        await generateBlogMarkdown();
 
-		// Generate resource markdown files
-		await generateResourceMarkdown();
+        // Generate resource markdown files (tolerate failures)
+        await generateResourceMarkdown();
 
-		console.log("\n✨ Content generation completed successfully!");
-	} catch (error) {
-		console.error("❌ Error generating content:", error);
-		process.exit(1);
-	} finally {
-		await prisma.$disconnect();
-	}
+        console.log("\n✨ Content generation finished (best-effort mode).\n");
+    } catch (error) {
+        console.warn("⚠️  Content generation encountered an error but will not fail the build:", error);
+    } finally {
+        await prisma.$disconnect();
+    }
 }
 
 main();

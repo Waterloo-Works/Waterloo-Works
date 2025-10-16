@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function JobsIndexPage() {
 	// Sort by most recent first
-	const jobs = allJobs.sort(
+	const jobs = (allJobs || []).sort(
 		(a, b) =>
 			new Date(b.postedAt).getTime() - new Date(a.postedAt).getTime()
 	);

@@ -8,7 +8,7 @@ import { PageViewTracker } from "@/components/PageViewTracker";
 export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
-	return allBlogs.map((blog) => ({
+	return (allBlogs || []).map((blog) => ({
 		slug: blog.slug,
 	}));
 }
@@ -19,7 +19,7 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
 	const { slug } = await params;
-	const blog = allBlogs.find((b) => b.slug === slug);
+	const blog = (allBlogs || []).find((b) => b.slug === slug);
 
 	if (!blog) {
 		return {
@@ -39,14 +39,14 @@ export default async function BlogPostPage({
 	params: Promise<{ slug: string }>;
 }) {
 	const { slug } = await params;
-	const blog = allBlogs.find((b) => b.slug === slug);
+	const blog = (allBlogs || []).find((b) => b.slug === slug);
 
 	if (!blog) {
 		notFound();
 	}
 
 	// Find related blogs (same tags)
-	const relatedBlogs = allBlogs
+	const relatedBlogs = (allBlogs || [])
 		.filter(
 			(b) =>
 				b.slug !== blog.slug &&

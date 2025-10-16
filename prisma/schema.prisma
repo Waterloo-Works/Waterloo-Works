@@ -68,6 +68,7 @@ model User {
   bookmarks     Bookmark[]
   jobAlerts     JobAlert[]
   notifications Notification[]
+  profile       UserProfile?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
 
@@ -160,3 +161,121 @@ model Resource {
   @@index([published])
   @@index([publishedAt])
 }
+
+// ================================
+// USER PROFILE & MATCHING SYSTEM
+// ================================
+
+model UserProfile {
+  id        String @id @default(cuid())
+  userId    String @unique
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Basic Info (mirrors Job.company, Job.location)
+  headline         String? // e.g., "Software Engineer | React & Node.js"
+  location         String? // Current location (matches Job.location)
+  openToRemote     Boolean @default(true)
+  openToRelocation Boolean @default(false)
+
+  // Resume & Documents
+  resumeUrl          String? // Supabase Storage URL
+  resumeFileName     String?
+  resumeUploadedAt   DateTime?
+  resumeRawText      String?  @db.Text // Raw extracted text from resume
+  resumeParsedAt     DateTime? // When resume was last parsed
+  resumeParsingError String?  @db.Text // Error message if parsing failed
+
+  // Work Experience
+  currentRole       String? // Current/most recent position (matches Job.position)
+  yearsOfExperience Int? // Total years of experience
+  experienceSummary String?  @db.Text // Detailed work history (matches Job.notes)
+
+  // Skills & Technologies (for matching)
+  skills        String[] // All skills ["React", "Node.js", "PostgreSQL"]
+  primarySkills String[] // Top 3-5 skills for prioritized matching
+
+  // Education
+  degree         String? // e.g., "Bachelor of Computer Science"
+  school         String? // e.g., "University of Waterloo"
+  graduationYear Int?
+
+  // Job Preferences (matches Job fields)
+  desiredRoles     String[] // Target positions (matches Job.position)
+  desiredLocations String[] // Preferred cities/regions (matches Job.location)
+  employmentTypes  EmploymentType[] // Preferred types (matches Job.employmentType)
+  minSalary        Int? // Minimum expected (matches Job.salaryMin)
+  maxSalary        Int? // Maximum expected (matches Job.salaryMax)
+
+  // Profile Completeness
+  completionScore Int     @default(0) // 0-100 calculated score
+  isComplete      Boolean @default(false) // True when score >= 80
+
+  // Privacy & Discoverability
+  isPublic     Boolean @default(false) // Show on public profile pages
+  isSearchable Boolean @default(true) // Allow companies to find via matching
+
+  // Portfolio Links
+  portfolioUrl    String?
+  linkedinUrl     String?
+  githubUrl       String?
+  personalWebsite String?
+
+  // Future: Vector Embeddings for AI-powered matching (defer for later)
+  // profileEmbedding String? @db.Text
+  // embeddingVersion String?
+  // lastEmbeddedAt   DateTime?
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Future Relations (defer for later)
+  // matches ProfileMatch[]
+
+  @@index([userId])
+  @@index([isSearchable])
+  @@index([completionScore])
+  @@index([location])
+}
+
+// ================================
+// FUTURE: AI-POWERED JOB MATCHING
+// (Defer for Phase 2)
+// ================================
+
+// model ProfileMatch {
+//   id            String      @id @default(cuid())
+//   userProfileId String
+//   userProfile   UserProfile @relation(fields: [userProfileId], references: [id], onDelete: Cascade)
+//   jobId         String
+//
+//   // Matching Scores (0-100 scale)
+//   overallScore    Float // Weighted combination of all scores
+//   skillsScore     Float // How well skills match
+//   experienceScore Float // Experience level match
+//   locationScore   Float // Location/remote preference match
+//   salaryScore     Float // Salary expectation match
+//
+//   // Detailed Match Info
+//   matchedSkills String[] // Skills that matched
+//   missingSkills String[] // Skills user lacks
+//   scoreBreakdown Json // Detailed scoring breakdown
+//
+//   // AI-Generated Explanation (DeepSeek reasoning model)
+//   matchReason String? @db.Text // Why this is a good match
+//
+//   // User Interaction Tracking
+//   isSeen       Boolean @default(false)
+//   isDismissed  Boolean @default(false)
+//   isInterested Boolean @default(false)
+//
+//   // Timestamps
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//
+//   @@unique([userProfileId, jobId])
+//   @@index([userProfileId])
+//   @@index([jobId])
+//   @@index([overallScore])
+//   @@index([createdAt])
+// }

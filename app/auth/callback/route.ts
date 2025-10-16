@@ -43,6 +43,25 @@ export async function GET(request: Request) {
                 source: user.user_metadata?.source,
             });
 
+            // Create user profile if it doesn't exist - CRITICAL for site stability
+            try {
+                await prisma.userProfile.upsert({
+                    where: { userId: user.id },
+                    update: {}, // No updates needed if exists
+                    create: {
+                        userId: user.id,
+                    }
+                });
+            } catch (error) {
+                console.error("CRITICAL: Failed to create user profile:", error);
+                // Profile creation is essential - if this fails, redirect to error page
+                return NextResponse.redirect(
+                    `${PUBLIC_APP_URL}/auth/auth-code-error?error=${encodeURIComponent(
+                        "profile_creation_failed"
+                    )}`
+                );
+            }
+
             // If first time (no source captured), send to login to collect it before proceeding
             try {
                 const dbUser = await prisma.user.findUnique({ where: { id: user.id }, select: { source: true } });

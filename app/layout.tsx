@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Merriweather, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "@/providers/SessionProvider";
 import { OnboardingWrapper } from "@/components/OnboardingWrapper";
@@ -8,30 +7,6 @@ import { Toaster as SonnerToaster } from "sonner";
 import QueryProvider from "@/providers/QueryProvider";
 import { PostHogProvider } from "@/providers/PostHogProvider";
 import { Suspense } from "react";
-
-const geistSans = Geist({
-	variable: "--font-geist-sans",
-	subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
-
-// Curius-inspired typography
-const titleSerif = Merriweather({
-    variable: "--font-title-serif",
-    weight: ["400", "700"],
-    subsets: ["latin"],
-    display: "swap",
-});
-
-const bodySans = Source_Sans_3({
-    variable: "--font-body-sans",
-    subsets: ["latin"],
-    display: "swap",
-});
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL ||
     (process.env.NODE_ENV === "production" ? "https://waterloo.works" : "http://localhost:3000");
@@ -71,6 +46,10 @@ export const viewport = {
   viewportFit: "cover" as const,
 };
 
+// We read cookies in server components (Supabase session),
+// so mark the app as dynamic to avoid static prerender errors.
+export const dynamic = "force-dynamic";
+
 export default async function RootLayout({
 	children,
 }: Readonly<{
@@ -81,7 +60,7 @@ export default async function RootLayout({
 
 	return (
     <html lang="en">
-            <body className={`${geistSans.variable} ${geistMono.variable} ${titleSerif.variable} ${bodySans.variable} antialiased`}>
+            <body className={`antialiased`}>
               <PostHogProvider>
                 <SessionProvider>
 					<Suspense fallback={null}>

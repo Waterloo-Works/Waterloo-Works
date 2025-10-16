@@ -7,7 +7,7 @@ import { PageViewTracker } from "@/components/PageViewTracker";
 export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
-	return allResources.map((resource) => ({
+	return (allResources || []).map((resource) => ({
 		slug: resource.slug,
 	}));
 }
@@ -18,7 +18,7 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
 	const { slug } = await params;
-	const resource = allResources.find((r) => r.slug === slug);
+	const resource = (allResources || []).find((r) => r.slug === slug);
 
 	if (!resource) {
 		return {
@@ -38,14 +38,14 @@ export default async function ResourcePage({
 	params: Promise<{ slug: string }>;
 }) {
 	const { slug } = await params;
-	const resource = allResources.find((r) => r.slug === slug);
+	const resource = (allResources || []).find((r) => r.slug === slug);
 
 	if (!resource) {
 		notFound();
 	}
 
 	// Find related resources (same category)
-	const relatedResources = allResources
+	const relatedResources = (allResources || [])
 		.filter(
 			(r) =>
 				r.slug !== resource.slug &&

@@ -8,13 +8,13 @@
 }
 
 .font-title {
-  /* Prefer Noe Display if user adds it later; fall back to Merriweather */
-  font-family: var(--font-title-serif), "Noe Display", Merriweather, Georgia, serif;
+  /* Use CSS vars if present, otherwise fall back gracefully */
+  font-family: var(--font-title-serif, Merriweather), "Noe Display", Georgia, serif;
   font-weight: 600; /* desired for card titles */
 }
 
 .font-body {
-  font-family: var(--font-body-sans), "Source Sans Pro", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: var(--font-body-sans, ui-sans-serif), "Source Sans Pro", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
 }
 
 @layer base {

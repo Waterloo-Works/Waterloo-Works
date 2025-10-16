@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function BlogIndexPage() {
 	// Sort by most recent first
-	const blogs = allBlogs.sort(
+	const blogs = (allBlogs || []).sort(
 		(a, b) =>
 			new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
 	);

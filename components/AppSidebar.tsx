@@ -10,6 +10,7 @@ import {
   Calendar,
   IdCard,
   BookOpen,
+  User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +25,7 @@ const nav: NavItem[] = [
   { label: "Explore", href: "/explore", icon: Compass, section: "primary" },
   { label: "Inbox", href: "/inbox", icon: Mail, section: "primary" },
   { label: "Saved", href: "/bookmarks", icon: SquareStack, section: "primary" },
+  { label: "Profile", href: "/profile", icon: User, section: "primary" },
   { label: "Jobs", href: "/job-search", icon: Building2, section: "secondary" },
   { label: "Companies", href: "/companies", icon: IdCard, section: "secondary" },
   { label: "Resources", href: "/resources", icon: BookOpen, section: "secondary" },

@@ -1,5 +1,5 @@
 import { readFile } from 'fs/promises';
-import { chunkVideoBlob } from '../lib/video-chunking';
+import { chunkVideoBlob } from '../../lib/video-chunking';
 
 const CHUNK_SIZE = 80 * 1024 * 1024; // 80MB
 
@@ -10,8 +10,9 @@ async function uploadLargeFile(filePath: string) {
   const buffer = await readFile(filePath);
   console.log(`📊 File size: ${(buffer.length / 1024 / 1024).toFixed(2)}MB`);
 
-  // Convert buffer to Blob
-  const blob = new Blob([buffer], { type: 'video/quicktime' }); // .mov file
+  // Convert buffer to Blob - need to create new Uint8Array to ensure proper ArrayBuffer type
+  const arrayBuffer = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength) as ArrayBuffer;
+  const blob = new Blob([arrayBuffer], { type: 'video/quicktime' }); // .mov file
 
   // Chunk the file
   console.log('✂️  Chunking file...');
@@ -36,21 +37,36 @@ async function uploadLargeFile(filePath: string) {
 
   const result = await response.json();
 
-  if (result.success) {
+  interface GistFile {
+    name: string;
+    url: string;
+  }
+
+  interface GistResult {
+    success?: boolean;
+    gistUrl?: string;
+    files?: GistFile[];
+    error?: string;
+    details?: string;
+  }
+
+  const typedResult = result as GistResult;
+
+  if (typedResult.success) {
     console.log('✅ Upload successful!');
-    console.log(`🔗 Gist URL: ${result.gistUrl}`);
+    console.log(`🔗 Gist URL: ${typedResult.gistUrl}`);
     console.log('📹 Video URLs:');
-    const videoUrls = result.files
-      .filter((f: any) => f.name.includes('.mov'))
-      .map((f: any) => f.url);
+    const videoUrls = (typedResult.files || [])
+      .filter((f) => f.name.includes('.mov'))
+      .map((f) => f.url);
     videoUrls.forEach((url: string, i: number) => {
       console.log(`   ${i + 1}. ${url}`);
     });
-    console.log(`\n📋 Full URL format: ${result.gistUrl}|${videoUrls.join(',')}`);
+    console.log(`\n📋 Full URL format: ${typedResult.gistUrl}|${videoUrls.join(',')}`);
   } else {
-    console.error('❌ Upload failed:', result.error);
-    if (result.details) {
-      console.error('Details:', result.details);
+    console.error('❌ Upload failed:', typedResult.error);
+    if (typedResult.details) {
+      console.error('Details:', typedResult.details);
     }
   }
 }

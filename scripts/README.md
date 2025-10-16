@@ -208,3 +208,83 @@ All previous job management scripts have been consolidated into this CLI:
 - ✅ `upload-reducto-jobs.ts` → `pnpm jobs upload ashby.json`
 
 The unified CLI is more powerful and easier to use!
+
+---
+
+# 👤 User Profile Management
+
+## Backfill User Profiles
+
+Creates UserProfile records for any existing users who don't have one yet. This is useful when deploying the profile feature to a database with existing users.
+
+### Usage
+
+```bash
+# Preview which users need profiles (dry run)
+pnpm tsx scripts/backfill-user-profiles.ts --dry-run
+
+# Create profiles for all users who don't have one
+pnpm tsx scripts/backfill-user-profiles.ts
+```
+
+### What It Does
+
+- Scans all users in the database
+- Identifies users without a UserProfile record
+- Creates empty profiles for those users
+- Reports detailed statistics
+
+### Example Output
+
+```bash
+============================================================
+🔄 User Profile Backfill Script
+============================================================
+
+📊 Found 127 total users
+
+✅ Users with profiles: 120
+⚠️  Users without profiles: 7
+
+────────────────────────────────────────────────────────────
+Creating profiles for 7 users...
+
+  ✓ Created profile for: John Doe (user_abc123)
+  ✓ Created profile for: jane@example.com (user_def456)
+  ...
+
+────────────────────────────────────────────────────────────
+
+📈 SUMMARY
+────────────────────────────────────────────────────────────
+Total users: 127
+Profiles already existed: 120
+Profiles needed: 7
+
+✅ Profiles created: 7
+============================================================
+
+🔍 Verifying database integrity...
+
+✅ SUCCESS: All users now have profiles!
+```
+
+### When to Use
+
+- **Initial deployment** - After adding the UserProfile feature to an existing database
+- **After data migrations** - If user records were imported without profiles
+- **Database recovery** - If profiles were accidentally deleted
+
+### Safety Features
+
+- **Dry run mode** - Preview changes without modifying the database
+- **Idempotent** - Safe to run multiple times (skips users with existing profiles)
+- **Detailed logging** - See exactly which profiles are created
+- **Verification step** - Confirms all users have profiles after completion
+- **Error handling** - Continues processing even if individual profiles fail
+
+### Notes
+
+- UserProfiles are automatically created on sign-up via the auth callback
+- This script is only needed for **existing users** who signed up before the profile feature
+- All profiles start empty (completionScore: 0) and can be filled in by users later

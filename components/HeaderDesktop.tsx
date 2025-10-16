@@ -48,6 +48,9 @@ export default async function HeaderDesktop() {
                 <p className="mt-0.5 truncate text-xs text-zinc-600">{user.email}</p>
               </div>
               <div className="py-2">
+                <Link href="/profile" className="flex items-center gap-3 px-5 py-2.5 text-sm text-zinc-900 transition-colors hover:bg-zinc-50">
+                  <span>Profile</span>
+                </Link>
                 <Link href="/my-jobs" className="flex items-center gap-3 px-5 py-2.5 text-sm text-zinc-900 transition-colors hover:bg-zinc-50">
                   <span>My Job Submissions</span>
                 </Link>

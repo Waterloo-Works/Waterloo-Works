@@ -7,7 +7,7 @@ import { PageViewTracker } from "@/components/PageViewTracker";
 export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
-	return allCompanies.map((company) => ({
+	return (allCompanies || []).map((company) => ({
 		slug: company.slug,
 	}));
 }
@@ -18,7 +18,7 @@ export async function generateMetadata({
 	params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
 	const { slug } = await params;
-	const company = allCompanies.find((c) => c.slug === slug);
+	const company = (allCompanies || []).find((c) => c.slug === slug);
 
 	if (!company) {
 		return {
@@ -38,14 +38,14 @@ export default async function CompanyPage({
 	params: Promise<{ slug: string }>;
 }) {
 	const { slug } = await params;
-	const company = allCompanies.find((c) => c.slug === slug);
+	const company = (allCompanies || []).find((c) => c.slug === slug);
 
 	if (!company) {
 		notFound();
 	}
 
 	// Find all jobs for this company for internal linking
-	const companyJobs = allJobs.filter(
+	const companyJobs = (allJobs || []).filter(
 		(job) => job.company.toLowerCase() === company.name.toLowerCase()
 	);
 

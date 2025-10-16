@@ -151,19 +151,21 @@ export async function POST(request: NextRequest) {
         }))
       });
 
-    } catch (gitError: any) {
+    } catch (gitError) {
       console.error('Git operation failed:', gitError);
+      const errorMessage = gitError instanceof Error ? gitError.message : 'Unknown error';
       return NextResponse.json({
         error: 'Failed to upload files via git',
-        details: gitError.message
+        details: errorMessage
       }, { status: 500 });
     }
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Upload to gist failed:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json({
       error: 'Failed to upload to gist',
-      details: error.message
+      details: errorMessage
     }, { status: 500 });
   } finally {
     // Clean up temp directory

@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { withContentCollections } from "@content-collections/next";
+import path from "path";
 
 const nextConfig: NextConfig = {
 	images: {
@@ -37,6 +37,17 @@ const nextConfig: NextConfig = {
 	},
 	// This is required to support PostHog trailing slash API requests
 	skipTrailingSlashRedirect: true,
+  // Provide a stable alias to the pre-generated content collection bundle
+  // to avoid running the builder in environments where it may fail
+  // (e.g., limited CPUs or no DB connectivity during CI).
+  webpack: (config) => {
+    config.resolve = config.resolve || {};
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      'content-collections': path.resolve(process.cwd(), '.content-collections/generated/index.js'),
+    };
+    return config;
+  },
 };
 
-export default withContentCollections(nextConfig);
+export default nextConfig;

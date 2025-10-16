@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { allJobs, allCompanies, allBlogs, allResources } from 'content-collections';
+import { allJobs as rawJobs, allCompanies as rawCompanies, allBlogs as rawBlogs, allResources as rawResources } from 'content-collections';
 
 export default function sitemap(): MetadataRoute.Sitemap {
 	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://waterloo.works';
@@ -49,6 +49,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			priority: 0.5,
 		},
 	];
+
+	// Guard against undefined imports during build by defaulting to []
+	const allJobs = Array.isArray(rawJobs) ? rawJobs : [];
+	const allCompanies = Array.isArray(rawCompanies) ? rawCompanies : [];
+	const allBlogs = Array.isArray(rawBlogs) ? rawBlogs : [];
+	const allResources = Array.isArray(rawResources) ? rawResources : [];
 
 	// Job pages
 	const jobPages = allJobs.map((job) => ({
