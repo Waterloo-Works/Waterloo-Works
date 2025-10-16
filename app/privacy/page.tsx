@@ -18,8 +18,8 @@ export default function PrivacyPolicyPage() {
     <div className="bg-white">
       <div className="mx-auto max-w-3xl px-6 py-12">
         <header className="mb-8">
-          <h1 className="font-title text-3xl font-semibold text-zinc-900">Privacy Policy</h1>
-          <p className="font-body mt-2 text-sm text-zinc-500">Last updated: {lastUpdated}</p>
+          <h2 className="font-header text-h2 tracking-tight-04 leading-heading text-zinc-900">Privacy Policy</h2>
+          <p className="font-body tracking-wide-01 leading-body mt-2 text-sm text-zinc-500">Last updated: {lastUpdated}</p>
         </header>
 
         <div className="prose prose-zinc max-w-none font-body">

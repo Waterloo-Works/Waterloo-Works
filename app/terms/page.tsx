@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Heading } from "@/components/ui/Heading";
+import { Text } from "@/components/ui/Text";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -18,8 +20,8 @@ export default function TermsOfServicePage() {
     <div className="bg-white">
       <div className="mx-auto max-w-3xl px-6 py-12">
         <header className="mb-8">
-          <h1 className="font-title text-3xl font-semibold text-zinc-900">Terms of Service</h1>
-          <p className="font-body mt-2 text-sm text-zinc-500">Last updated: {lastUpdated}</p>
+          <Heading as="h2" className="text-zinc-900">Terms of Service</Heading>
+          <Text className="mt-2 text-sm text-zinc-500">Last updated: {lastUpdated}</Text>
         </header>
 
         <div className="prose prose-zinc max-w-none font-body">

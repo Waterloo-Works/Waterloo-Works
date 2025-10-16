@@ -60,7 +60,7 @@ export default async function RootLayout({
 
 	return (
     <html lang="en">
-            <body className={`antialiased`}>
+            <body className={`antialiased font-body tracking-wide-01 leading-body`}>
               <PostHogProvider>
                 <SessionProvider>
 					<Suspense fallback={null}>

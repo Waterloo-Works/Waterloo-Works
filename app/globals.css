@@ -2,19 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base font is still from next/font variables; explicit classes below set the Curius-inspired stacks */
+/* Design System: type + tokens */
 :root {
-  --accent-soft: 84 81% 80%; /* soft lime for logo accents */
+  --accent-soft: 84 81% 80%;
+  /* Brand color aliases mapped to theme so dark mode works */
+  --base-color-brand--10: hsl(var(--background));
+  --base-color-brand--03: hsl(var(--foreground));
 }
 
-.font-title {
-  /* Use CSS vars if present, otherwise fall back gracefully */
-  font-family: var(--font-title-serif, Merriweather), "Noe Display", Georgia, serif;
-  font-weight: 600; /* desired for card titles */
+/* Font utility aliases kept for backwards compatibility */
+.font-title, .font-header {
+  font-family: "205 Tf Exposure 0", Georgia, serif;
 }
 
 .font-body {
-  font-family: var(--font-body-sans, ui-sans-serif), "Source Sans Pro", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: Neuehaasgroteskdisplay, Arial, sans-serif;
 }
 
 @layer base {
@@ -95,6 +97,30 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Spec: body typography */
+    background-color: var(--base-color-brand--10);
+    color: var(--base-color-brand--03);
+    letter-spacing: .01em;
+    font-family: Neuehaasgroteskdisplay, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  /* Spec: heading styles */
+  .heading-style-h2 {
+    letter-spacing: -.04em;
+    font-family: "205 Tf Exposure 0", Georgia, sans-serif;
+    font-size: 3rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+  h3 {
+    letter-spacing: -.02em;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: "205 Tf Exposure 0", Georgia, sans-serif;
+    font-size: 2.25rem;
+    font-weight: 400;
+    line-height: 1;
   }
 }
 
@@ -109,4 +135,13 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+}
+
+@layer components {
+  /* Design system utility classes */
+  .ds-card {
+    @apply rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-colors hover:border-zinc-300;
+  }
+  .ds-divider { @apply border-t border-zinc-200; }
+  .ds-chip { @apply inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1 text-sm text-zinc-800; }
 }

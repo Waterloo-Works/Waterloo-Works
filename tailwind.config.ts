@@ -8,12 +8,33 @@ export default {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-  	extend: {
-  		colors: {
-  			background: 'hsl(var(--background))',
-  			foreground: 'hsl(var(--foreground))',
-  			card: {
-  				DEFAULT: 'hsl(var(--card))',
+	 extend: {
+			fontFamily: {
+				// Design system fonts
+				header: ["205 Tf Exposure 0", "Georgia", "serif"],
+				body: ["Neuehaasgroteskdisplay", "Arial", "sans-serif"],
+			},
+			lineHeight: {
+				// Type rhythm
+				heading: "1",
+				body: "1.2",
+			},
+			letterSpacing: {
+				// Helpful tracking tokens referenced by the design system
+				'wide-01': ".01em",
+				'tight-02': "-0.02em",
+				'tight-04': "-0.04em",
+			},
+			fontSize: {
+				// Headings derived from provided spec
+				'h2': ["3rem", { lineHeight: "1", fontWeight: "400" }],
+				'h3': ["2.25rem", { lineHeight: "1", fontWeight: "400" }],
+			},
+			colors: {
+				background: 'hsl(var(--background))',
+				foreground: 'hsl(var(--foreground))',
+				card: {
+					DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
   			},
   			popover: {
