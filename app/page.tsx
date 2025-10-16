@@ -15,15 +15,15 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      <header className="px-6 py-5 border-b border-zinc-200">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <Link href="/" className="text-xl font-header italic text-zinc-900">
+      <header className="absolute inset-x-0 top-0 z-40 flex h-16 items-center justify-between px-6 border-b border-white/20 bg-transparent">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
+          <Link href="/" className="text-xl font-header italic text-zinc-50">
             waterloo.works
           </Link>
           <div className="flex items-center gap-3">
             <Link
               href="/login"
-              className="rounded-full bg-zinc-900 px-4 py-2 text-sm text-white hover:bg-zinc-800"
+              className="rounded-full bg-zinc-900/90 px-4 py-2 text-sm text-white shadow-sm ring-1 ring-white/10 backdrop-blur hover:bg-zinc-900"
             >
               Sign in
             </Link>
@@ -36,20 +36,23 @@ export default async function Home() {
         <section className="relative min-h-screen overflow-hidden">
           {/* Layer 1: Background image */}
           <Image
-            src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1920&q=60"
-            alt="Atmospheric mountains background"
+            src="/goosephoto.png"
+            alt="Waterloo goose illustration background"
             fill
             priority
             className="absolute inset-0 z-0 object-cover opacity-60"
           />
-          {/* Layer 2: Gradient overlay (top blue-gray → mid slate → dark bottom) */}
-          <div className="absolute inset-0 z-0 bg-gradient-to-b from-slate-900/60 via-slate-900/70 to-black/90" />
+          {/* Layer 2: Gradient overlay (mid → dark) */}
+          <div className="absolute inset-0 z-0 bg-gradient-to-b from-slate-900/50 via-slate-900/70 to-black/90" />
 
-          {/* Decorative grid overlay to guide focus */}
-          <GridOverlay className="z-10" height={168} />
+          {/* Layer 2.5: Top lightening wash to lift contrast near the header */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-40 md:h-48 z-10 bg-gradient-to-b from-white/30 via-white/10 to-transparent" />
+
+          {/* Decorative side rails only, to frame content */}
+          <GridOverlay className="z-20" fullHeight variant="sides" />
 
           {/* Layer 3: Content */}
-          <div className="relative z-20 mx-auto max-w-4xl px-6 py-20 md:py-32">
+          <div className="relative z-30 mx-auto max-w-4xl px-6 py-20 md:py-32">
             <h2 className="font-header text-h2 tracking-tight-04 leading-heading mb-2 text-zinc-50">
               Curated opportunities for alum
             </h2>

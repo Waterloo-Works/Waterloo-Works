@@ -15,8 +15,8 @@ export default function ShellLayout({ children }: { children: ReactNode }) {
           <HeaderMobile />
           <HeaderDesktop />
         </div>
-        {/* Decorative grid overlay on desktop to gently center the eye */}
-        <GridOverlay className="z-10" height={168} />
+        {/* Side rails at container edges for layout separation */}
+        <GridOverlay className="z-10" fullHeight variant="sides" />
         <div className="flex-1">{children}</div>
         {/* Consolidated site footer for shell pages */}
         <Footer />

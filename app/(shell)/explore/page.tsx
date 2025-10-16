@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronRight } from "lucide-react";
 import { getJobs } from "@/app/actions/jobs";
 import FaviconImage from "@/components/FaviconImage";
@@ -30,8 +31,40 @@ export default async function ExplorePage() {
 
   const globalAlertActive = Boolean(alertMap.get("ALL"));
 
+  const heroSrc = process.env.NEXT_PUBLIC_EXPLORE_HERO_IMAGE;
+
   return (
-    <div className="mx-auto max-w-6xl px-8 py-14">
+    <>
+      {/* Top hero band with Waterloo building illustration */}
+      <section className="relative h-[42vh] min-h-[280px] w-full overflow-hidden">
+        {heroSrc ? (
+          <Image
+            src={heroSrc}
+            alt="Waterloo building illustration"
+            fill
+            priority
+            className="absolute inset-0 z-0 object-cover object-center"
+          />
+        ) : (
+          <Image
+            src="/goosephoto.png"
+            alt="Waterloo building illustration"
+            fill
+            priority
+            className="absolute inset-0 z-0 object-cover object-center"
+          />
+        )}
+        {/* Tint + fade to white for smooth transition into content */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-white/40 via-transparent to-white/90" />
+        {/* Keep grid ticks visible across the hero */}
+        <div className="absolute inset-0 z-10">
+          {/* Using the same utility textures as the shell */}
+          <div className="grid-overlay-vert h-full opacity-40" />
+          <div className="grid-overlay-ticks h-6 opacity-60" />
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-6xl px-8 py-14">
       <script dangerouslySetInnerHTML={{ __html: captureSnippet }} />
       {/* Desktop: title + actions in header */}
       <PageHeaderPortal>
@@ -114,6 +147,7 @@ export default async function ExplorePage() {
         </div>
       )}
     </div>
+    </>
   );
 }
 
