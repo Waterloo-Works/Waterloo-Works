@@ -2,13 +2,32 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  Compass,
+  SquareStack,
+  Mail,
+  Building2,
+  Calendar,
+  IdCard,
+  BookOpen,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type NavItem = {
   label: string;
   href: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  iconName: string;
   section?: "primary" | "secondary";
+};
+
+const iconMap = {
+  Compass,
+  SquareStack,
+  Mail,
+  Building2,
+  Calendar,
+  IdCard,
+  BookOpen,
 };
 
 export function SidebarNav({ items }: { items: NavItem[] }) {
@@ -16,6 +35,8 @@ export function SidebarNav({ items }: { items: NavItem[] }) {
 
   function Item({ item }: { item: NavItem }) {
     const active = pathname === item.href || pathname.startsWith(item.href + "/");
+    const Icon = iconMap[item.iconName as keyof typeof iconMap];
+
     return (
       <Link
         href={item.href}
@@ -26,7 +47,7 @@ export function SidebarNav({ items }: { items: NavItem[] }) {
           active ? "bg-zinc-100 text-zinc-900" : "text-zinc-700"
         )}
       >
-        <item.icon className="h-5 w-5" strokeWidth={2} />
+        {Icon && <Icon className="h-5 w-5" strokeWidth={2} />}
         <span className="font-medium">{item.label}</span>
       </Link>
     );

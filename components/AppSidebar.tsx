@@ -1,14 +1,4 @@
 import Link from "next/link";
-import {
-  Compass,
-  SquareStack,
-  Mail,
-  Building2,
-  Calendar,
-  IdCard,
-  BookOpen,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/server";
 import { prisma } from "@/utils/prisma";
 import { SidebarProfileMenu } from "./SidebarProfileMenu";
@@ -17,18 +7,18 @@ import { SidebarNav } from "./SidebarNav";
 type NavItem = {
   label: string;
   href: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  iconName: string;
   section?: "primary" | "secondary";
 };
 
 const nav: NavItem[] = [
-  { label: "Explore", href: "/explore", icon: Compass, section: "primary" },
-  { label: "Inbox", href: "/inbox", icon: Mail, section: "primary" },
-  { label: "Saved", href: "/bookmarks", icon: SquareStack, section: "primary" },
-  { label: "Jobs", href: "/job-search", icon: Building2, section: "secondary" },
-  { label: "Companies", href: "/companies", icon: IdCard, section: "secondary" },
-  { label: "Resources", href: "/resources", icon: BookOpen, section: "secondary" },
-  { label: "Events", href: "/events", icon: Calendar, section: "secondary" },
+  { label: "Explore", href: "/explore", iconName: "Compass", section: "primary" },
+  { label: "Inbox", href: "/inbox", iconName: "Mail", section: "primary" },
+  { label: "Saved", href: "/bookmarks", iconName: "SquareStack", section: "primary" },
+  { label: "Jobs", href: "/job-search", iconName: "Building2", section: "secondary" },
+  { label: "Companies", href: "/companies", iconName: "IdCard", section: "secondary" },
+  { label: "Resources", href: "/resources", iconName: "BookOpen", section: "secondary" },
+  { label: "Events", href: "/events", iconName: "Calendar", section: "secondary" },
 ];
 
 export async function AppSidebar() {
