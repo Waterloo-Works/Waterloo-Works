@@ -2,6 +2,7 @@
 
 import { prisma } from "@/utils/prisma";
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export async function createUserRecord(data: {
 	userId: string;
@@ -82,4 +83,14 @@ export async function updateUserSource(source: string) {
 		console.error("Error updating user source:", error);
 		return { success: false, error: "Failed to update user source" };
 	}
+}
+
+export async function signOut() {
+	try {
+		const supabase = await createClient();
+		await supabase.auth.signOut();
+	} catch (error) {
+		console.error("Error signing out:", error);
+	}
+	redirect("/");
 }

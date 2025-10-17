@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
+import { signOut as signOutAction } from "@/app/actions/auth";
 
 type UserLite = {
   email?: string | null;
@@ -12,7 +11,6 @@ type UserLite = {
 
 export default function FloatingProfileMenu({ user, isAdmin = false }: { user: UserLite; isAdmin?: boolean }) {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   if (!user) return null;
 
@@ -24,11 +22,8 @@ export default function FloatingProfileMenu({ user, isAdmin = false }: { user: U
   })();
 
   const signOut = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
     setOpen(false);
-    router.push("/");
-    router.refresh();
+    await signOutAction();
   };
 
   return (

@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import AppSidebar from "@/components/AppSidebar";
 import HeaderDesktop from "@/components/HeaderDesktop";
 import HeaderMobile from "@/components/HeaderMobile";
-import Footer from "@/components/Footer";
 import GridOverlay from "@/components/ui/GridOverlay";
 import FloatingProfileMenu from "@/components/FloatingProfileMenu";
 import { createClient } from "@/utils/supabase/server";

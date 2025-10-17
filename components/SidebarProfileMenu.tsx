@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
+import { signOut } from "@/app/actions/auth";
 
 interface SidebarProfileMenuProps {
   user: {
@@ -17,7 +16,6 @@ interface SidebarProfileMenuProps {
 
 export function SidebarProfileMenu({ user, isAdmin }: SidebarProfileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
 
   const initials = (() => {
     if (user?.user_metadata?.full_name) {
@@ -29,10 +27,7 @@ export function SidebarProfileMenu({ user, isAdmin }: SidebarProfileMenuProps) {
   })();
 
   const handleSignOut = async () => {
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    router.push("/");
-    router.refresh();
+    await signOut();
   };
 
   if (!user) {
