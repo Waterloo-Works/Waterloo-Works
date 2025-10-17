@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#98989b' }}>
-      <header className="sticky top-0 z-40 flex h-14 md:h-16 items-center justify-between px-4 md:px-6 border-b border-white/20 backdrop-blur-sm" style={{ backgroundColor: 'rgba(152, 152, 155, 0.7)' }}>
+      <header className="sticky top-0 z-40 flex h-14 md:h-16 items-center justify-between px-4 md:px-6 border-b border-white/20 backdrop-blur-xl" style={{ backgroundColor: 'rgba(152, 152, 155, 0.4)' }}>
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
           <Link href="/" className="text-xl font-header italic text-zinc-50">
             waterloo.works
