@@ -76,23 +76,14 @@ export default async function Home() {
               Alum can post opportunities, apply, or forward roles to people who actually want them.
             </p>
 
-            {/* CTA — mobile: small washi card; desktop: large pill */}
-            <div className="w-full">
-              {/* Mobile card */}
-              <div className="block md:hidden px-4 w-full">
-                <div className="ds-card-washi ds-card-washi--bold ds-cta-card ds-anim-border h-[96px] flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
-                  <Link href="/explore" className="rounded-full bg-zinc-900 text-white px-5 py-2 text-sm shadow-sm hover:bg-zinc-800">
-                    Explore jobs.
-                  </Link>
-                </div>
-              </div>
-
-              {/* Desktop button only */}
-              <div className="hidden md:flex items-center justify-center">
-                <Link href="/explore" className="rounded-full bg-zinc-900 text-white px-8 py-4 text-lg shadow hover:bg-zinc-800">
-                  Explore jobs.
-                </Link>
-              </div>
+            {/* Single CTA pill — responsive sizes, no card behind */}
+            <div className="w-full flex items-center justify-center">
+              <Link
+                href="/explore"
+                className="rounded-full bg-zinc-900 text-white px-5 py-2 text-sm shadow hover:bg-zinc-800 md:px-8 md:py-4 md:text-lg"
+              >
+                Explore jobs.
+              </Link>
             </div>
           </div>
         </section>
