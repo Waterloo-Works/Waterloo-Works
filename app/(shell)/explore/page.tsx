@@ -47,7 +47,7 @@ export default async function ExplorePage() {
           />
         ) : (
           <Image
-            src="/goosephoto.png"
+            src="/hero.png"
             alt="Waterloo building illustration"
             fill
             priority
@@ -112,7 +112,7 @@ export default async function ExplorePage() {
                 </h2>
               </div>
 
-              <div className="grid items-stretch gap-7 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid items-stretch gap-0 md:gap-7 sm:grid-cols-2 lg:grid-cols-3">
                 {rankJobs(regionJobs).slice(0, 6).map((job) => (
                   <JobPreviewCard key={job.id} job={job} initialBookmarked={bookmarked.has(job.id)} />)
                 )}
@@ -262,25 +262,25 @@ function JobPreviewCard({
     : undefined;
 
   return (
-    <article className="relative group flex h-full flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-6 min-h-[176px] shadow-sm transition-all hover:border-zinc-300 hover:bg-zinc-50 hover:shadow-md">
+    <article className="relative group flex h-full flex-col justify-between bg-white border-b border-zinc-200 p-3 md:p-6 md:rounded-2xl md:border md:min-h-[176px] md:shadow-sm md:transition-all md:hover:border-zinc-300 md:hover:bg-zinc-50 md:hover:shadow-md">
       {/* Full-card interactive overlay for hover and click */}
       <Link
         href={{ pathname: "/job-search", query: { selected: job.id } }}
         aria-label={`${job.company} — ${job.position}`}
-        className="absolute inset-0 z-[10] rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+        className="absolute inset-0 z-[10] md:rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
       />
 
-      <div className="relative z-0 flex items-start gap-4">
-        <FaviconImage src={job.companyImageUrl} company={job.company} />
+      <div className="relative z-0 flex items-start gap-3 md:gap-4">
+        <FaviconImage src={job.companyImageUrl} company={job.company} className="w-9 h-9 md:w-10 md:h-10" />
         <div className="min-w-0">
-          <div className="font-body text-sm text-zinc-600">{job.company}</div>
-          <h3 className="font-header text-lg font-semibold text-zinc-900 group-hover:underline line-clamp-2">
+          <div className="font-body text-[13px] text-zinc-600">{job.company}</div>
+          <h3 className="font-header text-[17px] md:text-lg leading-5 font-semibold text-zinc-900 group-hover:underline line-clamp-2">
             {job.position}
           </h3>
-          <div className="font-body text-[15px] text-zinc-700">
+          <div className="font-body text-[13px] md:text-[15px] text-zinc-700">
             {compText ? `${compText} · ` : ""}{formatEmploymentType(job.employmentType)}
           </div>
-          <div className="font-body text-sm text-zinc-500 mt-1">
+          <div className="font-body text-[12px] text-zinc-500 mt-1">
             {job.location}
             {" · "}
             {timeAgo(job.createdAt)}

@@ -39,7 +39,11 @@ export default function JobSearchClient({ jobs }: Props) {
   const pathname = usePathname();
   const sp = useSearchParams();
   // Mobile drawer for job details (breakpoint detected on client)
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(max-width: 767px)").matches
+      : true
+  );
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mq = window.matchMedia("(max-width: 767px)");
@@ -177,8 +181,11 @@ export default function JobSearchClient({ jobs }: Props) {
     }
   }, [isMobile, selectedJob]);
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   return (
-    <div className="flex h-[calc(100svh-0px)] flex-col">
+    <div className="flex h-[calc(100svh-0px)] flex-col" suppressHydrationWarning>
       <Header
         tab={tab}
         q={q}
@@ -200,23 +207,10 @@ export default function JobSearchClient({ jobs }: Props) {
           }
         }}
       />
-      {/* Mobile: simple list; Desktop: resizable split */}
-      <div className="flex min-h-0 flex-1 md:hidden">
-        <div className="flex h-full w-full shrink-0 flex-col border-r border-zinc-200 bg-white">
-          <ResultsList
-            jobs={results}
-            bookmarkedIds={bookmarkedIds}
-            selectedId={selectedJob?.id}
-            onSelect={onSelect}
-          />
-        </div>
-      </div>
-      <ResizablePanelGroup
-        direction="horizontal"
-        className="min-h-0 hidden flex-1 bg-white md:flex"
-      >
-        <ResizablePanel defaultSize={34} minSize={22} maxSize={50} className="min-w-[220px] border-r border-zinc-200">
-          <div className="flex h-full flex-col">
+      {/* Mobile: list only (default SSR) */}
+      {(mounted ? isMobile : true) && (
+        <div className="flex min-h-0 flex-1 md:hidden">
+          <div className="flex h-full w-full shrink-0 flex-col border-r border-zinc-200 bg-white">
             <ResultsList
               jobs={results}
               bookmarkedIds={bookmarkedIds}
@@ -224,24 +218,39 @@ export default function JobSearchClient({ jobs }: Props) {
               onSelect={onSelect}
             />
           </div>
-        </ResizablePanel>
-        <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={66} minSize={40} className="min-w-0">
-          <div className="flex min-w-0 flex-1">
-            {selectedJob ? (
-              <JobDetail job={selectedJob} initialSaved={bookmarkedIds.has(selectedJob.id)} />
-            ) : results.length === 0 ? (
-              <EmptyState
-                title="No jobs found"
-                message="Try adjusting your filters or search terms to see more results."
-                showFeedback={true}
+        </div>
+      )}
+      {/* Desktop: resizable split (client-only) */}
+      {mounted && !isMobile && (
+        <ResizablePanelGroup direction="horizontal" className="min-h-0 flex-1 bg-white">
+          <ResizablePanel defaultSize={34} minSize={22} maxSize={50} className="min-w-[220px] border-r border-zinc-200">
+            <div className="flex h-full flex-col">
+              <ResultsList
+                jobs={results}
+                bookmarkedIds={bookmarkedIds}
+                selectedId={selectedJob?.id}
+                onSelect={onSelect}
               />
-            ) : (
-              <div className="m-auto p-8 text-center text-zinc-500">Select a job to view details</div>
-            )}
-          </div>
-        </ResizablePanel>
-      </ResizablePanelGroup>
+            </div>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize={66} minSize={40} className="min-w-0">
+            <div className="flex min-w-0 flex-1">
+              {selectedJob ? (
+                <JobDetail job={selectedJob} initialSaved={bookmarkedIds.has(selectedJob.id)} />
+              ) : results.length === 0 ? (
+                <EmptyState
+                  title="No jobs found"
+                  message="Try adjusting your filters or search terms to see more results."
+                  showFeedback={true}
+                />
+              ) : (
+                <div className="m-auto p-8 text-center text-zinc-500">Select a job to view details</div>
+              )}
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      )}
 
       {/* Mobile Drawer: opens when a job is selected */}
       <Drawer
@@ -255,7 +264,7 @@ export default function JobSearchClient({ jobs }: Props) {
       >
         <DrawerContent>
           {selectedJob && (
-            <div ref={drawerRef} className="w-full max-h-[88svh] overflow-y-auto -mb-2 pb-2">
+            <div ref={drawerRef} className="w-full -mb-2 pb-2">
               <DrawerHeader className="flex items-center justify-between">
                 <DrawerTitle className="font-header text-lg text-zinc-900 truncate pr-4">
                   {selectedJob.position}

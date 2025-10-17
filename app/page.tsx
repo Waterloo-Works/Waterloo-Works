@@ -36,7 +36,7 @@ export default async function Home() {
         <section className="relative min-h-screen overflow-hidden">
           {/* Layer 1: Background image */}
           <Image
-            src="/goosephoto.png"
+            src="/hero.png"
             alt="Waterloo goose illustration background"
             fill
             priority

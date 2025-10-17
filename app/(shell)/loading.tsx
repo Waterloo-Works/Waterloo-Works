@@ -5,7 +5,7 @@ export default function ShellLoading() {
   return (
     <section className="relative min-h-screen overflow-hidden">
       <Image
-        src="/goosephoto.png"
+        src="/hero.png"
         alt="Waterloo building illustration"
         fill
         priority

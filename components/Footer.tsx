@@ -55,6 +55,18 @@ export default function Footer({ tone = "light" }: Props) {
               </Link>
             </span>
           ))}
+          {/* External: GitHub repo */}
+          <span className="flex items-center">
+            <span className={`mx-2 ${dotClass}`}>·</span>
+            <a
+              href="https://github.com/Waterloo-Works"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${linkClass} transition-colors`}
+            >
+              GitHub
+            </a>
+          </span>
         </nav>
       </div>
     </footer>

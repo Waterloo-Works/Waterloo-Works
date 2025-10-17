@@ -29,6 +29,15 @@ export default function TermsOfServicePage() {
             these Terms. If you do not agree to these Terms, do not use the Service.
           </p>
 
+          <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">Affiliation Disclaimer</h2>
+          <p className="text-zinc-700">
+            {siteName} is an independent community project and is not affiliated with, endorsed by,
+            or sponsored by the University of Waterloo or the University&apos;s official co‑op program,
+            WaterlooWorks. Any references to &quot;Waterloo&quot; or &quot;WaterlooWorks&quot; on this site are for
+            descriptive or comparative purposes only. All trademarks, service marks, and logos remain
+            the property of their respective owners.
+          </p>
+
           <h2 className="font-header text-lg font-semibold text-zinc-900 mt-8">1. Eligibility</h2>
           <p className="text-zinc-700">
             You must be at least the age of majority in your jurisdiction and have the legal

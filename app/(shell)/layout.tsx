@@ -4,8 +4,19 @@ import HeaderDesktop from "@/components/HeaderDesktop";
 import HeaderMobile from "@/components/HeaderMobile";
 import Footer from "@/components/Footer";
 import GridOverlay from "@/components/ui/GridOverlay";
+import FloatingProfileMenu from "@/components/FloatingProfileMenu";
+import { createClient } from "@/utils/supabase/server";
+import { prisma } from "@/utils/prisma";
 
-export default function ShellLayout({ children }: { children: ReactNode }) {
+export default async function ShellLayout({ children }: { children: ReactNode }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  let isAdmin = false;
+  if (user) {
+    const record = await prisma.user.findUnique({ where: { id: user.id } });
+    isAdmin = !!record?.isAdmin;
+  }
+
   return (
     <div className="shell-layout flex min-h-svh bg-white">
       <AppSidebar />
@@ -27,8 +38,8 @@ export default function ShellLayout({ children }: { children: ReactNode }) {
           style={{ ['--ticks-top-offset' as any]: '8px', ['--hairline-top' as any]: '0px', ['--hairline-bottom' as any]: '8px' }}
         />
         <div className="flex-1">{children}</div>
-        {/* Consolidated site footer for shell pages */}
-        <Footer />
+        {/* Floating user menu bottom-right */}
+        {user && (<FloatingProfileMenu user={user} isAdmin={isAdmin} />)}
       </main>
     </div>
   );
