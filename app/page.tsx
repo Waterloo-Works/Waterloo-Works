@@ -67,7 +67,7 @@ export default async function Home() {
           />
 
           {/* Layer 3: Content */}
-          <div className="relative z-30 mx-auto mt-14 md:mt-0 flex min-h-[calc(100svh-56px)] md:min-h-screen max-w-4xl flex-col items-center justify-center px-4 md:px-6 text-center">
+          <div className="relative z-30 mx-auto flex min-h-svh max-w-4xl flex-col items-center justify-center px-4 md:px-6 text-center">
             <h2 className="font-header text-[2.25rem] md:text-h2 tracking-tight-04 leading-heading mb-3 text-zinc-50">
               Curated opportunities for alum
             </h2>

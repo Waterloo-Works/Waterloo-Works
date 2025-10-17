@@ -347,6 +347,22 @@
   @media (min-width: 1536px) { /* 2xl */
     :root { --container-half: 36rem; --rails-shift: 12rem; --rails-margin: 96px; --rails-half: clamp(24rem, calc(var(--container-half) + var(--rails-shift)), calc(50vw - var(--rails-margin))); }
   }
+
+  /* Generic shimmer block */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+    background-color: rgb(244 244 245); /* zinc-100 */
+  }
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+    animation: ww-shimmerline 1.2s infinite;
+  }
+  @keyframes ww-shimmerline { to { transform: translateX(100%); } }
 }
 
 @layer components {
@@ -471,17 +487,26 @@
 
 @layer components {
   /* Shimmer CTA button (scoped) */
-  .cta-btn { --transition: .25s; --spark: 1.8s; --speed: 1.2s; --active: 0; --cut: .1em; position: relative; display: grid; place-items: center; cursor: pointer; user-select: none; padding: .85em 1.2em; border-radius: 100px; white-space: nowrap; text-decoration: none; font-size: .95rem; font-weight: 500; color: inherit; background: radial-gradient(40% 50% at center 100%, hsl(270 0% 72% / .05), transparent), radial-gradient(80% 100% at center 120%, hsl(260 0% 70% / .1), transparent), hsl(260 0% 12%); box-shadow: 0 .05em 0 0 hsl(260 0% 50%) inset, 0 -.05em 0 0 hsl(260 0% 0%) inset; transition: box-shadow var(--transition), transform var(--transition), background var(--transition); }
+  .cta-btn { --transition: .25s; --spark: 1.8s; --speed: 1.2s; --active: 0; --cut: .1em; position: relative; z-index: 3; display: grid; place-items: center; cursor: pointer; user-select: none; padding: .85em 1.2em; border-radius: 100px; white-space: nowrap; text-decoration: none; font-size: .95rem; font-weight: 500; color: inherit; background: radial-gradient(40% 50% at center 100%, hsl(270 0% 72% / .05), transparent), radial-gradient(80% 100% at center 120%, hsl(260 0% 70% / .1), transparent), hsl(260 0% 12%); box-shadow: 0 .05em 0 0 hsl(260 0% 50%) inset, 0 -.05em 0 0 hsl(260 0% 0%) inset; transition: box-shadow var(--transition), transform var(--transition), background var(--transition); }
   .cta-btn { isolation: isolate; }
-  .cta-btn .text { translate: 2% -6%; letter-spacing: .01ch; background: linear-gradient(90deg, hsl(0 0% calc((var(--active) * 100%) + 65%)), hsl(0 0% calc((var(--active) * 100%) + 26%))); -webkit-background-clip: text; color: transparent; transition: background var(--transition); }
-  .cta-btn .spark__container { position: absolute; inset: 0; overflow: visible; }
+  .cta-btn .text { translate: 2% -6%; letter-spacing: .01ch; color: rgba(255,255,255,.95); }
   /* Container-style spark: beam travels across the button area */
   .cta-btn .spark__container { position: absolute; inset: 0; overflow: visible; container-type: size; }
-  .cta-btn .spark { position: absolute; left: 0; top: 0; height: 100cqh; aspect-ratio: 1; border-radius: 0; overflow: visible; mask: none; animation: slide var(--speed) ease-in-out infinite alternate; }
+  .cta-btn .spark {
+    position: absolute; left: 0; top: 0; height: 100cqh; aspect-ratio: 1;
+    border-radius: 100px; overflow: visible; padding: 2.5px; /* ring thickness */
+    /* Ring mask: show only the outline band */
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    animation: slide var(--speed) ease-in-out infinite alternate;
+  }
   .cta-btn .spark:before { content: ""; position: absolute; inset: -100%; --spread: 90deg; background: conic-gradient(from calc(270deg - (var(--spread) * 0.5)), transparent 0, hsl(0 0% 100% / 1) var(--spread), transparent var(--spread)); translate: 0 0; transform: rotate(0deg); width: auto; aspect-ratio: 1; animation: spin calc(var(--speed) * 2) infinite linear; }
   .cta-btn .spark:after { content: ""; position: absolute; inset: var(--cut); border-radius: 100px; }
   .cta-btn .backdrop { position: absolute; inset: var(--cut); border-radius: 100px; background: radial-gradient(40% 50% at center 100%, hsl(270 0% 72% / .05), transparent), radial-gradient(80% 100% at center 120%, hsl(260 0% 70% / .1), transparent), hsl(260 0% 12%); transition: background var(--transition), opacity var(--transition); }
-  .cta-btn:is(:hover,:focus-visible) { --active: 1; }
+  /* No hover trick; shimmer runs continuously */
+  .cta-btn:is(:hover,:focus-visible) { }
   .cta-btn:is(:active) { transform: scale(.98); }
   @keyframes spin { 0% { rotate: 0deg; } 15%,35% { rotate: 90deg; } 65%,85% { rotate: 270deg; } 100% { rotate: 360deg; } }
   @keyframes slide { to { transform: translate(calc(100cqw - 100%), 0); } }

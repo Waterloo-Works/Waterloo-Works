@@ -7,13 +7,8 @@ type Props = {
 export default function Footer({ tone = "light" }: Props) {
   // Lean, single-row footer with subtle separators.
   const links = [
-    { href: "/jobs", label: "Jobs" },
     { href: "/companies", label: "Companies" },
-    { href: "/resources", label: "Resources" },
-    { href: "/explore", label: "Explore" },
     { href: "/post-job", label: "Post a Job" },
-    { href: "/terms", label: "Terms" },
-    { href: "/privacy", label: "Privacy" },
   ];
 
   const isDark = tone === "dark";

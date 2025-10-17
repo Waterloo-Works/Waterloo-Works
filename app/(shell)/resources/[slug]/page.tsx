@@ -7,7 +7,10 @@ import { PageViewTracker } from "@/components/PageViewTracker";
 export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
-	return (allResources || []).map((resource) => ({
+	if (!Array.isArray(allResources)) {
+		return [];
+	}
+	return allResources.map((resource) => ({
 		slug: resource.slug,
 	}));
 }

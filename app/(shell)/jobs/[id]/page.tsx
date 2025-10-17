@@ -7,7 +7,10 @@ import { PageViewTracker } from "@/components/PageViewTracker";
 export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
-	return (allJobs || []).map((job) => ({
+	if (!Array.isArray(allJobs)) {
+		return [];
+	}
+	return allJobs.map((job) => ({
 		id: job.slug,
 	}));
 }

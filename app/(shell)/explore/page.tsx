@@ -10,6 +10,7 @@ import CreateAlertButton from "@/components/CreateAlertButton";
 import { getRegionAlertMap } from "@/app/actions/alerts";
 import { getBookmarkedJobIds } from "@/app/actions/bookmarks";
 import { formatEmploymentType } from "@/lib/formatEmploymentType";
+import { SectionShimmer } from "@/components/JobShimmers";
 import { timeAgo } from "@/lib/timeAgo";
 
 export const metadata = { title: "Explore" };
@@ -89,7 +90,10 @@ export default async function ExplorePage() {
       </div>
 
       {Object.keys(regions).length === 0 ? (
-        <EmptyState />
+        <>
+          <SectionShimmer />
+          <EmptyState />
+        </>
       ) : (
         <div className="space-y-16">
           {Object.entries(regions).map(([region, regionJobs]) => (

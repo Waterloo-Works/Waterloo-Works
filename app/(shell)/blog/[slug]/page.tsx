@@ -8,7 +8,10 @@ import { PageViewTracker } from "@/components/PageViewTracker";
 export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
-	return (allBlogs || []).map((blog) => ({
+	if (!Array.isArray(allBlogs)) {
+		return [];
+	}
+	return allBlogs.map((blog) => ({
 		slug: blog.slug,
 	}));
 }

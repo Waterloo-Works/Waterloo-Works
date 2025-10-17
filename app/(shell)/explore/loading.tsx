@@ -6,12 +6,9 @@ export default function Loading() {
       <div className="space-y-10">
         {/* Section 1 */}
         <div className="space-y-4">
-          <Skeleton className="h-7 w-56 md:w-72 rounded-md" />
           {/* Hide card grid on mobile; show only on md+ */}
           <div className="hidden md:grid items-stretch gap-7 lg:grid-cols-2 xl:grid-cols-3">
-            <CardSkeleton />
-            <CardSkeleton />
-            <CardSkeleton className="hidden lg:block" />
+        
           </div>
           {/* Mobile minimal placeholder */}
           <div className="md:hidden text-center text-sm text-zinc-500">Loading jobs…</div>
