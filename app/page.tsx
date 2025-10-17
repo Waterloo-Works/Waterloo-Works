@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#98989b' }}>
-      <header className="sticky top-0 z-40 flex h-14 md:h-16 items-center justify-between px-4 md:px-6 border-b border-white/20 backdrop-blur-xl" style={{ backgroundColor: 'rgba(152, 152, 155, 0.4)' }}>
+      <header className="relative z-40 flex h-14 md:h-16 items-center justify-between px-4 md:px-6 bg-transparent">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
           <Link href="/" className="text-xl font-header italic text-zinc-50">
             waterloo.works
@@ -76,16 +76,21 @@ export default async function Home() {
               Alum can post opportunities, apply, or forward roles to people who actually want them.
             </p>
 
-            {/* Choice card (seekers only) */}
-            <div className="w-full max-w-2xl">
-              <div className="ds-card-washi ds-card-washi--bold ds-cta-card ds-anim-border h-[128px] sm:h-[210px] md:h-[280px] flex flex-col items-center justify-between px-5 py-6 md:py-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
-                <h3 className="font-header text-[1.1rem] md:text-2xl tracking-tight-02 leading-heading text-zinc-900">Find your next job.</h3>
-                <Link href="/explore" className="cta-btn">
-                  <span className="spark__container">
-                    <span className="spark"></span>
-                  </span>
-                  <span className="backdrop"></span>
-                  <span className="text">Explore jobs</span>
+            {/* CTA — mobile: small washi card; desktop: large pill */}
+            <div className="w-full">
+              {/* Mobile card */}
+              <div className="block md:hidden px-4 w-full">
+                <div className="ds-card-washi ds-card-washi--bold ds-cta-card ds-anim-border h-[96px] flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+                  <Link href="/explore" className="rounded-full bg-zinc-900 text-white px-5 py-2 text-sm shadow-sm hover:bg-zinc-800">
+                    Explore jobs.
+                  </Link>
+                </div>
+              </div>
+
+              {/* Desktop button only */}
+              <div className="hidden md:flex items-center justify-center">
+                <Link href="/explore" className="rounded-full bg-zinc-900 text-white px-8 py-4 text-lg shadow hover:bg-zinc-800">
+                  Explore jobs.
                 </Link>
               </div>
             </div>
