@@ -29,18 +29,7 @@ export default function Loading() {
         style={{ ['--ticks-top-offset' as any]: '66px', ['--hairline-top' as any]: '64px', ['--hairline-bottom' as any]: '8px' }}
       />
 
-      <div className="relative z-30 mx-auto max-w-6xl px-8 py-14">
-        <Skeleton className="mb-6 h-8 w-32" />
-        <div className="space-y-3">
-          {[0,1,2,3].map((i) => (
-            <div key={i} className="rounded-2xl border border-zinc-200 bg-white/90 backdrop-blur-sm p-4">
-              <div className="flex items-start gap-3">
-                <Skeleton className="h-5 w-40" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+     
     </section>
   );
 }

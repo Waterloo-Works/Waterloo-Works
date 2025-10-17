@@ -366,6 +366,19 @@
       linear-gradient(to bottom right, rgba(244, 236, 224, 0.92), rgba(228, 220, 206, 0.75));
     border-color: rgba(255, 255, 255, 0.5);
   }
+  /* Variants: bold (brighter) and muted (darker) */
+  .ds-card-washi--bold {
+    background-image:
+      radial-gradient(120% 100% at 0% 0%, rgba(255,255,255,0.92), rgba(255,255,255,0.65) 35%, rgba(255,255,255,0.45) 55%, rgba(0,0,0,0.02) 100%),
+      linear-gradient(to bottom right, rgba(248, 242, 232, 0.96), rgba(236, 230, 220, 0.82));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 24px 48px -28px rgba(0,0,0,.45);
+  }
+  .ds-card-washi--muted {
+    background-image:
+      radial-gradient(120% 100% at 0% 0%, rgba(245,245,240,0.75), rgba(235,235,228,0.45) 35%, rgba(225,225,220,0.35) 55%, rgba(0,0,0,0.05) 100%),
+      linear-gradient(to bottom right, rgba(226, 218, 204, 0.85), rgba(210, 202, 190, 0.70));
+    filter: saturate(.92) brightness(.98);
+  }
   .ds-divider { @apply border-t border-zinc-200; }
   .ds-chip {
     @apply inline-flex items-center rounded-full px-4 py-2 text-sm font-medium text-zinc-800 transition-all duration-300 ease-out;
@@ -415,29 +428,43 @@
 
 @layer components {
   .ds-anim-border { position: relative; }
-  .ds-anim-border::before {
+  .ds-anim-border::after {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    padding: 2px; /* border thickness */
+    padding: 3px; /* border thickness */
     background: conic-gradient(
       from var(--ds-border-angle),
-      rgba(255,255,255,0.28) 0deg,
-      rgba(255,255,255,0.12) 120deg,
-      rgba(255,255,255,0.24) 240deg,
-      rgba(255,255,255,0.28) 360deg
+      rgba(238, 219, 186, 0.45) 0deg,
+      rgba(255,255,255,0.18) 90deg,
+      rgba(238, 219, 186, 0.38) 180deg,
+      rgba(255,255,255,0.16) 270deg,
+      rgba(238, 219, 186, 0.45) 360deg
     );
     -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
             mask-composite: exclude;
-    opacity: .45;
+    opacity: .55;
+    z-index: 2;
     pointer-events: none;
   }
   @media (max-width: 767px) {
-    .ds-anim-border::before { animation: ds-border-rotate 26s linear infinite; }
+    /* Mobile: rustic/minimal look */
+    .ds-card-washi { @apply p-4 rounded-2xl; box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 12px 20px -18px rgba(0,0,0,.35); }
+    .ds-cta-card { transition: none; }
+    .ds-cta-card:hover { transform: none; }
+    .ds-cta-card::before { opacity: .25; }
+    .ds-chip {
+      @apply px-2 py-0.5 text-[11px];
+      background-image: linear-gradient(to bottom, rgba(255,255,255,0.85), rgba(255,255,255,0.7));
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
+    }
+    .ds-chip:hover { transform: none; box-shadow: inset 0 1px 0 rgba(255,255,255,0.9); }
+    .ds-anim-border::after { animation: ds-border-rotate 26s linear infinite; }
   }
   @media (min-width: 768px) {
-    .ds-anim-border::before { animation: none; opacity: .25; }
+    .ds-anim-border::after { animation: none; opacity: .25; }
   }
 }

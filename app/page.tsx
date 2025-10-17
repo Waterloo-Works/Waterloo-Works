@@ -77,12 +77,12 @@ export default async function Home() {
             </p>
 
             {/* Choice cards */}
-            <div className="grid w-full max-w-2xl gap-2.5 md:gap-5 md:grid-cols-2">
+            <div className="grid w-full max-w-2xl gap-2 md:gap-5 md:grid-cols-2">
               <Link href="/explore" className="group">
-                <div className="ds-card-washi ds-card-washi--bold ds-cta-card ds-anim-border h-[160px] sm:h-[210px] md:h-[320px] flex flex-col items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+                <div className="ds-card-washi ds-card-washi--bold ds-cta-card ds-anim-border h-[128px] sm:h-[210px] md:h-[320px] flex flex-col items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
                   <p className="font-body tracking-wide-01 leading-body text-xs text-zinc-700">Alum</p>
-                  <h3 className="font-header text-[1.25rem] md:text-h3 tracking-tight-02 leading-heading text-zinc-900">Find your next job</h3>
-                  <span className="ds-chip gap-1.5 hover:bg-white/90 px-2.5 py-1 text-[12px] md:px-4 md:py-2 md:text-sm">
+                  <h3 className="font-header text-[1.1rem] md:text-h3 tracking-tight-02 leading-heading text-zinc-900">Find your next job</h3>
+                  <span className="ds-chip gap-1.5 hover:bg-white/90 px-2 py-0.5 text-[11px] md:px-4 md:py-2 md:text-sm">
                     <span className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
                     <span>Explore jobs</span>
                   </span>
@@ -90,10 +90,10 @@ export default async function Home() {
               </Link>
 
               <Link href="/post-job" className="group">
-                <div className="ds-card-washi ds-card-washi--muted ds-cta-card ds-anim-border h-[160px] sm:h-[210px] md:h-[320px] flex flex-col items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+                <div className="ds-card-washi ds-card-washi--muted ds-cta-card ds-anim-border h-[128px] sm:h-[210px] md:h-[320px] flex flex-col items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
                   <p className="font-body tracking-wide-01 leading-body text-xs text-zinc-700">Employers</p>
-                  <h3 className="font-header text-[1.25rem] md:text-h3 tracking-tight-02 leading-heading text-zinc-800">Hire top talent</h3>
-                  <span className="ds-chip gap-1.5 hover:bg-white/90 px-2.5 py-1 text-[12px] md:px-4 md:py-2 md:text-sm">
+                  <h3 className="font-header text-[1.1rem] md:text-h3 tracking-tight-02 leading-heading text-zinc-800">Hire top talent</h3>
+                  <span className="ds-chip gap-1.5 hover:bg-white/90 px-2 py-0.5 text-[11px] md:px-4 md:py-2 md:text-sm">
                     <span className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5">✏️</span>
                     <span>Post a job</span>
                   </span>

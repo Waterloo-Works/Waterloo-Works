@@ -1,10 +1,11 @@
 "use client";
 
 import posthog from 'posthog-js';
-import { useEffect, useMemo, useState, useCallback, useDeferredValue } from "react";
+import React, { useEffect, useMemo, useState, useCallback, useDeferredValue } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from "@/components/ui/drawer";
 import { ChevronDown, Search, X } from "lucide-react";
 import {
   DropdownMenu,
@@ -157,6 +158,25 @@ export default function JobSearchClient({ jobs }: Props) {
     }
   };
 
+  // Mobile drawer for job details
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(max-width: 767px)");
+    const onChange = () => setIsMobile(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  const drawerRef = React.useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (isMobile && selectedJob && drawerRef.current) {
+      // Reset scroll to top when opening a job in the drawer
+      drawerRef.current.scrollTop = 0;
+    }
+  }, [isMobile, selectedJob]);
+
   return (
     <div className="flex h-[calc(100svh-0px)] flex-col">
       <Header
@@ -173,11 +193,16 @@ export default function JobSearchClient({ jobs }: Props) {
           if (Object.prototype.hasOwnProperty.call(next, "loc")) setLocCsv(next.loc || "");
           if (Object.prototype.hasOwnProperty.call(next, "remote")) setRemote(next.remote === "true");
           quietlySyncQuery(next);
+          // Ensure filters/search interactions do not open or keep the drawer open on mobile
+          if (isMobile) {
+            setSelectedId(undefined);
+            quietlySyncSelected(undefined);
+          }
         }}
       />
-      <ResizablePanelGroup direction="horizontal" className="min-h-0 flex-1 bg-white">
-        <ResizablePanel defaultSize={34} minSize={22} maxSize={50} className="min-w-[220px] border-r border-zinc-200">
-          <div className="flex h-full flex-col">
+      {isMobile ? (
+        <div className="flex min-h-0 flex-1">
+          <div className="flex h-full w-full shrink-0 flex-col border-r border-zinc-200 bg-white">
             <ResultsList
               jobs={results}
               bookmarkedIds={bookmarkedIds}
@@ -185,24 +210,65 @@ export default function JobSearchClient({ jobs }: Props) {
               onSelect={onSelect}
             />
           </div>
-        </ResizablePanel>
-        <ResizableHandle withHandle />
-        <ResizablePanel defaultSize={66} minSize={40} className="min-w-0">
-          <div className="flex min-w-0 flex-1">
-            {selectedJob ? (
-              <JobDetail job={selectedJob} initialSaved={bookmarkedIds.has(selectedJob.id)} />
-            ) : results.length === 0 ? (
-              <EmptyState
-                title="No jobs found"
-                message="Try adjusting your filters or search terms to see more results."
-                showFeedback={true}
+        </div>
+      ) : (
+        <ResizablePanelGroup direction="horizontal" className="min-h-0 flex-1 bg-white">
+          <ResizablePanel defaultSize={34} minSize={22} maxSize={50} className="min-w-[220px] border-r border-zinc-200">
+            <div className="flex h-full flex-col">
+              <ResultsList
+                jobs={results}
+                bookmarkedIds={bookmarkedIds}
+                selectedId={selectedJob?.id}
+                onSelect={onSelect}
               />
-            ) : (
-              <div className="m-auto p-8 text-center text-zinc-500">Select a job to view details</div>
-            )}
-          </div>
-        </ResizablePanel>
-      </ResizablePanelGroup>
+            </div>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize={66} minSize={40} className="min-w-0">
+            <div className="flex min-w-0 flex-1">
+              {selectedJob ? (
+                <JobDetail job={selectedJob} initialSaved={bookmarkedIds.has(selectedJob.id)} />
+              ) : results.length === 0 ? (
+                <EmptyState
+                  title="No jobs found"
+                  message="Try adjusting your filters or search terms to see more results."
+                  showFeedback={true}
+                />
+              ) : (
+                <div className="m-auto p-8 text-center text-zinc-500">Select a job to view details</div>
+              )}
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      )}
+
+      {/* Mobile Drawer: opens when a job is selected */}
+      <Drawer
+        open={isMobile && !!selectedJob}
+        dismissible={false}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedId(undefined);
+            quietlySyncSelected(undefined);
+          }
+        }}
+      >
+        <DrawerContent ref={drawerRef} className="h-[88svh] overflow-y-auto">
+          {selectedJob && (
+            <div className="w-full">
+              <DrawerHeader className="flex items-center justify-between">
+                <DrawerTitle className="font-header text-lg text-zinc-900 truncate pr-4">
+                  {selectedJob.position}
+                </DrawerTitle>
+                <DrawerClose asChild>
+                  <button className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-50">Close</button>
+                </DrawerClose>
+              </DrawerHeader>
+              <JobDetail job={selectedJob} initialSaved={bookmarkedIds.has(selectedJob.id)} />
+            </div>
+          )}
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 }

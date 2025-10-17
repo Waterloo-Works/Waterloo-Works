@@ -37,7 +37,7 @@ export default function Footer({ tone = "light" }: Props) {
           </div>
           {/* Circular nodes at rail intersections on the footer edge */}
           <div className="pointer-events-none absolute inset-x-0 -top-5 h-10 z-30">
-            <div className="grid-overlay-nodes" style={{ ['--hairline-top' as any]: '5px' }} />
+            <div className="grid-overlay-nodes" style={{ ['--hairline-top' as any]: '9px' }} />
           </div>
           {/* Rails continue through footer (above footer content) */}
           <div className="pointer-events-none absolute inset-0 z-10">
