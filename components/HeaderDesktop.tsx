@@ -32,7 +32,7 @@ export default async function HeaderDesktop() {
   })();
 
   return (
-    <header className="sticky top-0 z-30 hidden h-14 items-center justify-end border-b border-zinc-200 bg-white/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-white/80 md:flex">
+    <header className="sticky top-0 z-30 hidden h-14 items-center justify-end border-b border-white/20 bg-transparent px-6 backdrop-blur supports-[backdrop-filter]:bg-transparent md:flex">
       {user ? (
         <div className="relative group">
           <button

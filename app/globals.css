@@ -56,9 +56,11 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     /* Grid overlay variables. Adjust half container width per breakpoint. */
-    --container-half: 28rem; /* ~max-w-4xl / 2 for home */
-    --rails-shift: 10rem;    /* extra distance pushing rails toward edges */
-    --rails-half: calc(var(--container-half) + var(--rails-shift));
+    --container-half: 28rem;       /* ~max-w-4xl / 2 for home */
+    --rails-shift: 6rem;           /* extra distance pushing rails toward edges */
+    --rails-margin: 48px;          /* keep rails inside viewport by this margin */
+    /* Never let the rails go beyond the viewport edges */
+    --rails-half: clamp(18rem, calc(var(--container-half) + var(--rails-shift)), calc(50vw - var(--rails-margin)));
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -214,14 +216,14 @@
     background-image:
       linear-gradient(90deg,
         transparent calc(50% - var(--rails-half)),
-        rgb(228 228 231 / 0.9) calc(50% - var(--rails-half)),
-        rgb(228 228 231 / 0.9) calc(50% - var(--rails-half) + 1px),
+        rgb(245 245 245 / 0.95) calc(50% - var(--rails-half)),
+        rgb(245 245 245 / 0.95) calc(50% - var(--rails-half) + 1px),
         transparent calc(50% - var(--rails-half) + 1px)
       ),
       linear-gradient(90deg,
         transparent calc(50% + var(--rails-half)),
-        rgb(228 228 231 / 0.9) calc(50% + var(--rails-half)),
-        rgb(228 228 231 / 0.9) calc(50% + var(--rails-half) + 1px),
+        rgb(245 245 245 / 0.95) calc(50% + var(--rails-half)),
+        rgb(245 245 245 / 0.95) calc(50% + var(--rails-half) + 1px),
         transparent calc(50% + var(--rails-half) + 1px)
       );
     background-position: center;
@@ -231,40 +233,119 @@
   .grid-overlay-nodes {
     position: absolute;
     inset-inline: 0;
-    top: var(--hairline-top, 64px);
-    height: 8px;
+    top: calc(var(--hairline-top, 64px) - 5px); /* align circle center with hairline */
+    height: 10px;
     pointer-events: none;
     background-image:
-      radial-gradient(circle 4px at center, rgb(226 232 240 / 0.85) 0, rgb(226 232 240 / 0.85) 3px, transparent 3px),
-      radial-gradient(circle 4px at center, rgb(226 232 240 / 0.85) 0, rgb(226 232 240 / 0.85) 3px, transparent 3px);
+      radial-gradient(circle 6px at center, rgb(255 255 255 / 0.95) 0, rgb(255 255 255 / 0.95) 2.5px, rgb(255 255 255 / 0.35) 2.5px, rgb(255 255 255 / 0.35) 3.5px, transparent 3.5px),
+      radial-gradient(circle 6px at center, rgb(255 255 255 / 0.95) 0, rgb(255 255 255 / 0.95) 2.5px, rgb(255 255 255 / 0.35) 2.5px, rgb(255 255 255 / 0.35) 3.5px, transparent 3.5px);
     background-repeat: no-repeat, no-repeat;
-    background-size: 8px 8px, 8px 8px;
+    background-size: 10px 10px, 10px 10px;
     background-position: calc(50% - var(--rails-half)) center, calc(50% + var(--rails-half)) center;
   }
 
   .grid-overlay-nodes-bottom {
     position: absolute;
     inset-inline: 0;
-    bottom: var(--hairline-bottom, 8px);
-    height: 8px;
+    bottom: calc(var(--hairline-bottom, 8px) - 5px); /* align circle center with hairline */
+    height: 10px;
     pointer-events: none;
     background-image:
-      radial-gradient(circle 4px at center, rgb(226 232 240 / 0.85) 0, rgb(226 232 240 / 0.85) 3px, transparent 3px),
-      radial-gradient(circle 4px at center, rgb(226 232 240 / 0.85) 0, rgb(226 232 240 / 0.85) 3px, transparent 3px);
+      radial-gradient(circle 6px at center, rgb(255 255 255 / 0.95) 0, rgb(255 255 255 / 0.95) 2.5px, rgb(255 255 255 / 0.35) 2.5px, rgb(255 255 255 / 0.35) 3.5px, transparent 3.5px),
+      radial-gradient(circle 6px at center, rgb(255 255 255 / 0.95) 0, rgb(255 255 255 / 0.95) 2.5px, rgb(255 255 255 / 0.35) 2.5px, rgb(255 255 255 / 0.35) 3.5px, transparent 3.5px);
     background-repeat: no-repeat, no-repeat;
-    background-size: 8px 8px, 8px 8px;
+    background-size: 10px 10px, 10px 10px;
     background-position: calc(50% - var(--rails-half)) center, calc(50% + var(--rails-half)) center;
   }
 
+  /* Shimmer sweep for hero sections */
+  @keyframes ww-shimmer {
+    from { transform: translate3d(-60%, var(--shimmer-ty, 0%), 0) rotateZ(var(--shimmer-rot, -12deg)); }
+    to   { transform: translate3d(160%, var(--shimmer-ty, 0%), 0) rotateZ(var(--shimmer-rot, -12deg)); }
+  }
+
+  .ww-shimmer {
+    position: absolute;
+    top: -10%;
+    bottom: -10%;
+    left: 0;
+    width: 34%;
+    pointer-events: none;
+    background: linear-gradient(100deg,
+      rgba(255 255 255 / 0) 0%,
+      rgba(255 255 255 / 0.08) 42%,
+      rgba(255 255 255 / 0.16) 50%,
+      rgba(255 255 255 / 0.08) 58%,
+      rgba(255 255 255 / 0) 100%
+    );
+    mix-blend-mode: screen;
+    filter: blur(0.4px);
+    will-change: transform;
+    transform-origin: 50% 50%;
+    animation: ww-shimmer var(--shimmer-duration, 8s) linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ww-shimmer { animation: none; }
+  }
+
+  /* Force animation even if the user has reduced motion on (for demos). */
+  .ww-shimmer--force {
+    animation: ww-shimmer var(--shimmer-duration, 8s) linear infinite !important;
+  }
+
+  /* Pendulum shimmer: pivots from the top so the top moves less than the bottom */
+  @keyframes ww-pendulum {
+    from {
+      transform: scaleY(var(--pendulum-scaleY, 1)) rotate(var(--pendulum-from, -16deg)) translateX(-30vw);
+    }
+    to {
+      transform: scaleY(var(--pendulum-scaleY, 1)) rotate(var(--pendulum-to, 16deg)) translateX(30vw);
+    }
+  }
+
+  .ww-pendulum {
+    position: absolute;
+    left: 50%;
+    top: -12%;
+    bottom: -12%;
+    width: 38%;
+    pointer-events: none;
+    background: linear-gradient(90deg,
+      rgba(255 255 255 / 0) 0%,
+      rgba(255 255 255 / 0.16) 40%,
+      rgba(255 255 255 / 0.42) 50%,
+      rgba(255 255 255 / 0.16) 60%,
+      rgba(255 255 255 / 0) 100%
+    );
+    mix-blend-mode: screen;
+    filter: blur(0.6px);
+    transform-origin: 50% 0%; /* pivot at top-center so top travels less */
+    will-change: transform;
+    transform: scaleY(var(--pendulum-scaleY, 1)) rotate(var(--pendulum-from, -16deg)) translateX(-30vw);
+    animation: ww-pendulum var(--pendulum-duration, 10s) ease-in-out infinite alternate;
+  }
+
+  /* Mobile tuning: wider beam but softer opacity */
+  @media (max-width: 767px) {
+    .ww-pendulum { width: 46%; opacity: 0.18; }
+  }
+
+  .ww-pendulum--force {
+    animation: ww-pendulum var(--pendulum-duration, 10s) ease-in-out infinite alternate !important;
+  }
+
+  .ww-pendulum--flip { --pendulum-scaleY: -1; }
+
   /* Update container half at breakpoints to match max-w usage */
   @media (min-width: 1024px) { /* lg */
-    :root { --container-half: 28rem; --rails-shift: 12rem; --rails-half: calc(var(--container-half) + var(--rails-shift)); }
+    :root { --container-half: 28rem; --rails-shift: 8rem; --rails-margin: 64px; --rails-half: clamp(20rem, calc(var(--container-half) + var(--rails-shift)), calc(50vw - var(--rails-margin))); }
   }
   @media (min-width: 1280px) { /* xl */
-    :root { --container-half: 32rem; --rails-shift: 16rem; --rails-half: calc(var(--container-half) + var(--rails-shift)); }
+    :root { --container-half: 32rem; --rails-shift: 10rem; --rails-margin: 80px; --rails-half: clamp(22rem, calc(var(--container-half) + var(--rails-shift)), calc(50vw - var(--rails-margin))); }
   }
   @media (min-width: 1536px) { /* 2xl */
-    :root { --container-half: 36rem; --rails-shift: 20rem; --rails-half: calc(var(--container-half) + var(--rails-shift)); }
+    :root { --container-half: 36rem; --rails-shift: 12rem; --rails-margin: 96px; --rails-half: clamp(24rem, calc(var(--container-half) + var(--rails-shift)), calc(50vw - var(--rails-margin))); }
   }
 }
 
@@ -318,4 +399,45 @@
     transition: opacity .35s ease;
   }
   .ds-cta-card:hover::before { opacity: .55; }
+}
+
+/* Animated conic border for mobile (subtle + slow) */
+@property --ds-border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes ds-border-rotate {
+  from { --ds-border-angle: 0deg; }
+  to { --ds-border-angle: 360deg; }
+}
+
+@layer components {
+  .ds-anim-border { position: relative; }
+  .ds-anim-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px; /* border thickness */
+    background: conic-gradient(
+      from var(--ds-border-angle),
+      rgba(255,255,255,0.28) 0deg,
+      rgba(255,255,255,0.12) 120deg,
+      rgba(255,255,255,0.24) 240deg,
+      rgba(255,255,255,0.28) 360deg
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: .45;
+    pointer-events: none;
+  }
+  @media (max-width: 767px) {
+    .ds-anim-border::before { animation: ds-border-rotate 26s linear infinite; }
+  }
+  @media (min-width: 768px) {
+    .ds-anim-border::before { animation: none; opacity: .25; }
+  }
 }

@@ -56,6 +56,12 @@ export default async function ExplorePage() {
         )}
         {/* Tint + fade to white for smooth transition into content */}
         <div className="absolute inset-0 z-0 bg-gradient-to-b from-white/40 via-transparent to-white/90" />
+
+        {/* Pendulum shimmer (loops) under grid; pivot at top for stronger bottom motion */}
+        <div className="absolute inset-0 z-[8] pointer-events-none overflow-hidden">
+          <div className="ww-pendulum ww-pendulum--force" style={{ ['--pendulum-duration' as any]: '9s', opacity: 0.45 }} />
+          <div className="ww-pendulum ww-pendulum--force" style={{ ['--pendulum-duration' as any]: '13s', opacity: 0.25, ['--pendulum-from' as any]: '-12deg', ['--pendulum-to' as any]: '12deg' }} />
+        </div>
         {/* Keep grid ticks visible across the hero */}
         <div className="absolute inset-0 z-10">
           {/* Using the same utility textures as the shell */}
@@ -106,8 +112,8 @@ export default async function ExplorePage() {
                 </h2>
               </div>
 
-              <div className="grid items-stretch gap-7 lg:grid-cols-2 xl:grid-cols-3">
-                {regionJobs.slice(0, 3).map((job) => (
+              <div className="grid items-stretch gap-7 sm:grid-cols-2 lg:grid-cols-3">
+                {rankJobs(regionJobs).slice(0, 6).map((job) => (
                   <JobPreviewCard key={job.id} job={job} initialBookmarked={bookmarked.has(job.id)} />)
                 )}
               </div>
@@ -204,6 +210,42 @@ function groupJobsByRegion(jobs: Jobs): Record<string, Job[]> {
   return result;
 }
 
+// Lightweight ranking to prioritize relevant engineering roles.
+function rankJobs(jobs: Job[]): Job[] {
+  const now = Date.now();
+  const positive: { pattern: RegExp; weight: number }[] = [
+    { pattern: /(software|engineer|developer)/i, weight: 8 },
+    { pattern: /(full[-\s]?stack)/i, weight: 6 },
+    { pattern: /(frontend|front[-\s]?end)/i, weight: 5 },
+    { pattern: /(backend|back[-\s]?end)/i, weight: 5 },
+    { pattern: /(ml|machine learning|ai)/i, weight: 6 },
+    { pattern: /(data engineer|platform|infrastructure|sre|security)/i, weight: 4 },
+    { pattern: /(ios|android|mobile|web)/i, weight: 3 },
+  ];
+  const negative: { pattern: RegExp; weight: number }[] = [
+    { pattern: /(operations|ops\b|customer|support|sales|marketing)/i, weight: 7 },
+    { pattern: /(researcher|research)/i, weight: 5 },
+    { pattern: /(associate|assistant)/i, weight: 3 },
+  ];
+
+  const score = (j: Job) => {
+    let s = 0;
+    const title = `${j.position} ${j.company}`;
+    for (const r of positive) if (r.pattern.test(title)) s += r.weight;
+    for (const r of negative) if (r.pattern.test(title)) s -= r.weight;
+    // Recency boost: within 45 days gets up to +6
+    const days = Math.max(0, Math.floor((now - new Date(j.createdAt).getTime()) / 86400000));
+    s += Math.max(0, 6 - Math.floor(days / 8));
+    // Full-time slightly preferred
+    if (j.employmentType === "FULL_TIME") s += 2;
+    // Salary presence implies stronger listing
+    if (j.salaryMin || j.salaryMax) s += 1;
+    return s;
+  };
+
+  return [...jobs].sort((a, b) => score(b) - score(a));
+}
+
 function JobPreviewCard({
   job,
   initialBookmarked,
@@ -220,19 +262,21 @@ function JobPreviewCard({
     : undefined;
 
   return (
-    <article className="flex h-full flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-6 min-h-[176px] shadow-sm transition-all hover:border-zinc-300 hover:bg-zinc-50 hover:shadow-md focus-within:ring-1 focus-within:ring-zinc-300">
-      <div className="flex items-start gap-4">
+    <article className="relative group flex h-full flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-6 min-h-[176px] shadow-sm transition-all hover:border-zinc-300 hover:bg-zinc-50 hover:shadow-md">
+      {/* Full-card interactive overlay for hover and click */}
+      <Link
+        href={{ pathname: "/job-search", query: { selected: job.id } }}
+        aria-label={`${job.company} — ${job.position}`}
+        className="absolute inset-0 z-[10] rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300"
+      />
+
+      <div className="relative z-0 flex items-start gap-4">
         <FaviconImage src={job.companyImageUrl} company={job.company} />
         <div className="min-w-0">
           <div className="font-body text-sm text-zinc-600">{job.company}</div>
-          <Link
-            href={{ pathname: "/job-search", query: { selected: job.id } }}
-            className="group block focus-visible:outline-none"
-          >
-            <h3 className="font-header text-lg font-semibold text-zinc-900 group-hover:underline line-clamp-2">
-              {job.position}
-            </h3>
-          </Link>
+          <h3 className="font-header text-lg font-semibold text-zinc-900 group-hover:underline line-clamp-2">
+            {job.position}
+          </h3>
           <div className="font-body text-[15px] text-zinc-700">
             {compText ? `${compText} · ` : ""}{formatEmploymentType(job.employmentType)}
           </div>
@@ -242,7 +286,7 @@ function JobPreviewCard({
             {timeAgo(job.createdAt)}
           </div>
         </div>
-        <div className="ml-auto">
+        <div className="relative z-[20] ml-auto">
           <BookmarkButton jobId={job.id} initial={initialBookmarked} />
         </div>
       </div>

@@ -23,9 +23,9 @@ export async function getJobs() {
 					},
 				},
 			},
-			orderBy: {
-				createdAt: "asc",
-			},
+            orderBy: {
+                createdAt: "desc",
+            },
 		});
 
 		// Retroactively fetch favicons for jobs that don't have one

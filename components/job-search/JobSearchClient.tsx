@@ -4,6 +4,7 @@ import posthog from 'posthog-js';
 import { useEffect, useMemo, useState, useCallback, useDeferredValue } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import { ChevronDown, Search, X } from "lucide-react";
 import {
   DropdownMenu,
@@ -174,29 +175,34 @@ export default function JobSearchClient({ jobs }: Props) {
           quietlySyncQuery(next);
         }}
       />
-      <div className="flex min-h-0 flex-1">
-        <div className="flex h-full w-[260px] md:w-[280px] lg:w-[300px] shrink-0 flex-col border-r border-zinc-200 bg-white">
-          <ResultsList
-            jobs={results}
-            bookmarkedIds={bookmarkedIds}
-            selectedId={selectedJob?.id}
-            onSelect={onSelect}
-          />
-        </div>
-        <div className="flex min-w-0 flex-1 bg-white">
-          {selectedJob ? (
-            <JobDetail job={selectedJob} initialSaved={bookmarkedIds.has(selectedJob.id)} />
-          ) : results.length === 0 ? (
-            <EmptyState
-              title="No jobs found"
-              message="Try adjusting your filters or search terms to see more results."
-              showFeedback={true}
+      <ResizablePanelGroup direction="horizontal" className="min-h-0 flex-1 bg-white">
+        <ResizablePanel defaultSize={34} minSize={22} maxSize={50} className="min-w-[220px] border-r border-zinc-200">
+          <div className="flex h-full flex-col">
+            <ResultsList
+              jobs={results}
+              bookmarkedIds={bookmarkedIds}
+              selectedId={selectedJob?.id}
+              onSelect={onSelect}
             />
-          ) : (
-            <div className="m-auto p-8 text-center text-zinc-500">Select a job to view details</div>
-          )}
-        </div>
-      </div>
+          </div>
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={66} minSize={40} className="min-w-0">
+          <div className="flex min-w-0 flex-1">
+            {selectedJob ? (
+              <JobDetail job={selectedJob} initialSaved={bookmarkedIds.has(selectedJob.id)} />
+            ) : results.length === 0 ? (
+              <EmptyState
+                title="No jobs found"
+                message="Try adjusting your filters or search terms to see more results."
+                showFeedback={true}
+              />
+            ) : (
+              <div className="m-auto p-8 text-center text-zinc-500">Select a job to view details</div>
+            )}
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   );
 }
