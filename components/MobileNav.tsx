@@ -31,16 +31,16 @@ export default function MobileNav() {
   }, [open]);
 
   return (
-    <div className="relative" ref={containerRef}>
+    <div className="relative flex items-center" ref={containerRef}>
       <button
         aria-label={open ? "Close menu" : "Open menu"}
-        className="rounded-md p-2 text-zinc-700 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
+        className="rounded-md p-2 text-zinc-700 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 touch-manipulation"
         onClick={() => setOpen((v) => !v)}
       >
         {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
       {open && (
-        <div className="fixed inset-x-0 top-14 z-50 pointer-events-none">
+        <div className="fixed inset-x-0 top-14 z-50 pointer-events-none" style={{ paddingLeft: 'env(safe-area-inset-left)', paddingRight: 'env(safe-area-inset-right)' }}>
           <div className="pointer-events-auto w-full rounded-none border-b border-zinc-200 bg-white shadow-md">
             <nav className="max-h-[50vh] overflow-y-auto px-5 py-5">
               <ul className="space-y-6">

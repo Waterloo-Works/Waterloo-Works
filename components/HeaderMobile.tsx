@@ -27,15 +27,17 @@ export default async function HeaderMobile() {
   })();
 
   return (
-    <header className="fixed inset-x-0 top-0 z-30 flex h-14 items-center justify-between border-b border-white/20 bg-transparent px-4 backdrop-blur supports-[backdrop-filter]:bg-transparent md:hidden">
-      <MobileNav />
+    <header className="fixed inset-x-0 top-0 z-30 flex h-14 items-center justify-between border-b border-white/20 bg-transparent backdrop-blur supports-[backdrop-filter]:bg-transparent md:hidden" style={{ paddingLeft: 'max(1rem, env(safe-area-inset-left))', paddingRight: 'max(1rem, env(safe-area-inset-right))' }}>
+      <div className="flex-shrink-0">
+        <MobileNav />
+      </div>
       <div className="absolute left-1/2 -translate-x-1/2">
         <Link href="/explore" className="text-base font-header italic text-zinc-900">
           waterloo.works
         </Link>
       </div>
       {user ? (
-        <div className="relative group ml-auto">
+        <div className="relative group ml-auto flex-shrink-0">
           <button className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-[#F5F1E8] text-sm font-medium hover:bg-zinc-800 transition-colors" aria-label="User menu">
             {initials}
           </button>
@@ -62,9 +64,11 @@ export default async function HeaderMobile() {
           </div>
         </div>
       ) : (
-        <Link href="/login" className="rounded-full border border-zinc-300 px-4 py-1.5 text-sm text-zinc-900 hover:bg-zinc-50">
-          Sign in
-        </Link>
+        <div className="ml-auto flex-shrink-0">
+          <Link href="/login" className="rounded-full border border-zinc-300 px-4 py-1.5 text-sm text-zinc-900 hover:bg-zinc-50">
+            Sign in
+          </Link>
+        </div>
       )}
     </header>
   );
