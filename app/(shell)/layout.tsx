@@ -23,7 +23,6 @@ export default async function ShellLayout({ children }: { children: ReactNode })
         {/* Mutually exclusive headers */}
         <div className="pt-14 md:pt-0">
           <HeaderMobile />
-          <HeaderDesktop />
         </div>
         {/* Side rails at container edges for layout separation */}
         <GridOverlay
@@ -37,8 +36,6 @@ export default async function ShellLayout({ children }: { children: ReactNode })
           style={{ ['--ticks-top-offset' as any]: '8px', ['--hairline-top' as any]: '0px', ['--hairline-bottom' as any]: '8px' }}
         />
         <div className="flex-1">{children}</div>
-        {/* Floating user menu bottom-right */}
-        {user && (<FloatingProfileMenu user={user} isAdmin={isAdmin} />)}
       </main>
     </div>
   );
