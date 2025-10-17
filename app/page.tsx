@@ -14,8 +14,8 @@ export default async function Home() {
   if (user) redirect("/explore");
 
   return (
-    <div className="min-h-screen bg-white">
-      <header className="absolute inset-x-0 top-0 z-40 flex h-14 md:h-16 items-center justify-between px-4 md:px-6 border-b border-white/20 bg-transparent">
+    <div className="min-h-screen" style={{ backgroundColor: '#98989b' }}>
+      <header className="sticky top-0 z-40 flex h-14 md:h-16 items-center justify-between px-4 md:px-6 border-b border-white/20 backdrop-blur-sm" style={{ backgroundColor: 'rgba(152, 152, 155, 0.7)' }}>
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
           <Link href="/" className="text-xl font-header italic text-zinc-50">
             waterloo.works
@@ -77,12 +77,12 @@ export default async function Home() {
             </p>
 
             {/* Choice cards */}
-            <div className="grid w-full max-w-2xl gap-4 md:gap-5 md:grid-cols-2">
+            <div className="grid w-full max-w-2xl gap-2.5 md:gap-5 md:grid-cols-2">
               <Link href="/explore" className="group">
-                <div className="ds-card-washi ds-cta-card ds-anim-border h-[220px] sm:h-[260px] md:h-[320px] flex flex-col items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
-                  <p className="font-body tracking-wide-01 leading-body text-sm text-zinc-700">Alum</p>
-                  <h3 className="font-header text-[1.75rem] md:text-h3 tracking-tight-02 leading-heading text-zinc-900">Find your next job</h3>
-                  <span className="ds-chip gap-2 hover:bg-white/90">
+                <div className="ds-card-washi ds-card-washi--bold ds-cta-card ds-anim-border h-[160px] sm:h-[210px] md:h-[320px] flex flex-col items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+                  <p className="font-body tracking-wide-01 leading-body text-xs text-zinc-700">Alum</p>
+                  <h3 className="font-header text-[1.25rem] md:text-h3 tracking-tight-02 leading-heading text-zinc-900">Find your next job</h3>
+                  <span className="ds-chip gap-1.5 hover:bg-white/90 px-2.5 py-1 text-[12px] md:px-4 md:py-2 md:text-sm">
                     <span className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
                     <span>Explore jobs</span>
                   </span>
@@ -90,10 +90,10 @@ export default async function Home() {
               </Link>
 
               <Link href="/post-job" className="group">
-                <div className="ds-card-washi ds-cta-card ds-anim-border h-[220px] sm:h-[260px] md:h-[320px] flex flex-col items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
-                  <p className="font-body tracking-wide-01 leading-body text-sm text-zinc-700">Employers</p>
-                  <h3 className="font-header text-[1.75rem] md:text-h3 tracking-tight-02 leading-heading text-zinc-900">Hire top talent</h3>
-                  <span className="ds-chip gap-2 hover:bg-white/90">
+                <div className="ds-card-washi ds-card-washi--muted ds-cta-card ds-anim-border h-[160px] sm:h-[210px] md:h-[320px] flex flex-col items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
+                  <p className="font-body tracking-wide-01 leading-body text-xs text-zinc-700">Employers</p>
+                  <h3 className="font-header text-[1.25rem] md:text-h3 tracking-tight-02 leading-heading text-zinc-800">Hire top talent</h3>
+                  <span className="ds-chip gap-1.5 hover:bg-white/90 px-2.5 py-1 text-[12px] md:px-4 md:py-2 md:text-sm">
                     <span className="transition-transform duration-300 ease-out group-hover:-translate-y-0.5">✏️</span>
                     <span>Post a job</span>
                   </span>
