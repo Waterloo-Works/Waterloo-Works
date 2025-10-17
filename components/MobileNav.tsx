@@ -10,8 +10,6 @@ const items = [
   { label: "Companies", href: "/companies" },
   { label: "Resources", href: "/resources" },
   { label: "Events", href: "/events" },
-  { label: "Notifications", href: "/notifications" },
-  { label: "Inbox", href: "/inbox" },
 ];
 
 export default function MobileNav() {
