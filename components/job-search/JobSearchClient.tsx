@@ -38,6 +38,16 @@ export default function JobSearchClient({ jobs }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
+  // Mobile drawer for job details (breakpoint detected on client)
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(max-width: 767px)");
+    const onChange = () => setIsMobile(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   const selectedParam = sp.get("selected") || undefined;
   // Local filter state for snappy client-side updates
@@ -116,21 +126,21 @@ export default function JobSearchClient({ jobs }: Props) {
   }, [filtered, dq]);
 
   // Keep "selected" local for instant switching; sync to URL without RSC refresh.
-  const [selectedId, setSelectedId] = useState<string | undefined>(selectedParam);
+  const [selectedId, setSelectedId] = useState<string | undefined>(undefined);
   useEffect(() => {
-    // Initialize from URL param on first render or when user lands on a deep link
-    if (selectedParam && selectedParam !== selectedId) {
+    // Respect URL-selected job only on desktop (avoid auto-opening drawer on mobile)
+    if (!isMobile && selectedParam && selectedParam !== selectedId) {
       setSelectedId(selectedParam);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedParam]);
+  }, [selectedParam, isMobile]);
 
-  // Ensure selection is valid against current results
+  // Ensure selection is valid against current results (do not auto-select on mobile)
   useEffect(() => {
     if (!results.length) return setSelectedId(undefined);
-    if (!selectedId || !results.some((j) => j.id === selectedId)) {
-      setSelectedId(results[0]?.id);
-      quietlySyncSelected(results[0]?.id);
+    if (selectedId && !results.some((j) => j.id === selectedId)) {
+      setSelectedId(undefined);
+      quietlySyncSelected(undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [results]);
@@ -158,16 +168,6 @@ export default function JobSearchClient({ jobs }: Props) {
     }
   };
 
-  // Mobile drawer for job details
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(max-width: 767px)");
-    const onChange = () => setIsMobile(mq.matches);
-    onChange();
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
 
   const drawerRef = React.useRef<HTMLDivElement | null>(null);
   useEffect(() => {
@@ -211,7 +211,10 @@ export default function JobSearchClient({ jobs }: Props) {
           />
         </div>
       </div>
-      <ResizablePanelGroup direction="horizontal" className="min-h-0 hidden flex-1 bg-white md:flex">
+      <ResizablePanelGroup
+        direction="horizontal"
+        className="min-h-0 hidden flex-1 bg-white md:flex"
+      >
         <ResizablePanel defaultSize={34} minSize={22} maxSize={50} className="min-w-[220px] border-r border-zinc-200">
           <div className="flex h-full flex-col">
             <ResultsList
@@ -243,7 +246,6 @@ export default function JobSearchClient({ jobs }: Props) {
       {/* Mobile Drawer: opens when a job is selected */}
       <Drawer
         open={isMobile && !!selectedJob}
-        dismissible={false}
         onOpenChange={(open) => {
           if (!open) {
             setSelectedId(undefined);
@@ -251,15 +253,15 @@ export default function JobSearchClient({ jobs }: Props) {
           }
         }}
       >
-        <DrawerContent ref={drawerRef} className="h-[88svh] overflow-y-auto">
+        <DrawerContent>
           {selectedJob && (
-            <div className="w-full">
+            <div ref={drawerRef} className="w-full max-h-[88svh] overflow-y-auto -mb-2 pb-2">
               <DrawerHeader className="flex items-center justify-between">
                 <DrawerTitle className="font-header text-lg text-zinc-900 truncate pr-4">
                   {selectedJob.position}
                 </DrawerTitle>
                 <DrawerClose asChild>
-                  <button className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-50">Close</button>
+                  <button type="button" className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-50">Close</button>
                 </DrawerClose>
               </DrawerHeader>
               <JobDetail job={selectedJob} initialSaved={bookmarkedIds.has(selectedJob.id)} />
@@ -317,19 +319,7 @@ function Header({
         </nav>
       </div>
 
-      {/* Mobile pills for tabs */}
-      <div className="mb-3 flex items-center gap-2 md:hidden">
-        <button
-          onClick={() => setTab("search")}
-          className={
-            "rounded-full px-3 py-1.5 text-sm " +
-            (tab === "search" ? "bg-zinc-900 text-white" : "border border-zinc-200 bg-white text-zinc-700")
-          }
-        >
-          Search
-        </button>
-      
-      </div>
+    
 
       {/* Single-row toolbar (desktop). Will wrap on small screens. */}
       <div className="flex flex-wrap items-center gap-2">
@@ -340,7 +330,7 @@ function Header({
             value={q}
             placeholder="Search jobs"
             onChange={(e) => onChange({ q: e.target.value || undefined })}
-            className="w-full rounded-xl border border-zinc-200 bg-white py-2 pl-4 pr-12 text-sm outline-none focus:ring-2 focus:ring-zinc-300"
+            className="w-full rounded-xl border border-zinc-200 bg-white py-2 pl-4 pr-12 text-base md:text-sm outline-none focus:ring-2 focus:ring-zinc-300"
           />
           {q && (
             <button
@@ -415,7 +405,6 @@ function Header({
 const typeChips = [
   { value: "FULL_TIME", label: "Full-time job" },
   { value: "INTERNSHIP", label: "Internship" },
-  { value: "PART_TIME", label: "Part time" },
   { value: "CONTRACT", label: "Contract" },
 ];
 
@@ -468,23 +457,21 @@ function ResultsList({
           }}
           data-selected={selectedId === j.id}
           className={
-            "w-full cursor-pointer border-b border-zinc-100 px-3 py-4 text-left transition-colors outline-none focus-visible:ring-1 focus-visible:ring-zinc-300 " +
+            "w-full cursor-pointer border-b border-zinc-100 px-3 py-3 md:py-4 text-left transition-colors outline-none focus-visible:ring-1 focus-visible:ring-zinc-300 " +
             (selectedId === j.id ? "bg-zinc-50" : "hover:bg-zinc-50")
           }
         >
           <div className="flex items-start gap-3">
-            <FaviconImage src={j.companyImageUrl} company={j.company} />
+            <FaviconImage src={j.companyImageUrl} company={j.company} className="w-9 h-9 md:w-10 md:h-10" />
             <div className="min-w-0 flex-1">
-              <div className="font-body text-sm text-zinc-600">{j.company}</div>
-              <div className="font-header text-lg font-semibold text-zinc-900">{j.position}</div>
-              <div className="font-body text-[15px] text-zinc-700">
+              <div className="font-body text-[13px] text-zinc-600">{j.company}</div>
+              <div className="font-header text-[17px] md:text-lg font-semibold leading-5 text-zinc-900">{j.position}</div>
+              <div className="font-body text-[13px] md:text-[15px] text-zinc-700">
                 {j.salaryMin && j.salaryMax ? `${j.salaryMin} - ${j.salaryMax} · ` : ""}
                 {formatEmploymentType(j.employmentType)}
               </div>
-          
-              <div className="font-body text-sm text-zinc-500 mt-1">
-                {j.location} · {timeAgo(j.createdAt)}
-              </div>
+
+              <div className="font-body text-[12px] text-zinc-500 mt-1">{j.location} · {timeAgo(j.createdAt)}</div>
             </div>
             <div onClick={(e) => e.stopPropagation()} className="ml-auto">
               <BookmarkButton jobId={j.id} initial={bookmarkedIds.has(j.id)} />
