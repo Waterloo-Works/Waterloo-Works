@@ -22,7 +22,7 @@ export const metadata: Metadata = {
         siteName: "Waterloo Works",
         images: [
             {
-                url: `${siteUrl}/banner.png`,
+                url: `${siteUrl}/og-image.png`,
                 width: 1200,
                 height: 630,
                 alt: "Waterloo Works - A community job board",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
         card: "summary_large_image",
         title: "Waterloo Works",
         description: "A community job board connecting talent with opportunities",
-        images: [`${siteUrl}/banner.png`],
+        images: [`${siteUrl}/og-image.png`],
     },
 };
 

@@ -200,9 +200,20 @@ export default function JobSearchClient({ jobs }: Props) {
           }
         }}
       />
-      {isMobile ? (
-        <div className="flex min-h-0 flex-1">
-          <div className="flex h-full w-full shrink-0 flex-col border-r border-zinc-200 bg-white">
+      {/* Mobile: simple list; Desktop: resizable split */}
+      <div className="flex min-h-0 flex-1 md:hidden">
+        <div className="flex h-full w-full shrink-0 flex-col border-r border-zinc-200 bg-white">
+          <ResultsList
+            jobs={results}
+            bookmarkedIds={bookmarkedIds}
+            selectedId={selectedJob?.id}
+            onSelect={onSelect}
+          />
+        </div>
+      </div>
+      <ResizablePanelGroup direction="horizontal" className="min-h-0 hidden flex-1 bg-white md:flex">
+        <ResizablePanel defaultSize={34} minSize={22} maxSize={50} className="min-w-[220px] border-r border-zinc-200">
+          <div className="flex h-full flex-col">
             <ResultsList
               jobs={results}
               bookmarkedIds={bookmarkedIds}
@@ -210,37 +221,24 @@ export default function JobSearchClient({ jobs }: Props) {
               onSelect={onSelect}
             />
           </div>
-        </div>
-      ) : (
-        <ResizablePanelGroup direction="horizontal" className="min-h-0 flex-1 bg-white">
-          <ResizablePanel defaultSize={34} minSize={22} maxSize={50} className="min-w-[220px] border-r border-zinc-200">
-            <div className="flex h-full flex-col">
-              <ResultsList
-                jobs={results}
-                bookmarkedIds={bookmarkedIds}
-                selectedId={selectedJob?.id}
-                onSelect={onSelect}
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={66} minSize={40} className="min-w-0">
+          <div className="flex min-w-0 flex-1">
+            {selectedJob ? (
+              <JobDetail job={selectedJob} initialSaved={bookmarkedIds.has(selectedJob.id)} />
+            ) : results.length === 0 ? (
+              <EmptyState
+                title="No jobs found"
+                message="Try adjusting your filters or search terms to see more results."
+                showFeedback={true}
               />
-            </div>
-          </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={66} minSize={40} className="min-w-0">
-            <div className="flex min-w-0 flex-1">
-              {selectedJob ? (
-                <JobDetail job={selectedJob} initialSaved={bookmarkedIds.has(selectedJob.id)} />
-              ) : results.length === 0 ? (
-                <EmptyState
-                  title="No jobs found"
-                  message="Try adjusting your filters or search terms to see more results."
-                  showFeedback={true}
-                />
-              ) : (
-                <div className="m-auto p-8 text-center text-zinc-500">Select a job to view details</div>
-              )}
-            </div>
-          </ResizablePanel>
-        </ResizablePanelGroup>
-      )}
+            ) : (
+              <div className="m-auto p-8 text-center text-zinc-500">Select a job to view details</div>
+            )}
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
 
       {/* Mobile Drawer: opens when a job is selected */}
       <Drawer
