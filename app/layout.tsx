@@ -25,7 +25,7 @@ export const metadata: Metadata = {
                 url: `${siteUrl}/og-image.png`,
                 width: 1200,
                 height: 630,
-                alt: "Waterloo Works - A community job board",
+                alt: "waterloo.works — independent community job board",
             },
         ],
         locale: "en_US",
