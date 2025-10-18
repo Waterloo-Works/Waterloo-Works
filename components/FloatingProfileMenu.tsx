@@ -35,7 +35,7 @@ export default function FloatingProfileMenu({ user, isAdmin = false }: { user: U
       <button
         aria-label="Open profile menu"
         onClick={() => setOpen((v) => !v)}
-        className="relative z-50 flex h-11 w-11 items-center justify-center rounded-full bg-black/90 text-white shadow-lg ring-1 ring-white/15 backdrop-blur transition-colors hover:bg-black"
+        className="relative z-50 flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-violet-600 text-white shadow-lg ring-1 ring-violet-400/20 backdrop-blur transition-all hover:shadow-xl hover:scale-105"
       >
         <span className="text-sm font-medium">{initials}</span>
       </button>

@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/app/actions/auth";
 import { Toaster as SonnerToaster } from "sonner";
 import QueryProvider from "@/providers/QueryProvider";
 import { PostHogProvider } from "@/providers/PostHogProvider";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Suspense } from "react";
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL ||
@@ -59,20 +60,22 @@ export default async function RootLayout({
 	const hasSource = !!user?.source;
 
 	return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
             <body className={`antialiased font-body tracking-wide-01 leading-body`}>
-              <PostHogProvider>
-                <SessionProvider>
-					<Suspense fallback={null}>
-						<OnboardingWrapper initialHasSource={hasSource}>
-							<QueryProvider>
-								{children}
-							</QueryProvider>
-							<SonnerToaster richColors closeButton position="top-right" />
-						</OnboardingWrapper>
-					</Suspense>
-                </SessionProvider>
-              </PostHogProvider>
+              <ThemeProvider>
+                <PostHogProvider>
+                  <SessionProvider>
+                    <Suspense fallback={null}>
+                      <OnboardingWrapper initialHasSource={hasSource}>
+                        <QueryProvider>
+                          {children}
+                        </QueryProvider>
+                        <SonnerToaster richColors closeButton position="top-right" />
+                      </OnboardingWrapper>
+                    </Suspense>
+                  </SessionProvider>
+                </PostHogProvider>
+              </ThemeProvider>
             </body>
     </html>
 	);

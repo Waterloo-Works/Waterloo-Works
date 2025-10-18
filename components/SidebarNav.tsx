@@ -18,6 +18,7 @@ type NavItem = {
   href: string;
   iconName: string;
   section?: "primary" | "secondary";
+  disabled?: boolean;
 };
 
 const iconMap = {
@@ -37,25 +38,56 @@ export function SidebarNav({ items }: { items: NavItem[] }) {
     const active = pathname === item.href || pathname.startsWith(item.href + "/");
     const Icon = iconMap[item.iconName as keyof typeof iconMap];
 
+    const content = (
+      <>
+        {/* Active rail */}
+        <span
+          className={cn(
+            "absolute left-0 top-1/2 -translate-y-1/2 h-6 w-1 rounded-full",
+            active && !item.disabled ? "bg-zinc-900" : "bg-transparent"
+          )}
+          aria-hidden
+        />
+        {Icon && <Icon className="h-4 w-4" strokeWidth={2} />}
+        <span className="font-medium tracking-wide">{item.label}</span>
+        {item.disabled && (
+          <span className="ml-auto rounded-full bg-zinc-100 px-1.5 py-0.5 text-[10px] font-medium text-zinc-600">
+            Soon
+          </span>
+        )}
+      </>
+    );
+
+    if (item.disabled) {
+      return (
+        <div
+          className={cn(
+            "group relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors cursor-not-allowed opacity-50"
+          )}
+          title="Coming soon"
+        >
+          {content}
+        </div>
+      );
+    }
+
     return (
       <Link
         href={item.href}
         aria-current={active ? "page" : undefined}
         className={cn(
-          "flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm transition-colors",
-          "hover:bg-zinc-100",
-          active ? "bg-zinc-100 text-zinc-900" : "text-zinc-700"
+          "group relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors",
+          active ? "bg-zinc-100 text-zinc-900" : "text-zinc-700 hover:bg-zinc-50"
         )}
       >
-        {Icon && <Icon className="h-5 w-5" strokeWidth={2} />}
-        <span className="font-medium">{item.label}</span>
+        {content}
       </Link>
     );
   }
 
   return (
     <>
-      <nav className="px-3 space-y-1">
+      <nav className="px-2 space-y-1">
         {items
           .filter((n) => n.section === "primary")
           .map((n) => (
@@ -63,9 +95,9 @@ export function SidebarNav({ items }: { items: NavItem[] }) {
           ))}
       </nav>
 
-      <div className="my-5 border-t border-zinc-200" />
+      <div className="my-4 mx-2 border-t border-zinc-200" />
 
-      <nav className="px-3 space-y-1">
+      <nav className="px-2 space-y-1">
         {items
           .filter((n) => n.section === "secondary")
           .map((n) => (

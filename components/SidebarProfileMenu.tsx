@@ -50,7 +50,7 @@ export function SidebarProfileMenu({ user, isAdmin }: SidebarProfileMenuProps) {
         className="flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-sm transition-colors hover:bg-zinc-100"
         aria-label="User menu"
       >
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white text-xs font-medium">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-violet-600 text-white text-xs font-medium shadow-sm">
           {initials}
         </div>
         <div className="flex-1 text-left overflow-hidden">
