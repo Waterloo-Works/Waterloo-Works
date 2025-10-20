@@ -235,7 +235,7 @@ export default function JobSearchClient({ jobs }: Props) {
           </ResizablePanel>
           <ResizableHandle withHandle />
           <ResizablePanel defaultSize={66} minSize={40} className="min-w-0">
-            <div className="flex min-w-0 flex-1">
+            <div className="flex min-w-0 flex-1 overflow-y-auto">
               {selectedJob ? (
                 <JobDetail job={selectedJob} initialSaved={bookmarkedIds.has(selectedJob.id)} />
               ) : results.length === 0 ? (

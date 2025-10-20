@@ -4,7 +4,6 @@
 
 /* Design System: type + tokens */
 :root {
-  --accent-soft: 84 81% 80%;
   /* Brand color aliases mapped to theme so dark mode works */
   --base-color-brand--10: hsl(var(--background));
   --base-color-brand--03: hsl(var(--foreground));
@@ -64,11 +63,11 @@
     --input: 227 226 221;             /* base-border */
     --ring: 10 10 10;                 /* text-main */
 
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --chart-1: 10 10 10;              /* text-main - darkest */
+    --chart-2: 82 82 82;              /* text-subtle - medium */
+    --chart-3: 163 163 163;           /* light gray */
+    --chart-4: 227 226 221;           /* base-border - lighter */
+    --chart-5: 234 234 231;           /* base-hover - lightest */
 
     --radius: 0.5rem;
 
@@ -118,11 +117,11 @@
     --input: 10 10 10;                /* dark-surface */
     --ring: 255 255 255;              /* text-inverse */
 
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --chart-1: 255 255 255;           /* text-inverse - lightest */
+    --chart-2: 163 163 163;           /* medium gray */
+    --chart-3: 82 82 82;              /* text-subtle - medium */
+    --chart-4: 40 40 40;              /* darker gray */
+    --chart-5: 10 10 10;              /* dark-surface - darkest */
 
     --sidebar-background: 10 10 10;   /* dark-surface */
     --sidebar-foreground: 255 255 255; /* text-inverse */
@@ -187,13 +186,13 @@
     background-image:
       linear-gradient(90deg,
         transparent calc(50% - 0.5px),
-        rgb(228 228 231 / 0.9) calc(50% - 0.5px),
-        rgb(228 228 231 / 0.9) calc(50% + 0.5px),
+        rgb(227 226 221 / 0.9) calc(50% - 0.5px),
+        rgb(227 226 221 / 0.9) calc(50% + 0.5px),
         transparent calc(50% + 0.5px)
       ),
       repeating-linear-gradient(90deg,
-        rgb(212 212 216 / 0.35) 0,
-        rgb(212 212 216 / 0.35) 1px,
+        rgb(227 226 221 / 0.35) 0,
+        rgb(227 226 221 / 0.35) 1px,
         transparent 1px,
         transparent 80px
       );
@@ -208,9 +207,9 @@
     top: var(--ticks-top-offset, 10px);
     /* three staggered layers to simulate candle clusters ("candlelight") */
     background-image:
-      linear-gradient(90deg, rgb(228 228 231 / 0.75), rgb(228 228 231 / 0.75) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(228 228 231 / 0.65), rgb(228 228 231 / 0.65) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(228 228 231 / 0.55), rgb(228 228 231 / 0.55) 1px, transparent 1px);
+      linear-gradient(90deg, rgb(227 226 221 / 0.75), rgb(227 226 221 / 0.75) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(227 226 221 / 0.65), rgb(227 226 221 / 0.65) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(227 226 221 / 0.55), rgb(227 226 221 / 0.55) 1px, transparent 1px);
     background-size: 72px 12px, 80px 8px, 64px 10px;
     background-repeat: repeat-x;
     background-position: 0 2px, 18px 4px, 40px 1px;
@@ -223,9 +222,9 @@
     height: 6px;
     pointer-events: none;
     background-image:
-      linear-gradient(90deg, rgb(228 228 231 / 0.75), rgb(228 228 231 / 0.75) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(228 228 231 / 0.65), rgb(228 228 231 / 0.65) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(228 228 231 / 0.55), rgb(228 228 231 / 0.55) 1px, transparent 1px);
+      linear-gradient(90deg, rgb(227 226 221 / 0.75), rgb(227 226 221 / 0.75) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(227 226 221 / 0.65), rgb(227 226 221 / 0.65) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(227 226 221 / 0.55), rgb(227 226 221 / 0.55) 1px, transparent 1px);
     background-size: 72px 12px, 80px 8px, 64px 10px;
     background-repeat: repeat-x;
     /* position ticks just above the bottom hairline */
@@ -253,14 +252,14 @@
     background-image:
       linear-gradient(90deg,
         transparent calc(50% - var(--rails-half)),
-        rgb(245 245 245 / 0.95) calc(50% - var(--rails-half)),
-        rgb(245 245 245 / 0.95) calc(50% - var(--rails-half) + 1px),
+        rgb(227 226 221 / 0.95) calc(50% - var(--rails-half)),
+        rgb(227 226 221 / 0.95) calc(50% - var(--rails-half) + 1px),
         transparent calc(50% - var(--rails-half) + 1px)
       ),
       linear-gradient(90deg,
         transparent calc(50% + var(--rails-half)),
-        rgb(245 245 245 / 0.95) calc(50% + var(--rails-half)),
-        rgb(245 245 245 / 0.95) calc(50% + var(--rails-half) + 1px),
+        rgb(227 226 221 / 0.95) calc(50% + var(--rails-half)),
+        rgb(227 226 221 / 0.95) calc(50% + var(--rails-half) + 1px),
         transparent calc(50% + var(--rails-half) + 1px)
       );
     background-position: center;
@@ -389,7 +388,7 @@
   .shimmer {
     position: relative;
     overflow: hidden;
-    background-color: rgb(244 244 245); /* zinc-100 */
+    background-color: rgb(234 234 231); /* base-hover */
   }
   .shimmer::after {
     content: "";
@@ -404,37 +403,12 @@
 
 @layer components {
   /* Design system utility classes */
-  .ds-card { @apply rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition-colors hover:border-zinc-300; }
-  /* Glassy, warm paper-like surface for hero CTAs */
-  .ds-card-glass {
-    @apply rounded-3xl p-8 border backdrop-blur-sm transition-colors shadow-[inset_0_1px_0_rgba(255,255,255,.65),0_20px_40px_-20px_rgba(0,0,0,.35)];
-    background-image: linear-gradient(to bottom right, rgba(250, 250, 245, 0.85), rgba(241, 241, 236, 0.70));
-    border-color: rgba(255, 255, 255, 0.45);
-  }
-  /* Washi-inspired card with warm sepia, soft vignette */
-  .ds-card-washi {
-    @apply rounded-[24px] p-8 border backdrop-blur-[1.5px] transition-colors shadow-[inset_0_1px_0_rgba(255,255,255,.6),0_24px_48px_-28px_rgba(0,0,0,.45)];
-    background-image:
-      radial-gradient(120% 100% at 0% 0%, rgba(255,255,255,0.85), rgba(255,255,255,0.55) 35%, rgba(255,255,255,0.35) 55%, rgba(0,0,0,0.02) 100%),
-      linear-gradient(to bottom right, rgba(244, 236, 224, 0.92), rgba(228, 220, 206, 0.75));
-    border-color: rgba(255, 255, 255, 0.5);
-  }
-  /* Variants: bold (brighter) and muted (darker) */
-  .ds-card-washi--bold {
-    background-image:
-      radial-gradient(120% 100% at 0% 0%, rgba(255,255,255,0.92), rgba(255,255,255,0.65) 35%, rgba(255,255,255,0.45) 55%, rgba(0,0,0,0.02) 100%),
-      linear-gradient(to bottom right, rgba(248, 242, 232, 0.96), rgba(236, 230, 220, 0.82));
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.8), 0 24px 48px -28px rgba(0,0,0,.45);
-  }
-  .ds-card-washi--muted {
-    background-image:
-      radial-gradient(120% 100% at 0% 0%, rgba(245,245,240,0.75), rgba(235,235,228,0.45) 35%, rgba(225,225,220,0.35) 55%, rgba(0,0,0,0.05) 100%),
-      linear-gradient(to bottom right, rgba(226, 218, 204, 0.85), rgba(210, 202, 190, 0.70));
-    filter: saturate(.92) brightness(.98);
-  }
-  .ds-divider { @apply border-t border-zinc-200; }
+  .ds-card { @apply rounded-2xl border border-border bg-card p-6 shadow-sm transition-colors hover:border-border; }
+
+  .ds-divider { @apply border-t border-border; }
+
   .ds-chip {
-    @apply inline-flex items-center rounded-full px-4 py-2 text-sm font-medium text-zinc-800 transition-all duration-300 ease-out;
+    @apply inline-flex items-center rounded-full px-4 py-2 text-sm font-medium text-foreground transition-all duration-300 ease-out;
     background-image: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.75));
     border: 1px solid rgba(0,0,0,0.08);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 6px 14px -8px rgba(0,0,0,0.35);
@@ -467,44 +441,8 @@
   .ds-cta-card:hover::before { opacity: .55; }
 }
 
-/* Animated conic border for mobile (subtle + slow) */
-@property --ds-border-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
-@keyframes ds-border-rotate {
-  from { --ds-border-angle: 0deg; }
-  to { --ds-border-angle: 360deg; }
-}
-
 @layer components {
-  .ds-anim-border { position: relative; }
-  .ds-anim-border::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 3px; /* border thickness */
-    background: conic-gradient(
-      from var(--ds-border-angle),
-      rgba(238, 219, 186, 0.45) 0deg,
-      rgba(255,255,255,0.18) 90deg,
-      rgba(238, 219, 186, 0.38) 180deg,
-      rgba(255,255,255,0.16) 270deg,
-      rgba(238, 219, 186, 0.45) 360deg
-    );
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-    opacity: .55;
-    z-index: 2;
-    pointer-events: none;
-  }
   @media (max-width: 767px) {
-    /* Mobile: rustic/minimal look */
-    .ds-card-washi { @apply p-4 rounded-2xl; box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 12px 20px -18px rgba(0,0,0,.35); }
     .ds-cta-card { transition: none; }
     .ds-cta-card:hover { transform: none; }
     .ds-cta-card::before { opacity: .25; }
@@ -515,10 +453,6 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
     }
     .ds-chip:hover { transform: none; box-shadow: inset 0 1px 0 rgba(255,255,255,0.9); }
-    .ds-anim-border::after { animation: ds-border-rotate 26s linear infinite; }
-  }
-  @media (min-width: 768px) {
-    .ds-anim-border::after { animation: none; opacity: .25; }
   }
 }
 

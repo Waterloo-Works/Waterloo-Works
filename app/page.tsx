@@ -4,6 +4,7 @@ import GridOverlay from "@/components/ui/GridOverlay";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import Footer from "@/components/Footer";
+import HeaderLanding from "@/components/HeaderLanding";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -15,23 +16,9 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-muted">
-      <header className="relative z-40 flex h-14 md:h-16 items-center justify-between px-4 md:px-6 bg-transparent">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
-          <Link href="/" className="text-xl font-header italic text-foreground">
-            waterloo.app
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link
-              href="/login"
-              className="rounded-full bg-primary/90 px-3 py-1.5 md:px-4 md:py-2 text-sm text-primary-foreground shadow-sm ring-1 ring-foreground/10 backdrop-blur hover:bg-primary"
-            >
-              Sign in
-            </Link>
-          </div>
-        </div>
-      </header>
 
       <main>
+      <HeaderLanding />
         {/* Hero: layered background (image + gradient) with centered content */}
         <section className="relative min-h-screen overflow-hidden">
           {/* Layer 1: Background image */}
