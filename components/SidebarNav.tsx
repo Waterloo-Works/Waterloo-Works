@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useTransition, useState } from "react";
 import {
   Compass,
   SquareStack,
@@ -33,10 +34,34 @@ const iconMap = {
 
 export function SidebarNav({ items }: { items: NavItem[] }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [optimisticPath, setOptimisticPath] = useState<string | null>(null);
 
   function Item({ item }: { item: NavItem }) {
-    const active = pathname === item.href || pathname.startsWith(item.href + "/");
+    const isCurrentRoute = pathname === item.href || pathname.startsWith(item.href + "/");
+    const isOptimistic = optimisticPath === item.href;
+    const active = isCurrentRoute || isOptimistic;
     const Icon = iconMap[item.iconName as keyof typeof iconMap];
+
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (isCurrentRoute) return; // Already on this page
+
+      e.preventDefault();
+
+      // Optimistically update UI immediately
+      setOptimisticPath(item.href);
+
+      // Navigate with transition
+      startTransition(() => {
+        router.push(item.href);
+      });
+    };
+
+    const handleMouseEnter = () => {
+      // Warm up the route on hover
+      router.prefetch(item.href);
+    };
 
     const content = (
       <>
@@ -74,10 +99,14 @@ export function SidebarNav({ items }: { items: NavItem[] }) {
     return (
       <Link
         href={item.href}
+        prefetch={true}
+        onClick={handleClick}
+        onMouseEnter={handleMouseEnter}
         aria-current={active ? "page" : undefined}
         className={cn(
-          "group relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors",
-          active ? "bg-zinc-100 text-zinc-900" : "text-zinc-700 hover:bg-zinc-50"
+          "group relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-all duration-150",
+          active ? "bg-zinc-100 text-zinc-900" : "text-zinc-700 hover:bg-zinc-50",
+          isPending && isOptimistic && "opacity-70"
         )}
       >
         {content}

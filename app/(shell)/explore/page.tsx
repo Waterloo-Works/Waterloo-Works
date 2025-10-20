@@ -126,7 +126,7 @@ export default async function ExplorePage() {
 
           <section className="space-y-3">
             <div className="font-body text-sm text-muted-foreground">
-              Not what you're looking for? {" "}
+              Not what you&apos;re looking for? {" "}
               <a
                 href={dmHref}
                 target="_blank"

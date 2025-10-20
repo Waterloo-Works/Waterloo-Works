@@ -3,11 +3,6 @@
 @tailwind utilities;
 
 /* Design System: type + tokens */
-:root {
-  /* Brand color aliases mapped to theme so dark mode works */
-  --base-color-brand--10: hsl(var(--background));
-  --base-color-brand--03: hsl(var(--foreground));
-}
 
 /* Font utility aliases kept for backwards compatibility */
 .font-title, .font-header {
@@ -21,64 +16,64 @@
 @layer base {
   :root {
     /* === BASE COLORS === */
-    --base-bg: 246 245 242;        /* #F6F5F2 - Warm beige */
-    --base-surface: 255 255 255;   /* #FFFFFF - White */
-    --base-border: 227 226 221;    /* #E3E2DD - Subtle border */
-    --base-hover: 234 234 231;     /* #EAEAE7 - Hover state */
+    --base-bg: 45 10% 96%;         /* #F6F5F2 - Warm beige */
+    --base-surface: 0 0% 100%;     /* #FFFFFF - White */
+    --base-border: 45 10% 88%;     /* #E3E2DD - Subtle border */
+    --base-hover: 45 10% 92%;      /* #EAEAE7 - Hover state */
 
-    --dark-bg: 0 0 0;              /* #000000 - Pure black */
-    --dark-surface: 10 10 10;      /* #0A0A0A - Near black */
+    --dark-bg: 0 0% 0%;            /* #000000 - Pure black */
+    --dark-surface: 0 0% 4%;       /* #0A0A0A - Near black */
 
-    --text-main: 10 10 10;         /* #0A0A0A - Almost black */
-    --text-subtle: 82 82 82;       /* #525252 - Medium gray */
-    --text-inverse: 255 255 255;   /* #FFFFFF - White */
+    --text-main: 0 0% 4%;          /* #0A0A0A - Almost black */
+    --text-subtle: 0 0% 32%;       /* #525252 - Medium gray */
+    --text-inverse: 0 0% 100%;     /* #FFFFFF - White */
 
     /* === SEMANTIC TOKENS === */
     /* Light mode defaults */
-    --background: 246 245 242;        /* base-bg */
-    --foreground: 10 10 10;           /* text-main */
+    --background: 45 10% 96%;         /* base-bg */
+    --foreground: 0 0% 4%;            /* text-main */
 
-    --card: 255 255 255;              /* base-surface */
-    --card-foreground: 10 10 10;      /* text-main */
+    --card: 0 0% 100%;                /* base-surface */
+    --card-foreground: 0 0% 4%;       /* text-main */
 
-    --popover: 255 255 255;           /* base-surface */
-    --popover-foreground: 10 10 10;   /* text-main */
+    --popover: 0 0% 100%;             /* base-surface */
+    --popover-foreground: 0 0% 4%;    /* text-main */
 
-    --primary: 10 10 10;              /* text-main */
-    --primary-foreground: 255 255 255; /* text-inverse */
+    --primary: 0 0% 4%;               /* text-main */
+    --primary-foreground: 0 0% 100%;  /* text-inverse */
 
-    --secondary: 82 82 82;            /* text-subtle */
-    --secondary-foreground: 255 255 255; /* text-inverse */
+    --secondary: 0 0% 32%;            /* text-subtle */
+    --secondary-foreground: 0 0% 100%; /* text-inverse */
 
-    --muted: 234 234 231;             /* base-hover */
-    --muted-foreground: 82 82 82;     /* text-subtle */
+    --muted: 45 10% 92%;              /* base-hover */
+    --muted-foreground: 0 0% 40%;     /* darker gray for better contrast */
 
-    --accent: 10 10 10;               /* text-main */
-    --accent-foreground: 255 255 255; /* text-inverse */
+    --accent: 0 0% 4%;                /* text-main */
+    --accent-foreground: 0 0% 100%;   /* text-inverse */
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 255 255 255; /* text-inverse */
+    --destructive-foreground: 0 0% 100%;  /* text-inverse */
 
-    --border: 227 226 221;            /* base-border */
-    --input: 227 226 221;             /* base-border */
-    --ring: 10 10 10;                 /* text-main */
+    --border: 45 10% 88%;             /* base-border */
+    --input: 45 10% 88%;              /* base-border */
+    --ring: 0 0% 4%;                  /* text-main */
 
-    --chart-1: 10 10 10;              /* text-main - darkest */
-    --chart-2: 82 82 82;              /* text-subtle - medium */
-    --chart-3: 163 163 163;           /* light gray */
-    --chart-4: 227 226 221;           /* base-border - lighter */
-    --chart-5: 234 234 231;           /* base-hover - lightest */
+    --chart-1: 0 0% 4%;               /* text-main - darkest */
+    --chart-2: 0 0% 32%;              /* text-subtle - medium */
+    --chart-3: 0 0% 64%;              /* light gray */
+    --chart-4: 45 10% 88%;            /* base-border - lighter */
+    --chart-5: 45 10% 92%;            /* base-hover - lightest */
 
     --radius: 0.5rem;
 
-    --sidebar-background: 255 255 255;     /* base-surface */
-    --sidebar-foreground: 10 10 10;        /* text-main */
-    --sidebar-primary: 10 10 10;           /* text-main */
-    --sidebar-primary-foreground: 255 255 255; /* text-inverse */
-    --sidebar-accent: 234 234 231;         /* base-hover */
-    --sidebar-accent-foreground: 10 10 10; /* text-main */
-    --sidebar-border: 227 226 221;         /* base-border */
-    --sidebar-ring: 10 10 10;              /* text-main */
+    --sidebar-background: 0 0% 100%;      /* base-surface */
+    --sidebar-foreground: 0 0% 4%;        /* text-main */
+    --sidebar-primary: 0 0% 4%;           /* text-main */
+    --sidebar-primary-foreground: 0 0% 100%; /* text-inverse */
+    --sidebar-accent: 45 10% 92%;         /* base-hover */
+    --sidebar-accent-foreground: 0 0% 4%; /* text-main */
+    --sidebar-border: 45 10% 88%;         /* base-border */
+    --sidebar-ring: 0 0% 4%;              /* text-main */
 
     /* Grid overlay variables. Adjust half container width per breakpoint. */
     --container-half: 28rem;       /* ~max-w-4xl / 2 for home */
@@ -89,48 +84,48 @@
   }
   .dark {
     /* Dark mode: Pure black with high contrast */
-    --background: 0 0 0;              /* dark-bg */
-    --foreground: 255 255 255;        /* text-inverse */
+    --background: 0 0% 0%;            /* dark-bg */
+    --foreground: 0 0% 100%;          /* text-inverse */
 
-    --card: 10 10 10;                 /* dark-surface */
-    --card-foreground: 255 255 255;   /* text-inverse */
+    --card: 0 0% 4%;                  /* dark-surface */
+    --card-foreground: 0 0% 100%;     /* text-inverse */
 
-    --popover: 10 10 10;              /* dark-surface */
-    --popover-foreground: 255 255 255; /* text-inverse */
+    --popover: 0 0% 4%;               /* dark-surface */
+    --popover-foreground: 0 0% 100%;  /* text-inverse */
 
-    --primary: 255 255 255;           /* text-inverse */
-    --primary-foreground: 10 10 10;   /* text-main */
+    --primary: 0 0% 100%;             /* text-inverse */
+    --primary-foreground: 0 0% 4%;    /* text-main */
 
-    --secondary: 82 82 82;            /* text-subtle */
-    --secondary-foreground: 255 255 255; /* text-inverse */
+    --secondary: 0 0% 64%;            /* lighter gray for contrast on dark bg */
+    --secondary-foreground: 0 0% 4%;  /* dark text on light gray */
 
-    --muted: 10 10 10;                /* dark-surface */
-    --muted-foreground: 82 82 82;     /* text-subtle */
+    --muted: 0 0% 4%;                 /* dark-surface */
+    --muted-foreground: 0 0% 64%;     /* lighter gray for better contrast */
 
-    --accent: 255 255 255;            /* text-inverse */
-    --accent-foreground: 10 10 10;    /* text-main */
+    --accent: 0 0% 100%;              /* text-inverse */
+    --accent-foreground: 0 0% 4%;     /* text-main */
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 255 255 255; /* text-inverse */
+    --destructive-foreground: 0 0% 100%; /* text-inverse */
 
-    --border: 10 10 10;               /* dark-surface */
-    --input: 10 10 10;                /* dark-surface */
-    --ring: 255 255 255;              /* text-inverse */
+    --border: 0 0% 4%;                /* dark-surface */
+    --input: 0 0% 4%;                 /* dark-surface */
+    --ring: 0 0% 100%;                /* text-inverse */
 
-    --chart-1: 255 255 255;           /* text-inverse - lightest */
-    --chart-2: 163 163 163;           /* medium gray */
-    --chart-3: 82 82 82;              /* text-subtle - medium */
-    --chart-4: 40 40 40;              /* darker gray */
-    --chart-5: 10 10 10;              /* dark-surface - darkest */
+    --chart-1: 0 0% 100%;             /* text-inverse - lightest */
+    --chart-2: 0 0% 64%;              /* medium gray */
+    --chart-3: 0 0% 32%;              /* text-subtle - medium */
+    --chart-4: 0 0% 16%;              /* darker gray */
+    --chart-5: 0 0% 4%;               /* dark-surface - darkest */
 
-    --sidebar-background: 10 10 10;   /* dark-surface */
-    --sidebar-foreground: 255 255 255; /* text-inverse */
-    --sidebar-primary: 255 255 255;   /* text-inverse */
-    --sidebar-primary-foreground: 10 10 10; /* text-main */
-    --sidebar-accent: 10 10 10;       /* dark-surface */
-    --sidebar-accent-foreground: 255 255 255; /* text-inverse */
-    --sidebar-border: 10 10 10;       /* dark-surface */
-    --sidebar-ring: 255 255 255;      /* text-inverse */
+    --sidebar-background: 0 0% 4%;    /* dark-surface */
+    --sidebar-foreground: 0 0% 100%;  /* text-inverse */
+    --sidebar-primary: 0 0% 100%;     /* text-inverse */
+    --sidebar-primary-foreground: 0 0% 4%; /* text-main */
+    --sidebar-accent: 0 0% 4%;        /* dark-surface */
+    --sidebar-accent-foreground: 0 0% 100%; /* text-inverse */
+    --sidebar-border: 0 0% 4%;        /* dark-surface */
+    --sidebar-ring: 0 0% 100%;        /* text-inverse */
   }
 }
 
@@ -140,9 +135,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    /* Spec: body typography */
-    background-color: var(--base-color-brand--10);
-    color: var(--base-color-brand--03);
+    /* Body typography */
     letter-spacing: .01em;
     font-family: Neuehaasgroteskdisplay, Arial, sans-serif;
     font-size: 1rem;

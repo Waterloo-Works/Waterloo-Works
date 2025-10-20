@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
 const items = [
@@ -15,6 +16,8 @@ const items = [
 export default function MobileNav() {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     function onDocClick(e: MouseEvent) {
@@ -46,8 +49,16 @@ export default function MobileNav() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="block text-2xl font-semibold tracking-tight text-zinc-900"
-                      onClick={() => setOpen(false)}
+                      prefetch={true}
+                      className="block text-2xl font-semibold tracking-tight text-zinc-900 transition-opacity duration-150"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setOpen(false);
+                        startTransition(() => {
+                          router.push(item.href);
+                        });
+                      }}
+                      onMouseEnter={() => router.prefetch(item.href)}
                     >
                       {item.label}
                     </Link>

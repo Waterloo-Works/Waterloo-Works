@@ -21,9 +21,15 @@ export default function JobsIndexPage() {
 		<div className="min-h-svh bg-white">
 			<PageViewTracker pageType="jobs_index" metadata={{ total_jobs: jobs.length }} />
 			<div className="mx-auto max-w-4xl px-6 py-12">
-				<h1 className="font-header text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-8">
-					All Job Listings
-				</h1>
+				{/* Header */}
+				<div className="mb-12">
+					<h1 className="font-header text-4xl md:text-5xl font-semibold tracking-tight text-zinc-900 mb-4">
+						All Job Listings
+					</h1>
+					<p className="text-xl text-zinc-600">
+						Browse all available opportunities from our community
+					</p>
+				</div>
 
 				<div className="space-y-6">
 					{jobs.map((job) => {
