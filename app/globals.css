@@ -21,39 +21,65 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+    /* === BASE COLORS === */
+    --base-bg: 246 245 242;        /* #F6F5F2 - Warm beige */
+    --base-surface: 255 255 255;   /* #FFFFFF - White */
+    --base-border: 227 226 221;    /* #E3E2DD - Subtle border */
+    --base-hover: 234 234 231;     /* #EAEAE7 - Hover state */
+
+    --dark-bg: 0 0 0;              /* #000000 - Pure black */
+    --dark-surface: 10 10 10;      /* #0A0A0A - Near black */
+
+    --text-main: 10 10 10;         /* #0A0A0A - Almost black */
+    --text-subtle: 82 82 82;       /* #525252 - Medium gray */
+    --text-inverse: 255 255 255;   /* #FFFFFF - White */
+
+    /* === SEMANTIC TOKENS === */
+    /* Light mode defaults */
+    --background: 246 245 242;        /* base-bg */
+    --foreground: 10 10 10;           /* text-main */
+
+    --card: 255 255 255;              /* base-surface */
+    --card-foreground: 10 10 10;      /* text-main */
+
+    --popover: 255 255 255;           /* base-surface */
+    --popover-foreground: 10 10 10;   /* text-main */
+
+    --primary: 10 10 10;              /* text-main */
+    --primary-foreground: 255 255 255; /* text-inverse */
+
+    --secondary: 82 82 82;            /* text-subtle */
+    --secondary-foreground: 255 255 255; /* text-inverse */
+
+    --muted: 234 234 231;             /* base-hover */
+    --muted-foreground: 82 82 82;     /* text-subtle */
+
+    --accent: 10 10 10;               /* text-main */
+    --accent-foreground: 255 255 255; /* text-inverse */
+
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    --destructive-foreground: 255 255 255; /* text-inverse */
+
+    --border: 227 226 221;            /* base-border */
+    --input: 227 226 221;             /* base-border */
+    --ring: 10 10 10;                 /* text-main */
+
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --sidebar-background: 255 255 255;     /* base-surface */
+    --sidebar-foreground: 10 10 10;        /* text-main */
+    --sidebar-primary: 10 10 10;           /* text-main */
+    --sidebar-primary-foreground: 255 255 255; /* text-inverse */
+    --sidebar-accent: 234 234 231;         /* base-hover */
+    --sidebar-accent-foreground: 10 10 10; /* text-main */
+    --sidebar-border: 227 226 221;         /* base-border */
+    --sidebar-ring: 10 10 10;              /* text-main */
 
     /* Grid overlay variables. Adjust half container width per breakpoint. */
     --container-half: 28rem;       /* ~max-w-4xl / 2 for home */
@@ -63,38 +89,49 @@
     --rails-half: clamp(18rem, calc(var(--container-half) + var(--rails-shift)), calc(50vw - var(--rails-margin)));
   }
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    /* Dark mode: Pure black with high contrast */
+    --background: 0 0 0;              /* dark-bg */
+    --foreground: 255 255 255;        /* text-inverse */
+
+    --card: 10 10 10;                 /* dark-surface */
+    --card-foreground: 255 255 255;   /* text-inverse */
+
+    --popover: 10 10 10;              /* dark-surface */
+    --popover-foreground: 255 255 255; /* text-inverse */
+
+    --primary: 255 255 255;           /* text-inverse */
+    --primary-foreground: 10 10 10;   /* text-main */
+
+    --secondary: 82 82 82;            /* text-subtle */
+    --secondary-foreground: 255 255 255; /* text-inverse */
+
+    --muted: 10 10 10;                /* dark-surface */
+    --muted-foreground: 82 82 82;     /* text-subtle */
+
+    --accent: 255 255 255;            /* text-inverse */
+    --accent-foreground: 10 10 10;    /* text-main */
+
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
+    --destructive-foreground: 255 255 255; /* text-inverse */
+
+    --border: 10 10 10;               /* dark-surface */
+    --input: 10 10 10;                /* dark-surface */
+    --ring: 255 255 255;              /* text-inverse */
+
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --sidebar-background: 10 10 10;   /* dark-surface */
+    --sidebar-foreground: 255 255 255; /* text-inverse */
+    --sidebar-primary: 255 255 255;   /* text-inverse */
+    --sidebar-primary-foreground: 10 10 10; /* text-main */
+    --sidebar-accent: 10 10 10;       /* dark-surface */
+    --sidebar-accent-foreground: 255 255 255; /* text-inverse */
+    --sidebar-border: 10 10 10;       /* dark-surface */
+    --sidebar-ring: 255 255 255;      /* text-inverse */
   }
 }
 

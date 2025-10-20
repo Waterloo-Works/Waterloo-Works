@@ -2,7 +2,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 
 const INDEXNOW_KEY = "c2625de7b6514de28e9ed33e320098e9";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://waterloo.works";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://waterloo.app";
 
 // IndexNow API endpoints (can submit to any, they share the index)
 const INDEXNOW_ENDPOINTS = [

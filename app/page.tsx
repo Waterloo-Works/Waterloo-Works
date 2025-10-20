@@ -14,16 +14,16 @@ export default async function Home() {
   if (user) redirect("/explore");
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#98989b' }}>
+    <div className="min-h-screen bg-muted">
       <header className="relative z-40 flex h-14 md:h-16 items-center justify-between px-4 md:px-6 bg-transparent">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
-          <Link href="/" className="text-xl font-header italic text-zinc-50">
-            waterloo.works
+          <Link href="/" className="text-xl font-header italic text-foreground">
+            waterloo.app
           </Link>
           <div className="flex items-center gap-3">
             <Link
               href="/login"
-              className="rounded-full bg-zinc-900/90 px-3 py-1.5 md:px-4 md:py-2 text-sm text-white shadow-sm ring-1 ring-white/10 backdrop-blur hover:bg-zinc-900"
+              className="rounded-full bg-primary/90 px-3 py-1.5 md:px-4 md:py-2 text-sm text-primary-foreground shadow-sm ring-1 ring-foreground/10 backdrop-blur hover:bg-primary"
             >
               Sign in
             </Link>
@@ -68,11 +68,11 @@ export default async function Home() {
 
           {/* Layer 3: Content */}
           <div className="relative z-30 mx-auto flex min-h-svh max-w-4xl flex-col items-center justify-center px-4 md:px-6 text-center">
-            <h2 className="font-header text-[2.25rem] md:text-h2 tracking-tight-04 leading-heading mb-3 text-zinc-50">
+            <h2 className="font-header text-[2.25rem] md:text-h2 tracking-tight-04 leading-heading mb-3 text-foreground">
               Curated opportunities for alum
             </h2>
 
-            <p className="font-body tracking-wide-01 leading-body mt-2 md:mt-3 mb-8 md:mb-10 max-w-2xl text-zinc-200 text-base md:text-xl">
+            <p className="font-body tracking-wide-01 leading-body mt-2 md:mt-3 mb-8 md:mb-10 max-w-2xl text-foreground/90 text-base md:text-xl">
               Alum can post opportunities, apply, or forward roles to people who actually want them.
             </p>
 
@@ -80,7 +80,7 @@ export default async function Home() {
             <div className="w-full flex items-center justify-center">
               <Link
                 href="/explore"
-                className="rounded-full bg-zinc-900 text-white px-5 py-2 text-sm shadow hover:bg-zinc-800 md:px-8 md:py-4 md:text-lg"
+                className="rounded-full bg-primary text-primary-foreground px-5 py-2 text-sm shadow hover:bg-primary/90 md:px-8 md:py-4 md:text-lg"
               >
                 Explore jobs.
               </Link>

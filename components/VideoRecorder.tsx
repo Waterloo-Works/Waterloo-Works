@@ -236,7 +236,7 @@ export function VideoRecorder({ onVideoRecorded, currentVideoUrl }: VideoRecorde
       for (const chunk of chunks) {
         formData.append('files', chunk.data, chunk.filename);
       }
-      formData.append('description', `Video recording from waterloo.works - ${new Date().toISOString()}`);
+      formData.append('description', `Video recording from waterloo.app - ${new Date().toISOString()}`);
 
       // Upload to gist
       const response = await fetch('/api/upload-to-gist', {

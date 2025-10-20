@@ -113,9 +113,9 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 			<div className="flex items-center justify-center px-6 py-20">
 				<div className="max-w-md w-full text-center">
         <div className="mb-6">
-						<div className="inline-block w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+						<div className="inline-block w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mb-4">
 							<svg
-								className="w-8 h-8 text-green-600"
+								className="w-8 h-8 text-secondary"
 								fill="none"
 								stroke="currentColor"
 								viewBox="0 0 24 24"
@@ -129,15 +129,15 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 							</svg>
 						</div>
 					</div>
-                <h1 className="font-header text-3xl font-semibold tracking-tight mb-2 text-zinc-900">
+                <h1 className="font-header text-3xl font-semibold tracking-tight mb-2 text-foreground">
                     {mode === "edit" ? "Job updated!" : "Job submitted!"}
                 </h1>
-                <p className="font-body text-zinc-700 mb-6">
+                <p className="font-body text-foreground mb-6">
 						{mode === "edit"
 							? "Your job posting has been updated successfully."
 							: "Your job posting has been submitted for review. We'll notify you once it's approved."}
 					</p>
-					<p className="text-sm text-gray-500">Redirecting to my jobs...</p>
+					<p className="text-sm text-muted-foreground">Redirecting to my jobs...</p>
 				</div>
 			</div>
 		);
@@ -146,13 +146,13 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 	return (
         <main className="mx-auto max-w-3xl px-6 py-12">
             <div className="mb-8">
-                <h1 className="font-header text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 mb-2">
+                <h1 className="font-header text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-2">
                     {mode === "edit" ? "Edit Job" : "Post a Job"}
                 </h1>
-                <p className="font-body text-zinc-700">
+                <p className="font-body text-foreground">
                     {mode === "edit"
                         ? "Update your job posting details below."
-                        : "Submit a job opportunity to share with the waterloo.works community. Your posting will be reviewed before going live."}
+                        : "Submit a job opportunity to share with the waterloo.app community. Your posting will be reviewed before going live."}
                 </p>
             </div>
 
@@ -161,7 +161,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 				<div>
 					<label
 						htmlFor="company"
-						className="block text-sm font-medium text-gray-700 mb-2"
+						className="block text-sm font-medium text-muted-foreground mb-2"
 					>
 						Company *
 					</label>
@@ -172,7 +172,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						onChange={e =>
 							setFormData({ ...formData, company: e.target.value })
 						}
-						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+						className="w-full px-4 py-2.5 rounded-lg bg-card ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-ring"
 						required
 					/>
 				</div>
@@ -181,7 +181,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 				<div>
 					<label
 						htmlFor="companyUrl"
-						className="block text-sm font-medium text-gray-700 mb-2"
+						className="block text-sm font-medium text-muted-foreground mb-2"
 					>
 						Company Website (Optional)
 					</label>
@@ -192,7 +192,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						onChange={e =>
 							setFormData({ ...formData, companyUrl: e.target.value })
 						}
-						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+						className="w-full px-4 py-2.5 rounded-lg bg-card ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-ring"
 						placeholder="https://example.com"
 					/>
 				</div>
@@ -201,7 +201,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 				<div>
 					<label
 						htmlFor="position"
-						className="block text-sm font-medium text-gray-700 mb-2"
+						className="block text-sm font-medium text-muted-foreground mb-2"
 					>
 						Position *
 					</label>
@@ -212,7 +212,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						onChange={e =>
 							setFormData({ ...formData, position: e.target.value })
 						}
-						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+						className="w-full px-4 py-2.5 rounded-lg bg-card ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-ring"
 						required
 					/>
 				</div>
@@ -221,7 +221,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 				<div>
 					<label
 						htmlFor="contact"
-						className="block text-sm font-medium text-gray-700 mb-2"
+						className="block text-sm font-medium text-muted-foreground mb-2"
 					>
 						Contact Name *
 					</label>
@@ -232,7 +232,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						onChange={e =>
 							setFormData({ ...formData, contact: e.target.value })
 						}
-						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+						className="w-full px-4 py-2.5 rounded-lg bg-card ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-ring"
 						required
 					/>
 				</div>
@@ -241,7 +241,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 				<div>
 					<label
 						htmlFor="contactUrl"
-						className="block text-sm font-medium text-gray-700 mb-2"
+						className="block text-sm font-medium text-muted-foreground mb-2"
 					>
 						Contact URL (e.g., LinkedIn, Email) (Optional)
 					</label>
@@ -252,7 +252,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						onChange={e =>
 							setFormData({ ...formData, contactUrl: e.target.value })
 						}
-						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+						className="w-full px-4 py-2.5 rounded-lg bg-card ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-ring"
 						placeholder="https://linkedin.com/in/..."
 					/>
 				</div>
@@ -261,7 +261,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 				<div>
 					<label
 						htmlFor="location"
-						className="block text-sm font-medium text-gray-700 mb-2"
+						className="block text-sm font-medium text-muted-foreground mb-2"
 					>
 						Location *
 					</label>
@@ -272,7 +272,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 						onChange={e =>
 							setFormData({ ...formData, location: e.target.value })
 						}
-						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+						className="w-full px-4 py-2.5 rounded-lg bg-card ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-ring"
 						required
 					/>
 				</div>
@@ -281,7 +281,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 				<div>
 					<label
 						htmlFor="employmentType"
-						className="block text-sm font-medium text-gray-700 mb-2"
+						className="block text-sm font-medium text-muted-foreground mb-2"
 					>
 						Employment Type *
 					</label>
@@ -298,7 +298,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 									| "OTHER",
 							})
 						}
-						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+						className="w-full px-4 py-2.5 rounded-lg bg-card ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-ring"
 						required
 					>
 						<option value="FULL_TIME">Full-Time</option>
@@ -313,7 +313,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 					<div>
 						<label
 							htmlFor="salaryMin"
-							className="block text-sm font-medium text-gray-700 mb-2"
+							className="block text-sm font-medium text-muted-foreground mb-2"
 						>
 							Minimum Salary (Optional)
 						</label>
@@ -325,13 +325,13 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 								setFormData({ ...formData, salaryMin: e.target.value })
 							}
 							placeholder="$80k"
-							className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+							className="w-full px-4 py-2.5 rounded-lg bg-card ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-ring"
 						/>
 					</div>
 					<div>
 						<label
 							htmlFor="salaryMax"
-							className="block text-sm font-medium text-gray-700 mb-2"
+							className="block text-sm font-medium text-muted-foreground mb-2"
 						>
 							Maximum Salary (Optional)
 						</label>
@@ -343,7 +343,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 								setFormData({ ...formData, salaryMax: e.target.value })
 							}
 							placeholder="$120k"
-							className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+							className="w-full px-4 py-2.5 rounded-lg bg-card ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-ring"
 						/>
 					</div>
 				</div>
@@ -352,7 +352,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 				<div>
 					<label
 						htmlFor="notes"
-						className="block text-sm font-medium text-gray-700 mb-2"
+						className="block text-sm font-medium text-muted-foreground mb-2"
 					>
 						Notes (Optional)
 					</label>
@@ -363,16 +363,16 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 							setFormData({ ...formData, notes: e.target.value })
 						}
 						rows={5}
-						className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300"
+						className="w-full px-4 py-2.5 rounded-lg bg-card ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-ring"
 						placeholder="Any additional information about the job or application process."
 					></textarea>
 				</div>
 
 				{/* Voice Note */}
 				<div>
-					<label className="block text-sm font-medium text-gray-700 mb-2">
+					<label className="block text-sm font-medium text-muted-foreground mb-2">
 						Voice/Video Note (Optional)
-						<span className="text-xs text-zinc-500 ml-2">
+						<span className="text-xs text-muted-foreground ml-2">
 							Record a video message or paste a link to an external recording
 						</span>
 					</label>
@@ -390,14 +390,14 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 					{/* Manual URL Input */}
 					<div>
 						<div className="flex items-center justify-between mb-1.5">
-							<label htmlFor="voiceNoteUrl" className="block text-xs text-zinc-600">
+							<label htmlFor="voiceNoteUrl" className="block text-xs text-muted-foreground">
 								{formData.voiceNoteUrl.includes('|') ? 'Uploaded Video:' : 'Or paste an external video URL:'}
 							</label>
 							{formData.voiceNoteUrl && (
 								<button
 									type="button"
 									onClick={() => setFormData({ ...formData, voiceNoteUrl: '' })}
-									className="text-xs text-red-600 hover:text-red-700 underline"
+									className="text-xs text-destructive hover:text-destructive/90 underline"
 								>
 									Clear
 								</button>
@@ -411,19 +411,19 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 								setFormData({ ...formData, voiceNoteUrl: e.target.value })
 							}
 							placeholder="https://loom.com/share/... or https://drive.google.com/..."
-							className="w-full px-4 py-2.5 rounded-lg bg-white ring-1 ring-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-300 text-sm"
+							className="w-full px-4 py-2.5 rounded-lg bg-card ring-1 ring-border focus:outline-none focus:ring-2 focus:ring-ring text-sm"
 							readOnly={formData.voiceNoteUrl.includes('|')}
 						/>
 						{formData.voiceNoteUrl.includes('|') && (
-							<p className="mt-1 text-xs text-green-600 flex items-center gap-1">
+							<p className="mt-1 text-xs text-secondary flex items-center gap-1">
 								<svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
 								</svg>
-								Video saved to GitHub Gist • <a href={getDisplayUrl(formData.voiceNoteUrl)} target="_blank" rel="noopener noreferrer" className="underline hover:text-green-700">View Gist Page</a>
+								Video saved to GitHub Gist • <a href={getDisplayUrl(formData.voiceNoteUrl)} target="_blank" rel="noopener noreferrer" className="underline hover:text-secondary/90">View Gist Page</a>
 							</p>
 						)}
 						{!formData.voiceNoteUrl.includes('|') && (
-							<p className="mt-1 text-xs text-zinc-500">
+							<p className="mt-1 text-xs text-muted-foreground">
 								Supported: Loom, YouTube, Vimeo, Google Drive, Dropbox, or direct video/audio links
 							</p>
 						)}
@@ -432,7 +432,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 
 				{/* Error Message */}
 				{error && (
-					<div className="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+					<div className="p-3 bg-destructive/10 border border-destructive/20 rounded-lg text-destructive text-sm">
 						{error}
 					</div>
 				)}
@@ -441,7 +441,7 @@ export default function JobForm({ mode, jobId, initialData }: JobFormProps) {
 				<button
 					type="submit"
 					disabled={submitting}
-					className="w-full px-6 py-3 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+					className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
 				>
 					{submitting
 						? mode === "edit"

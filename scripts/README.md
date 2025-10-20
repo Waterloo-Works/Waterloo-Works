@@ -1,6 +1,6 @@
 # 📋 Job Management CLI
 
-A unified, user-friendly command-line tool for managing jobs on Waterloo Works.
+A unified, user-friendly command-line tool for managing jobs on Waterloo App.
 
 ## Quick Start
 

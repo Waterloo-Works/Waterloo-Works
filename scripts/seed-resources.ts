@@ -432,7 +432,7 @@ Many Waterloo students host their portfolios and projects on Vercel for free.`,
 - Use ranking strategy wisely
 - Network at info sessions
 
-Note: This resource directory (waterloo.works) is a community tool - not affiliated with the official WaterlooWorks platform.`,
+Note: This resource directory (waterloo.app) is a community tool - not affiliated with the official WaterlooWorks platform.`,
 		logo: "https://uwaterloo.ca/favicon.ico",
 		category: "University Resources",
 		tags: ["co-op", "jobs", "official", "Waterloo", "applications"],

@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://waterloo.works";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://waterloo.app";
 
 interface URLGroup {
 	name: string;

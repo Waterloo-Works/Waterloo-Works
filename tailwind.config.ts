@@ -1,5 +1,20 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * MINIMAL DESIGN SYSTEM
+ *
+ * Clean, minimal design with strong typography and subtle interactions
+ * - Warm beige backgrounds (#F6F5F2) with crisp white surfaces
+ * - High contrast dark mode with pure black
+ * - Simple border radius and consistent spacing
+ * - Focus on typography hierarchy and readability
+ *
+ * Usage examples:
+ * - Semantic: bg-primary text-primary-foreground (theme-aware)
+ * - Direct: bg-base-bg text-text-main
+ * - Colors: bg-card border-border text-foreground
+ */
+
 export default {
     darkMode: "class",
     content: [
@@ -10,27 +25,33 @@ export default {
   theme: {
 	 extend: {
 			fontFamily: {
-				// Design system fonts
+				// Custom fonts + modern alternatives
 				header: ["205 Tf Exposure 0", "Georgia", "serif"],
 				body: ["Neuehaasgroteskdisplay", "Arial", "sans-serif"],
-			},
-			lineHeight: {
-				// Type rhythm
-				heading: "1",
-				body: "1.2",
-			},
-			letterSpacing: {
-				// Helpful tracking tokens referenced by the design system
-				'wide-01': ".01em",
-				'tight-02': "-0.02em",
-				'tight-04': "-0.04em",
+				sans: ['Inter', 'system-ui', 'sans-serif'],
+				mono: ['JetBrains Mono', 'monospace'],
 			},
 			fontSize: {
-				// Headings derived from provided spec
+				// Clean type scale with good hierarchy
+				'display-lg': ['72px', { lineHeight: '1.1', fontWeight: '700' }],
+				'display-md': ['48px', { lineHeight: '1.2', fontWeight: '700' }],
+				'display-sm': ['32px', { lineHeight: '1.3', fontWeight: '500' }],
+				'body-lg': ['18px', { lineHeight: '1.6', fontWeight: '400' }],
+				'body': ['16px', { lineHeight: '1.6', fontWeight: '400' }],
+				'body-sm': ['14px', { lineHeight: '1.5', fontWeight: '400' }],
+				'label': ['12px', { lineHeight: '1.4', fontWeight: '400', letterSpacing: '0.5px' }],
+				// Keep existing sizes for compatibility
 				'h2': ["3rem", { lineHeight: "1", fontWeight: "400" }],
 				'h3': ["2.25rem", { lineHeight: "1", fontWeight: "400" }],
 			},
+			spacing: {
+				// 4px base unit system
+				'18': '4.5rem',  // 72px
+				'22': '5.5rem',  // 88px
+				'26': '6.5rem',  // 104px
+			},
 			colors: {
+				// Semantic tokens (theme-aware via CSS variables)
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				card: {
@@ -80,12 +101,31 @@ export default {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
-  			}
+  			},
+
+				// === DIRECT UTILITIES ===
+				base: {
+					bg: 'hsl(var(--base-bg))',
+					surface: 'hsl(var(--base-surface))',
+					border: 'hsl(var(--base-border))',
+					hover: 'hsl(var(--base-hover))',
+				},
+				dark: {
+					bg: 'hsl(var(--dark-bg))',
+					surface: 'hsl(var(--dark-surface))',
+				},
+				text: {
+					main: 'hsl(var(--text-main))',
+					subtle: 'hsl(var(--text-subtle))',
+					inverse: 'hsl(var(--text-inverse))',
+				},
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			sm: 'calc(var(--radius) - 4px)',
+				pill: '9999px',
+				sharp: '4px',
   		},
   		keyframes: {
   			'accordion-down': {

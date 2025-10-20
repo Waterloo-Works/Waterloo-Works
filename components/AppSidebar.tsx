@@ -40,7 +40,7 @@ export async function AppSidebar() {
       <div className="flex h-full flex-col">
         <div className="flex items-center justify-between gap-2 px-4 py-4">
           <Link href="/explore" className="text-sm font-header italic text-zinc-900 dark:text-zinc-100">
-            waterloo.works
+            waterloo.app
           </Link>
           <ThemeToggle />
         </div>

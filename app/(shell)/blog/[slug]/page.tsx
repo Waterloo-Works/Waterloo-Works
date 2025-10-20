@@ -26,13 +26,13 @@ export async function generateMetadata({
 
 	if (!blog) {
 		return {
-			title: "Blog Post Not Found | Waterloo Works",
+			title: "Blog Post Not Found | Waterloo App",
 		};
 	}
 
 	return {
-		title: `${blog.title} | Waterloo Works Blog`,
-		description: blog.excerpt || `Read about ${blog.title} on Waterloo Works`,
+		title: `${blog.title} | Waterloo App Blog`,
+		description: blog.excerpt || `Read about ${blog.title} on Waterloo App`,
 	};
 }
 

@@ -65,7 +65,7 @@ export function ResumeUploader({
 		}
 	};
 
-	const handleUpload = async (file: File) => {
+	const handleUpload = useCallback(async (file: File) => {
 		// Validate file type
 		const validTypes = [
 			"application/pdf",
@@ -163,7 +163,7 @@ export function ResumeUploader({
 		} finally {
 			setUploading(false);
 		}
-	};
+	}, [onUploadSuccess]);
 
 	const handleDelete = async () => {
 		setDeleting(true);
@@ -191,7 +191,7 @@ export function ResumeUploader({
 		if (acceptedFiles.length > 0) {
 			handleUpload(acceptedFiles[0]);
 		}
-	}, []);
+	}, [handleUpload]);
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		onDrop,
@@ -332,19 +332,19 @@ export function ResumeUploader({
 					</div>
 				</motion.div>
 			) : (
-				<motion.div
-					{...getRootProps()}
-					className={`group relative overflow-hidden rounded-xl border-2 border-dashed transition-all cursor-pointer ${
-						isDragActive
-							? "border-violet-500 bg-violet-50 scale-[1.02]"
-							: validationError
-							? "border-red-300 bg-red-50"
-							: "border-zinc-300 bg-gradient-to-br from-zinc-50 to-white hover:border-zinc-400 hover:shadow-md"
-					}`}
-					whileHover={{ scale: 1.01 }}
-					whileTap={{ scale: 0.99 }}
-				>
-					<input {...getInputProps()} />
+				<div {...getRootProps()}>
+					<motion.div
+						className={`group relative overflow-hidden rounded-xl border-2 border-dashed transition-all cursor-pointer ${
+							isDragActive
+								? "border-violet-500 bg-violet-50 scale-[1.02]"
+								: validationError
+								? "border-red-300 bg-red-50"
+								: "border-zinc-300 bg-gradient-to-br from-zinc-50 to-white hover:border-zinc-400 hover:shadow-md"
+						}`}
+						whileHover={{ scale: 1.01 }}
+						whileTap={{ scale: 0.99 }}
+					>
+						<input {...getInputProps()} />
 
 					{/* Animated Background Gradient */}
 					<div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -436,14 +436,15 @@ export function ResumeUploader({
 									<div className="pt-2">
 										<p className="text-xs text-zinc-500 flex items-center justify-center gap-1">
 											<Sparkles className="h-3 w-3 text-violet-500" />
-											We'll extract your info automatically
+											We&apos;ll extract your info automatically
 										</p>
 									</div>
 								</motion.div>
 							)}
 						</AnimatePresence>
 					</div>
-				</motion.div>
+					</motion.div>
+				</div>
 			)}
 		</div>
 	);

@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { allJobs as rawJobs, allCompanies as rawCompanies, allBlogs as rawBlogs, allResources as rawResources } from 'content-collections';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://waterloo.works';
+	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://waterloo.app';
 
 	// Static routes
 	const staticRoutes = [

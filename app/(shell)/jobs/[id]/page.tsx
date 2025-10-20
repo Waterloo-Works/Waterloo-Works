@@ -25,15 +25,15 @@ export async function generateMetadata({
 
 	if (!job) {
 		return {
-			title: "Job Not Found | Waterloo Works",
+			title: "Job Not Found | Waterloo App",
 		};
 	}
 
 	const title = `${job.title} at ${job.company}`;
-	const description = `${job.title} position at ${job.company} in ${job.location}. ${job.salaryMin && job.salaryMax ? `Salary: $${job.salaryMin} - $${job.salaryMax}. ` : ''}Apply now on Waterloo Works.`;
+	const description = `${job.title} position at ${job.company} in ${job.location}. ${job.salaryMin && job.salaryMax ? `Salary: $${job.salaryMin} - $${job.salaryMax}. ` : ''}Apply now on Waterloo App.`;
 
 	// Generate OG image URL with job details
-	const ogImageUrl = new URL(`/api/og/job`, process.env.NEXT_PUBLIC_APP_URL || 'https://waterloo.works');
+	const ogImageUrl = new URL(`/api/og/job`, process.env.NEXT_PUBLIC_APP_URL || 'https://waterloo.app');
 	ogImageUrl.searchParams.set('title', job.title);
 	ogImageUrl.searchParams.set('company', job.company);
 	ogImageUrl.searchParams.set('location', job.location);
@@ -42,14 +42,14 @@ export async function generateMetadata({
 	}
 
 	return {
-		title: `${title} | Waterloo Works`,
+		title: `${title} | Waterloo App`,
 		description,
 		openGraph: {
 			title,
 			description,
 			type: 'website',
 			url: `/jobs/${job.slug}`,
-			siteName: 'Waterloo Works',
+			siteName: 'Waterloo App',
 			images: [
 				{
 					url: ogImageUrl.toString(),

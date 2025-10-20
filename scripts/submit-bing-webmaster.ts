@@ -2,7 +2,7 @@
 export {};
 
 const BING_API_KEY = process.env.BING_WEBMASTER_API_KEY || "";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://waterloo.works";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://waterloo.app";
 
 interface SubmitUrlBatchOptions {
 	urls: string[];

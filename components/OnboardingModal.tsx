@@ -56,14 +56,14 @@ export function OnboardingModal({ hasSource, onCompleted }: OnboardingModalProps
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center px-6">
 			{/* Blurred backdrop */}
-			<div className="absolute inset-0 bg-[#F5F1E8]/95 backdrop-blur-md" />
+			<div className="absolute inset-0 bg-background/95 backdrop-blur-md" />
 
 			{/* Modal content */}
-			<div className="relative z-10 w-full max-w-md bg-white border border-black/20 rounded-lg p-8 shadow-xl">
-				<h2 className="text-3xl md:text-4xl font-header italic mb-4 text-black">
+			<div className="relative z-10 w-full max-w-md bg-card border border-border rounded-lg p-8 shadow-xl">
+				<h2 className="text-3xl md:text-4xl font-header italic mb-4 text-foreground">
 					Welcome!
 				</h2>
-				<p className="text-lg text-gray-700 mb-6">
+				<p className="text-lg text-foreground mb-6">
 					Before you continue, we&apos;d love to know how you found out about
 					us.
 				</p>
@@ -72,7 +72,7 @@ export function OnboardingModal({ hasSource, onCompleted }: OnboardingModalProps
 					<div>
 						<label
 							htmlFor="source"
-							className="block text-sm font-medium text-gray-700 mb-2"
+							className="block text-sm font-medium text-muted-foreground mb-2"
 						>
 							How did you hear about us?
 						</label>
@@ -80,7 +80,7 @@ export function OnboardingModal({ hasSource, onCompleted }: OnboardingModalProps
 							id="source"
 							value={source}
 							onChange={e => setSource(e.target.value)}
-							className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20"
+							className="w-full px-4 py-2.5 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-ring"
 							required
 						>
 							<option value="">Select an option</option>
@@ -99,7 +99,7 @@ export function OnboardingModal({ hasSource, onCompleted }: OnboardingModalProps
 						<div>
 							<label
 								htmlFor="customSource"
-								className="block text-sm font-medium text-gray-700 mb-2"
+								className="block text-sm font-medium text-muted-foreground mb-2"
 							>
 								Please specify
 							</label>
@@ -108,7 +108,7 @@ export function OnboardingModal({ hasSource, onCompleted }: OnboardingModalProps
 								value={customSource}
 								onChange={e => setCustomSource(e.target.value)}
 								placeholder="Tell us how you found us..."
-								className="w-full px-4 py-2.5 border border-black/20 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-black/20 min-h-[80px] resize-none"
+								className="w-full px-4 py-2.5 border border-border rounded-lg bg-background focus:outline-none focus:ring-2 focus:ring-ring min-h-[80px] resize-none"
 								required
 							/>
 						</div>
@@ -121,7 +121,7 @@ export function OnboardingModal({ hasSource, onCompleted }: OnboardingModalProps
 							!source ||
 							(source === "other" && !customSource)
 						}
-						className="w-full px-6 py-3 bg-black text-[#F5F1E8] rounded-full hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+						className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
 					>
 						{isSubmitting ? "Saving..." : "Continue"}
 					</button>

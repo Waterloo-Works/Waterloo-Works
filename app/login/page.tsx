@@ -10,7 +10,7 @@ export default async function LoginPage() {
       <header className="absolute inset-x-0 top-0 z-40 flex h-16 items-center justify-between px-6 border-b border-white/20 bg-transparent">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
           <Link href="/" className="text-xl font-header italic text-zinc-50">
-            waterloo.works
+            waterloo.app
           </Link>
         </div>
       </header>

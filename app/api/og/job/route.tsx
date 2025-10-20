@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
+import { ogColors } from '@/lib/colors';
 
 export const runtime = 'edge';
 
@@ -22,7 +23,7 @@ export async function GET(request: NextRequest) {
             flexDirection: 'column',
             alignItems: 'flex-start',
             justifyContent: 'space-between',
-            backgroundColor: '#18181b',
+            backgroundColor: ogColors.background,
             padding: '80px',
             fontFamily: 'system-ui, -apple-system, sans-serif',
           }}
@@ -39,11 +40,11 @@ export async function GET(request: NextRequest) {
               style={{
                 fontSize: 36,
                 fontWeight: 700,
-                color: 'white',
+                color: ogColors.foreground,
                 letterSpacing: '-0.02em',
               }}
             >
-              Waterloo Works
+              Waterloo App
             </div>
           </div>
 
@@ -61,7 +62,7 @@ export async function GET(request: NextRequest) {
               style={{
                 fontSize: 72,
                 fontWeight: 700,
-                color: 'white',
+                color: ogColors.foreground,
                 lineHeight: 1.1,
                 letterSpacing: '-0.03em',
               }}
@@ -74,7 +75,7 @@ export async function GET(request: NextRequest) {
               style={{
                 fontSize: 48,
                 fontWeight: 600,
-                color: '#a1a1aa',
+                color: ogColors.primary,
                 letterSpacing: '-0.02em',
               }}
             >
@@ -87,7 +88,7 @@ export async function GET(request: NextRequest) {
                 display: 'flex',
                 gap: '32px',
                 fontSize: 32,
-                color: '#71717a',
+                color: ogColors.muted,
                 flexWrap: 'wrap',
               }}
             >
@@ -114,7 +115,7 @@ export async function GET(request: NextRequest) {
               alignItems: 'center',
               gap: '12px',
               fontSize: 24,
-              color: '#71717a',
+              color: ogColors.muted,
             }}
           >
             <span>🎓</span>

@@ -7,8 +7,8 @@ import { PageViewTracker } from "@/components/PageViewTracker";
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-	title: "Blog | Waterloo Works",
-	description: "Articles, insights, and updates from Waterloo Works",
+	title: "Blog | Waterloo App",
+	description: "Articles, insights, and updates from Waterloo App",
 };
 
 export default function BlogIndexPage() {
@@ -27,7 +27,7 @@ export default function BlogIndexPage() {
 						Blog
 					</h1>
 					<p className="text-xl text-zinc-600">
-						Articles, insights, and updates from the Waterloo Works community
+						Articles, insights, and updates from the Waterloo App community
 					</p>
 				</div>
 

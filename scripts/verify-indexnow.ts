@@ -1,5 +1,5 @@
 const INDEXNOW_KEY = "c2625de7b6514de28e9ed33e320098e9";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://waterloo.works";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://waterloo.app";
 
 async function verifyKeyFile() {
 	console.log("🔍 Verifying IndexNow key file...\n");

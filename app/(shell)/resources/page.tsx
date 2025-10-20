@@ -6,7 +6,7 @@ import { PageViewTracker } from "@/components/PageViewTracker";
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-	title: "Resources | Waterloo Works",
+	title: "Resources | Waterloo App",
 	description: "Curated directory of useful tools, platforms, and resources for Waterloo students",
 };
 

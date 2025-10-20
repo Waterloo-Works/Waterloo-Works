@@ -25,7 +25,7 @@ export async function generateMetadata({
 
 	if (!company) {
 		return {
-			title: "Company Not Found | Waterloo Works",
+			title: "Company Not Found | Waterloo App",
 		};
 	}
 
@@ -33,19 +33,19 @@ export async function generateMetadata({
 	const description = `View ${company.jobCount} open ${company.jobCount === 1 ? 'position' : 'positions'} at ${company.name}. Find internships and full-time roles for Waterloo students.`;
 
 	// Generate OG image URL with company details
-	const ogImageUrl = new URL(`/api/og/company`, process.env.NEXT_PUBLIC_APP_URL || 'https://waterloo.works');
+	const ogImageUrl = new URL(`/api/og/company`, process.env.NEXT_PUBLIC_APP_URL || 'https://waterloo.app');
 	ogImageUrl.searchParams.set('name', company.name);
 	ogImageUrl.searchParams.set('jobCount', company.jobCount.toString());
 
 	return {
-		title: `${title} | Waterloo Works`,
+		title: `${title} | Waterloo App`,
 		description,
 		openGraph: {
 			title,
 			description,
 			type: 'website',
 			url: `/companies/${company.slug}`,
-			siteName: 'Waterloo Works',
+			siteName: 'Waterloo App',
 			images: [
 				{
 					url: ogImageUrl.toString(),

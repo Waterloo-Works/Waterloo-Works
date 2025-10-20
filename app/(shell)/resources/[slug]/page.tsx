@@ -25,12 +25,12 @@ export async function generateMetadata({
 
 	if (!resource) {
 		return {
-			title: "Resource Not Found | Waterloo Works",
+			title: "Resource Not Found | Waterloo App",
 		};
 	}
 
 	return {
-		title: `${resource.name} | Waterloo Works Resources`,
+		title: `${resource.name} | Waterloo App Resources`,
 		description: resource.description,
 	};
 }

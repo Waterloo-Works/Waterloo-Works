@@ -6,8 +6,8 @@ import { PageViewTracker } from "@/components/PageViewTracker";
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-	title: "All Jobs | Waterloo Works",
-	description: "Browse all available job opportunities on Waterloo Works",
+	title: "All Jobs | Waterloo App",
+	description: "Browse all available job opportunities on Waterloo App",
 };
 
 export default function JobsIndexPage() {

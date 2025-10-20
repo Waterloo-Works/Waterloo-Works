@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 const INDEXNOW_KEY = "c2625de7b6514de28e9ed33e320098e9";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://waterloo.works";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://waterloo.app";
 
 function slugify(text: string): string {
 	return text

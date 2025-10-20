@@ -10,23 +10,23 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Suspense } from "react";
 
 const siteUrl = process.env.NEXT_PUBLIC_APP_URL ||
-    (process.env.NODE_ENV === "production" ? "https://waterloo.works" : "http://localhost:3000");
+    (process.env.NODE_ENV === "production" ? "https://waterloo.app" : "http://localhost:3000");
 
 export const metadata: Metadata = {
     metadataBase: new URL(siteUrl),
-    title: "Waterloo Works",
+    title: "Waterloo App",
     description: "A community job board connecting talent with opportunities",
     openGraph: {
-        title: "Waterloo Works",
+        title: "Waterloo App",
         description: "A community job board connecting talent with opportunities",
         url: siteUrl,
-        siteName: "Waterloo Works",
+        siteName: "Waterloo App",
         images: [
             {
                 url: `${siteUrl}/og-image.png`,
                 width: 1200,
                 height: 630,
-                alt: "waterloo.works — independent community job board",
+                alt: "waterloo.app — independent community job board",
             },
         ],
         locale: "en_US",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     },
     twitter: {
         card: "summary_large_image",
-        title: "Waterloo Works",
+        title: "Waterloo App",
         description: "A community job board connecting talent with opportunities",
         images: [`${siteUrl}/og-image.png`],
     },

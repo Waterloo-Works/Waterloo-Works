@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
+import { ogColors } from '@/lib/colors';
 
 export const runtime = 'edge';
 
@@ -20,7 +21,7 @@ export async function GET(request: NextRequest) {
             flexDirection: 'column',
             alignItems: 'flex-start',
             justifyContent: 'space-between',
-            backgroundColor: '#18181b',
+            backgroundColor: ogColors.background,
             padding: '80px',
             fontFamily: 'system-ui, -apple-system, sans-serif',
           }}
@@ -37,11 +38,11 @@ export async function GET(request: NextRequest) {
               style={{
                 fontSize: 36,
                 fontWeight: 700,
-                color: 'white',
+                color: ogColors.foreground,
                 letterSpacing: '-0.02em',
               }}
             >
-              Waterloo Works
+              Waterloo App
             </div>
           </div>
 
@@ -59,7 +60,7 @@ export async function GET(request: NextRequest) {
               style={{
                 fontSize: 80,
                 fontWeight: 700,
-                color: 'white',
+                color: ogColors.foreground,
                 lineHeight: 1.1,
                 letterSpacing: '-0.03em',
               }}
@@ -75,10 +76,10 @@ export async function GET(request: NextRequest) {
                 gap: '20px',
                 fontSize: 48,
                 fontWeight: 600,
-                color: '#a1a1aa',
+                color: ogColors.muted,
               }}
             >
-              <span style={{ color: '#22c55e' }}>{jobCount}</span>
+              <span style={{ color: ogColors.secondary }}>{jobCount}</span>
               <span>{jobCount === '1' ? 'Open Position' : 'Open Positions'}</span>
             </div>
 
@@ -86,7 +87,7 @@ export async function GET(request: NextRequest) {
             <div
               style={{
                 fontSize: 32,
-                color: '#71717a',
+                color: ogColors.muted,
                 marginTop: '24px',
               }}
             >
@@ -101,7 +102,7 @@ export async function GET(request: NextRequest) {
               alignItems: 'center',
               gap: '12px',
               fontSize: 24,
-              color: '#71717a',
+              color: ogColors.muted,
             }}
           >
             <span>🎓</span>

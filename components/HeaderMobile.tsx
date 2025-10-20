@@ -33,7 +33,7 @@ export default async function HeaderMobile() {
       </div>
       <div className="absolute left-1/2 -translate-x-1/2">
         <Link href="/explore" className="text-base font-header italic text-zinc-900">
-          waterloo.works
+          waterloo.app
         </Link>
       </div>
       {user ? (

@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "Terms of Service for Waterloo Works",
+  description: "Terms of Service for Waterloo App",
 };
 
 export default function TermsOfServicePage() {
-  const siteName = "Waterloo Works";
-  const contactEmail = "contact@waterloo.works";
+  const siteName = "Waterloo App";
+  const contactEmail = "contact@waterloo.app";
   const lastUpdated = new Date().toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",

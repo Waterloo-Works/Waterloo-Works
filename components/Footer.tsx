@@ -13,19 +13,19 @@ export default function Footer({ tone = "light" }: Props) {
 
   const isDark = tone === "dark";
   const footerClass = isDark
-    ? "border-[#2a2a28] bg-[#191918] backdrop-blur-sm relative overflow-visible"
-    : "border-zinc-200 bg-white";
+    ? "border-border bg-background backdrop-blur-sm relative overflow-visible"
+    : "border-border bg-card";
   const linkClass = isDark
-    ? "text-zinc-200 hover:text-white"
-    : "text-zinc-600 hover:text-zinc-900";
-  const dotClass = isDark ? "text-white/30" : "text-zinc-300";
+    ? "text-foreground/80 hover:text-foreground"
+    : "text-muted-foreground hover:text-foreground";
+  const dotClass = isDark ? "text-foreground/30" : "text-muted-foreground/50";
 
   return (
     <footer className={`border-t ${footerClass}`}>
       {isDark && (
         <>
           {/* Blend into hero */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-6 bg-gradient-to-t from-[#191918] to-transparent z-0" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-6 bg-gradient-to-t from-background to-transparent z-0" />
           {/* Borrow the top candle markers, positioned ABOVE the footer edge */}
           <div className="pointer-events-none absolute inset-x-0 -top-5 h-6 z-30">
             <div className="grid-overlay-ticks h-full opacity-80" style={{ ['--ticks-top-offset' as any]: '0px' }} />
@@ -41,7 +41,7 @@ export default function Footer({ tone = "light" }: Props) {
         </>
       )}
       <div className="relative mx-auto max-w-6xl px-6 py-6">
-        <nav aria-label="Footer" className={`flex flex-wrap items-center gap-x-4 gap-y-2 text-sm ${isDark ? 'text-zinc-200' : 'text-zinc-600'}`}>
+        <nav aria-label="Footer" className={`flex flex-wrap items-center gap-x-4 gap-y-2 text-sm ${isDark ? 'text-foreground/80' : 'text-muted-foreground'}`}>
           {links.map((item, idx) => (
             <span key={item.href} className="flex items-center">
               {idx > 0 && <span className={`mx-2 ${dotClass}`}>·</span>}

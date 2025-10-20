@@ -12,7 +12,7 @@ export const ENABLE_AUTO_REDIRECTS = false;
 const inferredBaseUrl =
   process.env.NEXT_PUBLIC_APP_URL ||
   (process.env.NODE_ENV === "production"
-    ? "https://waterloo.works"
+    ? "https://waterloo.app"
     : "http://localhost:3000");
 
 export const PUBLIC_APP_URL = inferredBaseUrl;

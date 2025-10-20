@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const files = formData.getAll('files') as File[];
-    const description = formData.get('description') as string || 'Video recording from waterloo.works';
+    const description = formData.get('description') as string || 'Video recording from waterloo.app';
 
     if (!files || files.length === 0) {
       return NextResponse.json({ error: 'No files provided' }, { status: 400 });
@@ -98,8 +98,8 @@ export async function POST(request: NextRequest) {
       const repoDir = join(tempDir, 'repo');
 
       // Configure git user and increase buffer size for large files
-      await execAsync('git config user.email "noreply@waterloo.works"', { cwd: repoDir });
-      await execAsync('git config user.name "Waterloo Works"', { cwd: repoDir });
+      await execAsync('git config user.email "noreply@waterloo.app"', { cwd: repoDir });
+      await execAsync('git config user.name "Waterloo App"', { cwd: repoDir });
       await execAsync('git config http.postBuffer 524288000', { cwd: repoDir }); // 500MB buffer
 
       // Push each file one at a time to avoid large payloads
