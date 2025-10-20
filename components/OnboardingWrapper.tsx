@@ -59,8 +59,12 @@ export function OnboardingWrapper({
 		checkUserSource();
 	}, [user, loading, isPublicRoute]);
 
-	// Don't show modal on public routes or if user is not logged in or still loading
-	const shouldShowModal = mounted && !isPublicRoute && !loading && user && !hasSource;
+	// Check if onboarding parameter is set (for new signups)
+	// This is just a hint to check, not a force - we still respect hasSource
+	const onboardingHint = sp?.get('onboarding') === 'true';
+
+	// Show modal if: user is logged in, doesn't have source, and either on protected route OR has onboarding hint
+	const shouldShowModal = mounted && !loading && user && !hasSource && (onboardingHint || !isPublicRoute);
 
     return (
         <>
@@ -70,9 +74,19 @@ export function OnboardingWrapper({
                     hasSource={false}
                     onCompleted={() => {
                         setHasSource(true);
+                        // Remove onboarding parameter from URL
+                        const newSearchParams = new URLSearchParams(sp?.toString());
+                        newSearchParams.delete('onboarding');
+                        const newUrl = newSearchParams.toString()
+                            ? `${pathname}?${newSearchParams.toString()}`
+                            : pathname;
+
                         const next = sp?.get("next");
-                        if (next) router.push(next);
-                        else router.refresh();
+                        if (next) {
+                            router.push(next);
+                        } else {
+                            router.replace(newUrl || pathname || '/explore');
+                        }
                     }}
                 />
             )}

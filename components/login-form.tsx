@@ -50,7 +50,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
       const searchParams = new URLSearchParams(window.location.search)
       const next = searchParams.get('next')
-      const target = next ? next : '/explore'
+      // For new signups, add onboarding parameter to trigger modal
+      const baseTarget = next ? next : '/explore'
+      const target = mode === 'signup' ? `${baseTarget}?onboarding=true` : baseTarget
       router.push(target)
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : 'An error occurred')
