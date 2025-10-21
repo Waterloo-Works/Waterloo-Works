@@ -21,12 +21,19 @@
     --base-border: 45 10% 88%;     /* #E3E2DD - Subtle border */
     --base-hover: 45 10% 92%;      /* #EAEAE7 - Hover state */
 
-    --dark-bg: 0 0% 0%;            /* #000000 - Pure black */
-    --dark-surface: 0 0% 4%;       /* #0A0A0A - Near black */
+    --dark-bg: 28 12% 11%;         /* #211E1A - Softer warm charcoal */
+    --dark-surface: 26 14% 16%;    /* #2E2823 - Warm card surface */
+    --dark-border: 24 8% 23%;      /* #3E3935 - Subtle refined border */
+    --dark-hover: 26 12% 18%;      /* #322D28 - Subtle warm muted */
 
     --text-main: 0 0% 4%;          /* #0A0A0A - Almost black */
     --text-subtle: 0 0% 32%;       /* #525252 - Medium gray */
     --text-inverse: 0 0% 100%;     /* #FFFFFF - White */
+    --text-warm-light: 28 22% 92%; /* #F0E8E0 - Brighter warm beige */
+    --text-warm-muted: 28 18% 68%; /* #BEB0A0 - Brighter warm gray */
+
+    --accent-terracotta: 18 32% 65%; /* #CDA285 - Brighter terracotta */
+    --accent-golden: 32 22% 52%;     /* #A08E79 - Brighter golden brown */
 
     /* === SEMANTIC TOKENS === */
     /* Light mode defaults */
@@ -83,49 +90,50 @@
     --rails-half: clamp(18rem, calc(var(--container-half) + var(--rails-shift)), calc(50vw - var(--rails-margin)));
   }
   .dark {
-    /* Dark mode: Pure black with high contrast */
-    --background: 0 0% 0%;            /* dark-bg */
-    --foreground: 0 0% 100%;          /* text-inverse */
+    /* Dark mode: Warm Japanese rustic with muted earthy tones */
+    /* Inspired by aged wood, clay pottery, and washi paper */
+    --background: 28 12% 11%;         /* #211E1A - Softer warm charcoal */
+    --foreground: 28 22% 92%;         /* #F0E8E0 - Brighter warm beige for better contrast */
 
-    --card: 0 0% 4%;                  /* dark-surface */
-    --card-foreground: 0 0% 100%;     /* text-inverse */
+    --card: 26 14% 16%;               /* #2E2823 - Warm card surface */
+    --card-foreground: 28 22% 92%;    /* #F0E8E0 - Brighter warm beige */
 
-    --popover: 0 0% 4%;               /* dark-surface */
-    --popover-foreground: 0 0% 100%;  /* text-inverse */
+    --popover: 26 14% 16%;            /* #2E2823 - Warm card surface */
+    --popover-foreground: 28 22% 92%; /* #F0E8E0 - Brighter warm beige */
 
-    --primary: 0 0% 100%;             /* text-inverse */
-    --primary-foreground: 0 0% 4%;    /* text-main */
+    --primary: 18 32% 65%;            /* #CDA285 - Brighter terracotta for contrast */
+    --primary-foreground: 28 12% 11%; /* #211E1A - Softer warm charcoal */
 
-    --secondary: 0 0% 64%;            /* lighter gray for contrast on dark bg */
-    --secondary-foreground: 0 0% 4%;  /* dark text on light gray */
+    --secondary: 32 22% 52%;          /* #A08E79 - Brighter golden brown */
+    --secondary-foreground: 28 12% 11%; /* #211E1A - Softer warm charcoal */
 
-    --muted: 0 0% 4%;                 /* dark-surface */
-    --muted-foreground: 0 0% 64%;     /* lighter gray for better contrast */
+    --muted: 26 12% 18%;              /* #322D28 - Subtle warm muted */
+    --muted-foreground: 28 18% 68%;   /* #BEB0A0 - Brighter warm gray for better contrast */
 
-    --accent: 0 0% 100%;              /* text-inverse */
-    --accent-foreground: 0 0% 4%;     /* text-main */
+    --accent: 26 12% 18%;             /* #322D28 - Subtle warm muted */
+    --accent-foreground: 28 22% 92%;  /* #F0E8E0 - Brighter warm beige */
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 100%; /* text-inverse */
+    --destructive-foreground: 28 22% 92%; /* #F0E8E0 - Brighter warm beige */
 
-    --border: 0 0% 4%;                /* dark-surface */
-    --input: 0 0% 4%;                 /* dark-surface */
-    --ring: 0 0% 100%;                /* text-inverse */
+    --border: 24 8% 23%;              /* #3E3935 - Subtle refined border */
+    --input: 24 8% 23%;               /* #3E3935 - Subtle refined border */
+    --ring: 18 32% 65%;               /* #CDA285 - Brighter terracotta */
 
-    --chart-1: 0 0% 100%;             /* text-inverse - lightest */
-    --chart-2: 0 0% 64%;              /* medium gray */
-    --chart-3: 0 0% 32%;              /* text-subtle - medium */
-    --chart-4: 0 0% 16%;              /* darker gray */
-    --chart-5: 0 0% 4%;               /* dark-surface - darkest */
+    --chart-1: 18 32% 65%;            /* #CDA285 - Brighter terracotta */
+    --chart-2: 32 22% 52%;            /* #A08E79 - Brighter golden brown */
+    --chart-3: 28 18% 68%;            /* #BEB0A0 - Brighter warm gray */
+    --chart-4: 26 12% 18%;            /* #322D28 - Subtle warm muted */
+    --chart-5: 26 14% 16%;            /* #2E2823 - Warm card surface */
 
-    --sidebar-background: 0 0% 4%;    /* dark-surface */
-    --sidebar-foreground: 0 0% 100%;  /* text-inverse */
-    --sidebar-primary: 0 0% 100%;     /* text-inverse */
-    --sidebar-primary-foreground: 0 0% 4%; /* text-main */
-    --sidebar-accent: 0 0% 4%;        /* dark-surface */
-    --sidebar-accent-foreground: 0 0% 100%; /* text-inverse */
-    --sidebar-border: 0 0% 4%;        /* dark-surface */
-    --sidebar-ring: 0 0% 100%;        /* text-inverse */
+    --sidebar-background: 24 16% 13%; /* #26211C - Deeper warm sidebar */
+    --sidebar-foreground: 28 22% 92%; /* #F0E8E0 - Brighter warm beige for better contrast */
+    --sidebar-primary: 18 32% 65%;    /* #CDA285 - Brighter terracotta */
+    --sidebar-primary-foreground: 24 16% 13%; /* #26211C - Deeper warm sidebar */
+    --sidebar-accent: 26 12% 18%;     /* #322D28 - Subtle warm hover */
+    --sidebar-accent-foreground: 28 22% 92%; /* #F0E8E0 - Brighter warm beige */
+    --sidebar-border: 22 8% 20%;      /* #362F2A - Refined sidebar border */
+    --sidebar-ring: 18 32% 65%;       /* #CDA285 - Brighter terracotta */
   }
 }
 

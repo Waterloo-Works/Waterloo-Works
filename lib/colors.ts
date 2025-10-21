@@ -25,10 +25,13 @@ export const colors = {
     hover: '#EAEAE7',     // Hover state
   },
 
-  // Dark mode colors
+  // Dark mode colors (Japanese rustic warm palette)
   dark: {
-    bg: '#000000',        // Pure black
-    surface: '#0A0A0A',   // Near black
+    bg: '#211E1A',        // Softer warm charcoal
+    surface: '#2E2823',   // Warm card surface
+    sidebar: '#26211C',   // Deeper warm sidebar
+    border: '#3E3935',    // Subtle refined border
+    hover: '#322D28',     // Subtle warm muted
   },
 
   // Text colors
@@ -36,6 +39,14 @@ export const colors = {
     main: '#0A0A0A',      // Almost black
     subtle: '#525252',    // Medium gray
     inverse: '#FFFFFF',   // White
+    warmLight: '#F0E8E0', // Brighter warm beige (for dark mode)
+    warmMuted: '#BEB0A0', // Brighter warm gray (for dark mode)
+  },
+
+  // Accent colors (dark mode)
+  accent: {
+    terracotta: '#CDA285',  // Brighter terracotta
+    goldenBrown: '#A08E79', // Brighter golden brown
   },
 } as const;
 

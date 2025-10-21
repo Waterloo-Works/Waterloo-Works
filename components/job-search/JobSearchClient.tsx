@@ -26,6 +26,8 @@ import BookmarkButton from "@/components/BookmarkButton";
 import { useBookmarkedIds } from "@/hooks/useBookmarks";
 import EmptyState from "@/components/EmptyState";
 import { VoiceNotePlayer } from "@/components/VoiceNotePlayer";
+import { JobSearchOnboardingTour } from "@/components/JobSearchOnboardingTour";
+import { useSession } from "@/providers/SessionProvider";
 
 type Job = Awaited<ReturnType<typeof import("@/app/actions/jobs").getJobs>>[number];
 
@@ -38,6 +40,8 @@ export default function JobSearchClient({ jobs }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
+  const { user, loading } = useSession();
+
   // Mobile drawer for job details (breakpoint detected on client)
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== "undefined"
@@ -52,6 +56,48 @@ export default function JobSearchClient({ jobs }: Props) {
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);
+
+  // Job search onboarding tour logic
+  const [mounted, setMounted] = useState(false);
+  const [showJobSearchTour, setShowJobSearchTour] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted || !user || loading) return;
+
+    // Check for force flag
+    const forceOnboarding = sp?.get('onboarding') === 'forced';
+    const tourKey = `job-search-tour-dismissed-${user.id}`;
+    const hasSeenTour = localStorage.getItem(tourKey);
+
+    // Debug logging (can be removed later)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[JobSearch Onboarding]', {
+        forceOnboarding,
+        hasSeenTour,
+        tourKey,
+        userId: user.id,
+      });
+    }
+
+    if (forceOnboarding) {
+      // Show immediately when forced, regardless of localStorage
+      setShowJobSearchTour(true);
+      return;
+    }
+
+    if (!hasSeenTour) {
+      // Show tour after a short delay for better UX
+      const timer = setTimeout(() => {
+        setShowJobSearchTour(true);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [mounted, user, loading, sp]);
 
   const selectedParam = sp.get("selected") || undefined;
   // Local filter state for snappy client-side updates
@@ -181,47 +227,45 @@ export default function JobSearchClient({ jobs }: Props) {
     }
   }, [isMobile, selectedJob]);
 
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
   return (
-    <div className="flex h-[calc(100svh-0px)] flex-col" suppressHydrationWarning>
-      <Header
-        tab={tab}
-        q={q}
-        selectedTypes={selectedTypes}
-        selectedLocs={selectedLocs}
-        remote={remote}
-        savedCount={bookmarkedIds.size}
-        onChange={(next) => {
-          if (typeof next.tab !== "undefined") setTabState(next.tab);
-          if (Object.prototype.hasOwnProperty.call(next, "q")) setQ(next.q || "");
-          if (Object.prototype.hasOwnProperty.call(next, "type")) setTypeCsv(next.type || "");
-          if (Object.prototype.hasOwnProperty.call(next, "loc")) setLocCsv(next.loc || "");
-          if (Object.prototype.hasOwnProperty.call(next, "remote")) setRemote(next.remote === "true");
-          quietlySyncQuery(next);
-          // Ensure filters/search interactions do not open or keep the drawer open on mobile
-          if (isMobile) {
-            setSelectedId(undefined);
-            quietlySyncSelected(undefined);
-          }
-        }}
-      />
-      {/* Mobile: list only (default SSR) */}
-      {(mounted ? isMobile : true) && (
-        <div className="flex min-h-0 flex-1 md:hidden">
-          <div className="flex h-full w-full shrink-0 flex-col border-r border-zinc-200 bg-white">
-            <ResultsList
-              jobs={results}
-              bookmarkedIds={bookmarkedIds}
-              selectedId={selectedJob?.id}
-              onSelect={onSelect}
-            />
+    <>
+      <div className="flex h-[calc(100svh-0px)] flex-col" suppressHydrationWarning>
+        <Header
+          tab={tab}
+          q={q}
+          selectedTypes={selectedTypes}
+          selectedLocs={selectedLocs}
+          remote={remote}
+          savedCount={bookmarkedIds.size}
+          onChange={(next) => {
+            if (typeof next.tab !== "undefined") setTabState(next.tab);
+            if (Object.prototype.hasOwnProperty.call(next, "q")) setQ(next.q || "");
+            if (Object.prototype.hasOwnProperty.call(next, "type")) setTypeCsv(next.type || "");
+            if (Object.prototype.hasOwnProperty.call(next, "loc")) setLocCsv(next.loc || "");
+            if (Object.prototype.hasOwnProperty.call(next, "remote")) setRemote(next.remote === "true");
+            quietlySyncQuery(next);
+            // Ensure filters/search interactions do not open or keep the drawer open on mobile
+            if (isMobile) {
+              setSelectedId(undefined);
+              quietlySyncSelected(undefined);
+            }
+          }}
+        />
+        {/* Mobile: list only (default SSR) */}
+        {(mounted ? isMobile : true) && (
+          <div className="flex min-h-0 flex-1 md:hidden">
+            <div className="flex h-full w-full shrink-0 flex-col border-r border-zinc-200 bg-white">
+              <ResultsList
+                jobs={results}
+                bookmarkedIds={bookmarkedIds}
+                selectedId={selectedJob?.id}
+                onSelect={onSelect}
+              />
+            </div>
           </div>
-        </div>
-      )}
-      {/* Desktop: resizable split (client-only) */}
-      {mounted && !isMobile && (
+        )}
+        {/* Desktop: resizable split (client-only) */}
+        {mounted && !isMobile && (
         <ResizablePanelGroup direction="horizontal" className="min-h-0 flex-1 bg-white">
           <ResizablePanel defaultSize={34} minSize={22} maxSize={50} className="min-w-[220px] border-r border-zinc-200">
             <div className="flex h-full flex-col">
@@ -280,7 +324,26 @@ export default function JobSearchClient({ jobs }: Props) {
           )}
         </DrawerContent>
       </Drawer>
-    </div>
+      </div>
+
+      {/* Job Search Onboarding Tour */}
+      {showJobSearchTour && (
+        <JobSearchOnboardingTour
+          onCompleted={() => {
+            // Hide the tour immediately
+            setShowJobSearchTour(false);
+
+            // Remove onboarding parameter from URL if present
+            const newSearchParams = new URLSearchParams(sp?.toString());
+            newSearchParams.delete('onboarding');
+            const newUrl = newSearchParams.toString()
+              ? `${pathname}?${newSearchParams.toString()}`
+              : pathname;
+            router.replace(newUrl || pathname || '/job-search');
+          }}
+        />
+      )}
+    </>
   );
 }
 
@@ -335,7 +398,7 @@ function Header({
       {/* Single-row toolbar (desktop). Will wrap on small screens. */}
       <div className="flex flex-wrap items-center gap-2">
         {/* Search input first; grows to fill row */}
-        <div className="relative min-w-[220px] flex-1 md:flex-none md:w-[520px] lg:w-[560px]">
+        <div className="relative min-w-[220px] flex-1 md:flex-none md:w-[520px] lg:w-[560px]" data-tour="search-input">
           <input
             type="text"
             value={q}
@@ -360,7 +423,7 @@ function Header({
         {/* Location dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-800 shadow-sm hover:bg-zinc-50">
+            <button className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-800 shadow-sm hover:bg-zinc-50" data-tour="filters">
               <span>Location</span>
               <ChevronDown className="h-4 w-4 text-zinc-500" />
             </button>
@@ -484,7 +547,7 @@ function ResultsList({
 
               <div className="font-body text-[12px] text-zinc-500 mt-1">{j.location} · {timeAgo(j.createdAt)}</div>
             </div>
-            <div onClick={(e) => e.stopPropagation()} className="ml-auto">
+            <div onClick={(e) => e.stopPropagation()} className="ml-auto" data-tour="bookmark-button">
               <BookmarkButton jobId={j.id} initial={bookmarkedIds.has(j.id)} />
             </div>
           </div>
@@ -524,7 +587,7 @@ function JobDetail({ job, initialSaved }: { job: Job; initialSaved: boolean }) {
       </div>
 
       {job.contactUrl && (
-        <div className="mb-6">
+        <div className="mb-6" data-tour="apply-button">
           <a
             href={job.contactUrl}
             target="_blank"
