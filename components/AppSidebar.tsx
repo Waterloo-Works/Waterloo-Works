@@ -36,7 +36,7 @@ export async function AppSidebar() {
   }
 
   return (
-    <aside className="sticky top-0 z-40 hidden h-svh w-44 shrink-0 border-r border-zinc-100 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:border-zinc-800 dark:bg-zinc-950/80 dark:supports-[backdrop-filter]:bg-zinc-950/70 lg:block">
+    <aside data-tour="sidebar" className="sticky top-0 z-40 hidden h-svh w-44 shrink-0 border-r border-zinc-100 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:border-zinc-800 dark:bg-zinc-950/80 dark:supports-[backdrop-filter]:bg-zinc-950/70 lg:block">
       <div className="flex h-full flex-col">
         <div className="flex items-center justify-between gap-2 px-4 py-4">
           <Link href="/explore" className="text-sm font-header italic text-zinc-900 dark:text-zinc-100">

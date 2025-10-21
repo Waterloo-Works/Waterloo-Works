@@ -485,3 +485,64 @@
   @keyframes flip { to { rotate: 360deg; } }
   @keyframes rotate { to { transform: rotate(90deg); } }
 }
+
+/* Driver.js custom styles to match design system */
+.driver-popover {
+  background: hsl(var(--card)) !important;
+  color: hsl(var(--foreground)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+}
+
+.driver-popover-title {
+  font-family: '205 Tf Exposure 0', Georgia, serif !important;
+  font-size: 18px !important;
+  font-weight: 500 !important;
+  color: hsl(var(--foreground)) !important;
+  margin-bottom: 8px !important;
+}
+
+.driver-popover-description {
+  font-size: 14px !important;
+  color: hsl(var(--muted-foreground)) !important;
+  line-height: 1.5 !important;
+}
+
+.driver-popover-progress-text {
+  font-size: 13px !important;
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+.driver-popover-next-btn,
+.driver-popover-prev-btn,
+.driver-popover-close-btn {
+  background: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s !important;
+}
+
+.driver-popover-next-btn:hover,
+.driver-popover-close-btn:hover {
+  background: hsl(var(--primary) / 0.9) !important;
+}
+
+.driver-popover-prev-btn {
+  background: transparent !important;
+  color: hsl(var(--muted-foreground)) !important;
+}
+
+.driver-popover-prev-btn:hover {
+  background: hsl(var(--muted)) !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+.driver-overlay {
+  background: rgba(0, 0, 0, 0.5) !important;
+}

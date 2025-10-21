@@ -25,6 +25,7 @@ export function ThemeToggle() {
 
   return (
     <button
+      data-tour="theme-toggle"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       className="group relative rounded-lg p-2 text-zinc-600 transition-all hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}

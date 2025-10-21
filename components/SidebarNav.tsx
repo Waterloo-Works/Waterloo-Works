@@ -96,6 +96,11 @@ export function SidebarNav({ items }: { items: NavItem[] }) {
       );
     }
 
+    // Determine data-tour attribute based on href
+    const dataTourAttr = item.href === "/job-search" ? "job-search" :
+                         item.href === "/bookmarks" ? "bookmarks" :
+                         item.href === "/alerts" ? "alerts" : undefined;
+
     return (
       <Link
         href={item.href}
@@ -103,6 +108,7 @@ export function SidebarNav({ items }: { items: NavItem[] }) {
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
         aria-current={active ? "page" : undefined}
+        data-tour={dataTourAttr}
         className={cn(
           "group relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-all duration-150",
           active ? "bg-zinc-100 text-zinc-900" : "text-zinc-700 hover:bg-zinc-50",

@@ -5,11 +5,11 @@ import LoginClient from "./pageClient";
 
 export default async function LoginPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       {/* Header over hero background (same as home) */}
       <header className="absolute inset-x-0 top-0 z-40 flex h-16 items-center justify-between px-6 border-b border-white/20 bg-transparent">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between">
-          <Link href="/" className="text-xl font-header italic text-zinc-50">
+          <Link href="/" className="text-xl font-header italic text-white/95">
             waterloo.app
           </Link>
         </div>

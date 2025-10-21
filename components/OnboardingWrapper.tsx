@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { OnboardingModal } from "@/components/OnboardingModal";
+import { OnboardingTour } from "@/components/OnboardingTour";
 import { useSession } from "@/providers/SessionProvider";
 import { getCurrentUser } from "@/app/actions/auth";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
@@ -11,6 +11,15 @@ interface OnboardingWrapperProps {
 	children: React.ReactNode;
 }
 
+/**
+ * OnboardingWrapper
+ *
+ * Manages the interactive onboarding tour for new users.
+ *
+ * DEV TESTING:
+ * Add ?onboarding=forced to any URL to trigger the tour for testing
+ * Example: http://localhost:3000/explore?onboarding=forced
+ */
 export function OnboardingWrapper({
     initialHasSource,
     children,
@@ -26,30 +35,28 @@ export function OnboardingWrapper({
 	// Check if current route is public (SEO pages) or should skip onboarding
     const isPublicRoute = pathname ? (
         pathname === '/' ||
-        pathname.startsWith('/jobs') ||
-        pathname.startsWith('/companies') ||
-        pathname.startsWith('/blog') ||
-        pathname.startsWith('/resources') ||
-        pathname.startsWith('/explore') ||
-        pathname.startsWith('/job-search') ||
         pathname === '/login' ||
         pathname === '/signup' ||
-        pathname.startsWith('/auth/') ||
-        pathname.startsWith('/profile') // Skip onboarding on all profile pages
+        pathname.startsWith('/auth/')
     ) : false;
 
     useEffect(() => {
         setMounted(true);
-        // Skip onboarding check on public routes
-        if (isPublicRoute) {
-            return;
-        }
 
 		// Fetch fresh user data when auth state changes
 		const checkUserSource = async () => {
 			if (!loading && user) {
 				const dbUser = await getCurrentUser();
-				setHasSource(!!dbUser?.source);
+				const userHasSource = !!dbUser?.source;
+				setHasSource(userHasSource);
+
+				// Check if user dismissed tour before
+				if (!userHasSource) {
+					const tourDismissed = localStorage.getItem(`tour-dismissed-${user.id}`);
+					if (tourDismissed) {
+						setHasSource(true); // Don't show tour again if dismissed
+					}
+				}
 			} else if (!loading && !user) {
 				// User signed out, reset to initial state
 				setHasSource(true);
@@ -57,35 +64,38 @@ export function OnboardingWrapper({
 		};
 
 		checkUserSource();
-	}, [user, loading, isPublicRoute]);
+	}, [user, loading]);
 
-	// Check if onboarding parameter is set (for new signups)
-	// This is just a hint to check, not a force - we still respect hasSource
-	const onboardingHint = sp?.get('onboarding') === 'true';
+	// DEV FEATURE FLAG: Force onboarding with ?onboarding=forced
+	const forceOnboarding = sp?.get('onboarding') === 'forced';
 
-	// Show modal if: user is logged in, doesn't have source, and either on protected route OR has onboarding hint
-	const shouldShowModal = mounted && !loading && user && !hasSource && (onboardingHint || !isPublicRoute);
+	// Show tour if:
+	// - Force flag is set (?onboarding=forced), OR
+	// - User is logged in, doesn't have source, not on public route, and mounted
+	const shouldShowTour = mounted && !loading && user && (
+		forceOnboarding || (!hasSource && !isPublicRoute)
+	);
 
     return (
         <>
             {children}
-            {shouldShowModal && (
-                <OnboardingModal
-                    hasSource={false}
+            {shouldShowTour && (
+                <OnboardingTour
                     onCompleted={() => {
                         setHasSource(true);
-                        // Remove onboarding parameter from URL
+                        // Remove onboarding parameter from URL if present
                         const newSearchParams = new URLSearchParams(sp?.toString());
                         newSearchParams.delete('onboarding');
                         const newUrl = newSearchParams.toString()
                             ? `${pathname}?${newSearchParams.toString()}`
                             : pathname;
 
-                        const next = sp?.get("next");
-                        if (next) {
-                            router.push(next);
+                        // If forced, just remove the parameter but don't navigate away
+                        if (forceOnboarding) {
+                            router.replace(newUrl || pathname || '/explore');
                         } else {
                             router.replace(newUrl || pathname || '/explore');
+                            router.refresh();
                         }
                     }}
                 />

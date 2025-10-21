@@ -11,6 +11,7 @@ export default function LoginClient() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [newsletterConsent, setNewsletterConsent] = useState(false);
 
   const handleGoogle = async () => {
     posthog.capture("google_signin_clicked");
@@ -52,6 +53,9 @@ export default function LoginClient() {
       setError(null);
       setSuccess(null);
       if (!email || !password) return setError("Please enter email and password.");
+      if (mode === "signup" && !newsletterConsent) {
+        return setError("Please agree to receive newsletter updates to continue.");
+      }
       if (mode === "signin") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
@@ -97,11 +101,11 @@ export default function LoginClient() {
   };
 
   return (
-    <div className="rounded-2xl border border-zinc-200 bg-white p-8 shadow-lg">
-      <h2 className="font-header text-2xl font-semibold text-zinc-900 mb-2">
+    <div className="rounded-2xl border border-border bg-card p-8 md:p-10 shadow-xl">
+      <h2 className="font-header text-3xl md:text-4xl font-medium text-foreground mb-3">
         {mode === 'signin' ? 'Sign in' : 'Create account'}
       </h2>
-      <p className="font-body text-zinc-600 mb-6 text-sm">
+      <p className="font-body text-muted-foreground mb-8 text-base">
         {mode === 'signin' ? 'Welcome back to Waterloo App' : 'Join Waterloo App'}
       </p>
 
@@ -119,24 +123,24 @@ export default function LoginClient() {
 
       {/* Show forgot password flow if needed */}
       {showForgotPassword ? (
-        <div className="space-y-3 mb-6">
+        <div className="space-y-4 mb-6">
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleForgotPassword()}
-            className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:border-transparent transition-all"
+            className="w-full rounded-lg border border-input bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all"
           />
           <button
             onClick={handleForgotPassword}
-            className="w-full px-6 py-2.5 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition-colors font-medium text-sm"
+            className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all font-medium text-base"
           >
             Send reset link
           </button>
-          <div className="text-center text-xs text-zinc-500">
+          <div className="text-center text-xs text-muted-foreground">
             <button
-              className="underline hover:text-zinc-900 transition-colors"
+              className="underline hover:text-foreground transition-colors"
               onClick={() => {
                 setShowForgotPassword(false);
                 setSuccess(null);
@@ -150,14 +154,14 @@ export default function LoginClient() {
       ) : (
         <>
           {/* Email / Password */}
-          <div className="space-y-3 mb-6">
+          <div className="space-y-4 mb-6">
             <input
               type="email"
-              placeholder="Email"
+              placeholder="Email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleEmailPassword()}
-              className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:border-transparent transition-all"
+              className="w-full rounded-lg border border-input bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all"
             />
             <input
               type="password"
@@ -165,36 +169,56 @@ export default function LoginClient() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleEmailPassword()}
-              className="w-full rounded-lg border border-zinc-300 bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:border-transparent transition-all"
+              className="w-full rounded-lg border border-input bg-background px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground focus:border-transparent transition-all"
             />
-            {error && mode === 'signin' && (
-              <div className="text-xs text-right">
+            {mode === 'signin' && (
+              <div className="text-sm text-right -mt-1">
                 <button
-                  className="text-zinc-500 hover:text-zinc-900 underline transition-colors"
+                  className="text-muted-foreground hover:text-foreground underline transition-colors"
                   onClick={() => setShowForgotPassword(true)}
                 >
                   Forgot password?
                 </button>
               </div>
             )}
+            {mode === 'signup' && (
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={newsletterConsent}
+                  onChange={(e) => setNewsletterConsent(e.target.checked)}
+                  className="mt-1 h-4 w-4 rounded border-input text-primary focus:ring-2 focus:ring-foreground focus:ring-offset-0"
+                />
+                <span className="text-sm text-muted-foreground leading-relaxed">
+                  I agree to receive newsletter updates and job alerts from Waterloo App
+                </span>
+              </label>
+            )}
             <button
               onClick={handleEmailPassword}
-              className="w-full px-6 py-2.5 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition-colors font-medium text-sm"
+              className="w-full px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all font-medium text-base"
             >
               {mode === 'signin' ? 'Sign in' : 'Create account'}
             </button>
-            <div className="text-center text-xs text-zinc-500">
+            <div className="text-center text-sm text-muted-foreground pt-1">
               {mode === 'signin' ? (
                 <>
                   Don&apos;t have an account?{' '}
-                  <button className="underline hover:text-zinc-900 transition-colors" onClick={() => setMode('signup')}>
+                  <button className="underline hover:text-foreground transition-colors" onClick={() => {
+                    setMode('signup');
+                    setError(null);
+                    setNewsletterConsent(false);
+                  }}>
                     Sign up
                   </button>
                 </>
               ) : (
                 <>
                   Already have an account?{' '}
-                  <button className="underline hover:text-zinc-900 transition-colors" onClick={() => setMode('signin')}>
+                  <button className="underline hover:text-foreground transition-colors" onClick={() => {
+                    setMode('signin');
+                    setError(null);
+                  }}>
                     Sign in
                   </button>
                 </>
@@ -203,19 +227,19 @@ export default function LoginClient() {
           </div>
 
           {/* Divider */}
-          <div className="relative my-6">
+          <div className="relative my-8">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-zinc-200"></div>
+              <div className="w-full border-t border-border"></div>
             </div>
-            <div className="relative flex justify-center text-xs">
-              <span className="bg-white px-2 text-zinc-500">Or</span>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-card px-4 text-muted-foreground">Or</span>
             </div>
           </div>
 
           {/* Google Sign-in */}
           <button
             onClick={handleGoogle}
-            className="w-full px-6 py-2.5 bg-white border border-zinc-300 text-zinc-900 rounded-lg hover:bg-zinc-50 transition-colors font-medium text-sm flex items-center justify-center gap-2"
+            className="w-full px-6 py-3 bg-card border border-input text-foreground rounded-lg hover:bg-muted transition-all font-medium text-base flex items-center justify-center gap-3"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
