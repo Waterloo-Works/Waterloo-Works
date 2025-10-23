@@ -28,6 +28,7 @@ import EmptyState from "@/components/EmptyState";
 import { VoiceNotePlayer } from "@/components/VoiceNotePlayer";
 import { JobSearchOnboardingTour } from "@/components/JobSearchOnboardingTour";
 import { useSession } from "@/providers/SessionProvider";
+import Markdown from "react-markdown";
 
 type Job = Awaited<ReturnType<typeof import("@/app/actions/jobs").getJobs>>[number];
 
@@ -607,8 +608,8 @@ function JobDetail({ job, initialSaved }: { job: Job; initialSaved: boolean }) {
       )}
 
       {job.notes && (
-        <div className="mt-6 space-y-2">
-          <p className="font-body whitespace-pre-wrap text-[15px] text-foreground">{job.notes}</p>
+        <div className="mt-6 prose prose-sm max-w-none dark:prose-invert prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-ol:text-foreground prose-li:text-foreground prose-a:text-primary hover:prose-a:text-primary/80 prose-code:text-foreground prose-code:bg-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:text-foreground prose-blockquote:text-muted-foreground prose-blockquote:border-l-primary">
+          <Markdown>{job.notes}</Markdown>
         </div>
       )}
 

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { fetchCompanyMetadata } from "@/app/actions/company-metadata";
 import Link from "next/link";
 import GridOverlay from "@/components/ui/GridOverlay";
+import CompanyLogo from "@/components/CompanyLogo";
 
 export const metadata = { title: "Partnership Opportunities" };
 
@@ -73,16 +74,11 @@ export default async function PartnershipsPage({
           {/* Header with handshake visual */}
           <div className="mb-8 flex items-center justify-center gap-4 md:gap-6">
             {companyLogo && (
-              <div className="relative max-h-20 md:max-h-24">
-                <Image
-                  src={companyLogo}
-                  alt={`${companyName} logo`}
-                  width={200}
-                  height={96}
-                  className="object-contain max-h-20 md:max-h-24 w-auto rounded-lg shadow-2xl"
-                  unoptimized
-                />
-              </div>
+              <CompanyLogo
+                src={companyLogo}
+                alt={`${companyName} logo`}
+                companyName={company}
+              />
             )}
             <div className="text-5xl md:text-6xl">🤝</div>
             <div className="relative h-20 w-20 md:h-24 md:w-24 flex items-center justify-center rounded-2xl border border-white/20 bg-white shadow-2xl p-2">
@@ -155,7 +151,7 @@ export default async function PartnershipsPage({
           <div className="space-y-4 mb-6">
             <div className="rounded-lg bg-muted/50 p-4">
               <p className="text-sm text-foreground/80 leading-relaxed">
-                Companies like Shopify do an excellent job of marketing themselves to students by financially supporting events across campus. But, finding the right club to partner with, making sure that sponsorship money is well-used and outreach takes a considerable amount of time.
+                Companies like <a href="https://uwaterloo.ca/news/co-op-students-make-big-impact-shopify" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Shopify</a> do an excellent job of marketing themselves to students by financially supporting events across campus. But, finding the right club to partner with, making sure that sponsorship money is well-used and outreach takes a considerable amount of time.
               </p>
             </div>
 

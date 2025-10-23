@@ -3,14 +3,24 @@
 import { unfurl } from "unfurl.js";
 
 export async function fetchCompanyMetadata(companyName: string) {
+  const input = companyName.toLowerCase().trim();
+
+  // Common TLDs to check for
+  const commonTLDs = ['.com', '.co', '.io', '.ai', '.org', '.net', '.dev', '.app', '.xyz', '.tech', '.shop', '.store', '.me', '.cc', '.tv'];
+
+  // Check if the input already has a TLD
+  const hasTLD = commonTLDs.some(tld => input.endsWith(tld));
+
+  // If it has a TLD, use as-is; otherwise append .com
+  const domain = hasTLD ? input : `${input}.com`;
+  const url = `https://${domain}`;
+
   try {
-    // Convert company name to domain (e.g., "shopify" -> "shopify.com")
-    const domain = companyName.toLowerCase().trim();
-    const url = `https://${domain}.com`;
+    console.log(`[Metadata] Fetching metadata for ${url}...`);
 
     // Unfurl the URL to get metadata
     const metadata = await unfurl(url, {
-      timeout: 10000,
+      timeout: 15000, // Increased timeout to 15 seconds
       follow: 5,
     });
 
@@ -19,7 +29,7 @@ export async function fetchCompanyMetadata(companyName: string) {
       metadata.open_graph?.images?.[0]?.url ||
       metadata.twitter_card?.images?.[0]?.url ||
       metadata.favicon ||
-      `${url}/favicon.ico`;
+      `https://www.google.com/s2/favicons?domain=${domain}&sz=128`; // Google's favicon service as ultimate fallback
 
     // Extract the best available name
     const name =
@@ -34,6 +44,12 @@ export async function fetchCompanyMetadata(companyName: string) {
       metadata.description ||
       '';
 
+    console.log(`[Metadata] Successfully fetched metadata for ${url}`, {
+      name,
+      logo,
+      hasDescription: !!description,
+    });
+
     return {
       success: true,
       data: {
@@ -44,10 +60,17 @@ export async function fetchCompanyMetadata(companyName: string) {
       },
     };
   } catch (error) {
-    console.error('Error fetching company metadata:', error);
+    console.error(`[Metadata] Error fetching metadata for ${url}:`, error);
+
+    // Return fallback data even on error
     return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Failed to fetch company metadata',
+      success: true, // Changed to true so we still render something
+      data: {
+        name: companyName.charAt(0).toUpperCase() + companyName.slice(1),
+        logo: `https://www.google.com/s2/favicons?domain=${domain}&sz=128`, // Google's favicon service
+        description: '',
+        url: url,
+      },
     };
   }
 }
