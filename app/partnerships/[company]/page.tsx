@@ -5,13 +5,15 @@ import GridOverlay from "@/components/ui/GridOverlay";
 
 export const metadata = { title: "Partnership Opportunities" };
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export default async function PartnershipsPage({
-  searchParams,
+  params,
 }: {
-  searchParams: Promise<{ url?: string }>;
+  params: Promise<{ company: string }>;
 }) {
-  const params = await searchParams;
-  const companyUrl = params.url;
+  const { company } = await params;
 
   let companyData: {
     name: string;
@@ -20,8 +22,8 @@ export default async function PartnershipsPage({
     url: string;
   } | null = null;
 
-  if (companyUrl) {
-    const result = await fetchCompanyMetadata(companyUrl);
+  if (company) {
+    const result = await fetchCompanyMetadata(company);
     if (result.success && result.data) {
       companyData = result.data;
     }
@@ -71,19 +73,26 @@ export default async function PartnershipsPage({
           {/* Header with handshake visual */}
           <div className="mb-8 flex items-center justify-center gap-4 md:gap-6">
             {companyLogo && (
-              <div className="relative h-20 w-20 md:h-24 md:w-24 rounded-2xl overflow-hidden border border-white/20 bg-white shadow-2xl flex items-center justify-center p-3">
+              <div className="relative max-h-20 md:max-h-24">
                 <Image
                   src={companyLogo}
                   alt={`${companyName} logo`}
-                  fill
-                  className="object-contain p-3"
+                  width={200}
+                  height={96}
+                  className="object-contain max-h-20 md:max-h-24 w-auto rounded-lg shadow-2xl"
                   unoptimized
                 />
               </div>
             )}
             <div className="text-5xl md:text-6xl">🤝</div>
-            <div className="relative h-20 w-20 md:h-24 md:w-24 flex items-center justify-center rounded-2xl border border-white/20 bg-white shadow-2xl">
-              <span className="font-header text-2xl md:text-3xl italic text-zinc-900">waterloo</span>
+            <div className="relative h-20 w-20 md:h-24 md:w-24 flex items-center justify-center rounded-2xl border border-white/20 bg-white shadow-2xl p-2">
+              <Image
+                src="/gooselogo.png"
+                alt="waterloo.app logo"
+                width={96}
+                height={96}
+                className="object-contain"
+              />
             </div>
           </div>
 
@@ -91,7 +100,7 @@ export default async function PartnershipsPage({
             Welcome to waterloo.app, {companyName}
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Starting with UWaterloo, we&apos;re building an open source marketplace to match cracked Canadian youth with tech companies who are ready to cultivate their ambition.
+            Matching cracked canadians to companies ready to match their ambition. Starting with UWaterloo
           </p>
         </div>
       </section>

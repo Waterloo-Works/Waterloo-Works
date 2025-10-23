@@ -56,7 +56,7 @@ export default async function Home() {
           {/* Layer 3: Content */}
           <div className="relative z-30 mx-auto flex min-h-svh max-w-4xl flex-col items-center justify-center px-4 md:px-6 text-center">
             <h2 className="font-header text-[2.25rem] md:text-h2 tracking-tight-04 leading-heading mb-3 text-white">
-              Starting with UWaterloo, we&apos;re building an open source marketplace to match cracked Canadian youth with companies who believe in them, ready to match their ambition.
+              Matching cracked canadians to companies ready to match their ambition. Starting with UWaterloo
             </h2>
 
             {/* Single CTA pill — responsive sizes, no card behind */}

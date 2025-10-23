@@ -254,7 +254,7 @@ export default function JobSearchClient({ jobs }: Props) {
         {/* Mobile: list only (default SSR) */}
         {(mounted ? isMobile : true) && (
           <div className="flex min-h-0 flex-1 md:hidden">
-            <div className="flex h-full w-full shrink-0 flex-col border-r border-zinc-200 bg-white">
+            <div className="flex h-full w-full shrink-0 flex-col border-r border-border bg-background">
               <ResultsList
                 jobs={results}
                 bookmarkedIds={bookmarkedIds}
@@ -266,8 +266,8 @@ export default function JobSearchClient({ jobs }: Props) {
         )}
         {/* Desktop: resizable split (client-only) */}
         {mounted && !isMobile && (
-        <ResizablePanelGroup direction="horizontal" className="min-h-0 flex-1 bg-white">
-          <ResizablePanel defaultSize={34} minSize={22} maxSize={50} className="min-w-[220px] border-r border-zinc-200">
+        <ResizablePanelGroup direction="horizontal" className="min-h-0 flex-1 bg-background">
+          <ResizablePanel defaultSize={34} minSize={22} maxSize={50} className="min-w-[220px] border-r border-border">
             <div className="flex h-full flex-col">
               <ResultsList
                 jobs={results}
@@ -289,7 +289,7 @@ export default function JobSearchClient({ jobs }: Props) {
                   showFeedback={true}
                 />
               ) : (
-                <div className="m-auto p-8 text-center text-zinc-500">Select a job to view details</div>
+                <div className="m-auto p-8 text-center text-muted-foreground">Select a job to view details</div>
               )}
             </div>
           </ResizablePanel>
@@ -310,11 +310,11 @@ export default function JobSearchClient({ jobs }: Props) {
           {selectedJob && (
             <div ref={drawerRef} className="w-full -mb-2 pb-2">
               <DrawerHeader className="flex items-center justify-between">
-                <DrawerTitle className="font-header text-lg text-zinc-900 truncate pr-4">
+                <DrawerTitle className="font-header text-lg text-foreground truncate pr-4">
                   {selectedJob.position}
                 </DrawerTitle>
                 <DrawerClose asChild>
-                  <button type="button" className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm text-zinc-700 hover:bg-zinc-50">Close</button>
+                  <button type="button" className="rounded-full border border-input bg-background px-3 py-1.5 text-sm text-foreground hover:bg-muted">Close</button>
                 </DrawerClose>
               </DrawerHeader>
               <div className="overflow-y-auto flex-1">
@@ -375,25 +375,25 @@ function Header({
   };
 
   return (
-    <div className="border-b border-zinc-200 p-3">
+    <div className="border-b border-border p-3">
       {/* Desktop title + tabs */}
       <div className="mb-3 hidden items-end justify-between md:flex">
-        <h1 className="text-3xl font-semibold tracking-tight text-zinc-900">Jobs</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground">Jobs</h1>
         <nav className="flex items-center gap-6">
           <button
             onClick={() => setTab("search")}
             className={
               "pb-1 text-sm font-medium tracking-wide " +
-              (tab === "search" ? "border-b-2 border-zinc-900" : "border-b-2 border-transparent hover:border-zinc-300")
+              (tab === "search" ? "border-b-2 border-foreground" : "border-b-2 border-transparent hover:border-muted-foreground")
             }
           >
             Search
           </button>
-        
+
         </nav>
       </div>
 
-    
+
 
       {/* Single-row toolbar (desktop). Will wrap on small screens. */}
       <div className="flex flex-wrap items-center gap-2">
@@ -404,18 +404,18 @@ function Header({
             value={q}
             placeholder="Search jobs"
             onChange={(e) => onChange({ q: e.target.value || undefined })}
-            className="w-full rounded-xl border border-zinc-200 bg-white py-2 pl-4 pr-12 text-base md:text-sm outline-none focus:ring-2 focus:ring-zinc-300"
+            className="w-full rounded-xl border border-input bg-background py-2 pl-4 pr-12 text-base md:text-sm text-foreground outline-none focus:ring-2 focus:ring-ring"
           />
           {q && (
             <button
               aria-label="Clear search"
-              className="absolute right-9 top-1/2 -translate-y-1/2 rounded-md p-1 text-zinc-500 hover:bg-zinc-100"
+              className="absolute right-9 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:bg-muted"
               onClick={() => onChange({ q: undefined })}
             >
               <X className="h-4 w-4" />
             </button>
           )}
-          <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-500">
+          <div className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
             <Search className="h-4 w-4" />
           </div>
         </div>
@@ -423,9 +423,9 @@ function Header({
         {/* Location dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-800 shadow-sm hover:bg-zinc-50" data-tour="filters">
+            <button className="inline-flex items-center gap-2 rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm hover:bg-muted" data-tour="filters">
               <span>Location</span>
-              <ChevronDown className="h-4 w-4 text-zinc-500" />
+              <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56">
@@ -466,7 +466,7 @@ function Header({
               posthog.capture('job_search_filters_cleared');
               onChange({ q: undefined, type: "", loc: "", remote: "" });
             }}
-            className="rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-700 shadow-sm hover:bg-zinc-50"
+            className="rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm hover:bg-muted"
           >
             Clear
           </button>
@@ -495,8 +495,8 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
       className={
         "inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm " +
         (active
-          ? "bg-zinc-900 text-white"
-          : "border border-zinc-200 bg-white text-zinc-700")
+          ? "bg-primary text-primary-foreground"
+          : "border border-input bg-background text-foreground")
       }
     >
       {label}
@@ -504,7 +504,7 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
   );
 }
 
-function ResultsList({ 
+function ResultsList({
   jobs,
   bookmarkedIds,
   selectedId,
@@ -531,21 +531,21 @@ function ResultsList({
           }}
           data-selected={selectedId === j.id}
           className={
-            "w-full cursor-pointer border-b border-zinc-100 px-3 py-3 md:py-4 text-left transition-colors outline-none focus-visible:ring-1 focus-visible:ring-zinc-300 " +
-            (selectedId === j.id ? "bg-zinc-50" : "hover:bg-zinc-50")
+            "w-full cursor-pointer border-b border-border px-3 py-3 md:py-4 text-left transition-colors outline-none focus-visible:ring-1 focus-visible:ring-ring " +
+            (selectedId === j.id ? "bg-muted" : "hover:bg-muted")
           }
         >
           <div className="flex items-start gap-3">
             <FaviconImage src={j.companyImageUrl} company={j.company} className="w-9 h-9 md:w-10 md:h-10" />
             <div className="min-w-0 flex-1">
-              <div className="font-body text-[13px] text-zinc-600">{j.company}</div>
-              <div className="font-header text-[17px] md:text-lg font-semibold leading-5 text-zinc-900">{j.position}</div>
-              <div className="font-body text-[13px] md:text-[15px] text-zinc-700">
+              <div className="font-body text-[13px] text-muted-foreground">{j.company}</div>
+              <div className="font-header text-[17px] md:text-lg font-semibold leading-5 text-foreground">{j.position}</div>
+              <div className="font-body text-[13px] md:text-[15px] text-foreground">
                 {j.salaryMin && j.salaryMax ? `${j.salaryMin} - ${j.salaryMax} · ` : ""}
                 {formatEmploymentType(j.employmentType)}
               </div>
 
-              <div className="font-body text-[12px] text-zinc-500 mt-1">{j.location} · {timeAgo(j.createdAt)}</div>
+              <div className="font-body text-[12px] text-muted-foreground mt-1">{j.location} · {timeAgo(j.createdAt)}</div>
             </div>
             <div onClick={(e) => e.stopPropagation()} className="ml-auto" data-tour="bookmark-button">
               <BookmarkButton jobId={j.id} initial={bookmarkedIds.has(j.id)} />
@@ -572,9 +572,9 @@ function JobDetail({ job, initialSaved }: { job: Job; initialSaved: boolean }) {
         <div className="flex items-start gap-4">
           <FaviconImage src={job.companyImageUrl} company={job.company} />
           <div>
-            <div className="font-body text-sm text-zinc-600">{job.company}</div>
-            <h1 className="font-header text-2xl font-semibold text-zinc-900">{job.position}</h1>
-            <div className="font-body text-[15px] text-zinc-700">
+            <div className="font-body text-sm text-muted-foreground">{job.company}</div>
+            <h1 className="font-header text-2xl font-semibold text-foreground">{job.position}</h1>
+            <div className="font-body text-[15px] text-foreground">
               {compText ? `${compText} · ` : ""}
               {formatEmploymentType(job.employmentType)}
             </div>
@@ -599,7 +599,7 @@ function JobDetail({ job, initialSaved }: { job: Job; initialSaved: boolean }) {
                 job_company: job.company,
               });
             }}
-            className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-6 py-3 text-sm font-medium text-white shadow-sm hover:bg-zinc-800 transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-sm hover:bg-primary/90 transition-colors"
           >
             {job.contact || "Apply Now"}
           </a>
@@ -608,13 +608,13 @@ function JobDetail({ job, initialSaved }: { job: Job; initialSaved: boolean }) {
 
       {job.notes && (
         <div className="mt-6 space-y-2">
-          <p className="font-body whitespace-pre-wrap text-[15px] text-zinc-700">{job.notes}</p>
+          <p className="font-body whitespace-pre-wrap text-[15px] text-foreground">{job.notes}</p>
         </div>
       )}
 
       {job.voiceNoteUrl && (
         <div className="mt-8">
-          <h3 className="font-semibold text-zinc-900 mb-4 text-lg">
+          <h3 className="font-semibold text-foreground mb-4 text-lg">
             🎙️ Message from the Hiring Team
           </h3>
           <VoiceNotePlayer
@@ -626,7 +626,7 @@ function JobDetail({ job, initialSaved }: { job: Job; initialSaved: boolean }) {
         </div>
       )}
 
-      <div className="mt-8 border-t border-zinc-200 pt-4 text-sm text-zinc-500 font-body">
+      <div className="mt-8 border-t border-border pt-4 text-sm text-muted-foreground font-body">
         Posted {timeAgo(job.createdAt)}
         {job.poster && (
           <> · by {job.poster.fullName || job.poster.email.split("@")[0]}</>
