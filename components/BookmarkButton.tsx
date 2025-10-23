@@ -54,7 +54,7 @@ export default function BookmarkButton({ jobId, initial }: { jobId: string; init
       aria-pressed={bookmarked}
       onClick={onClick}
       // interactive during optimistic update; Query cache handles UI state
-      className="rounded-full p-2 text-zinc-700 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 transition-transform active:scale-95"
+      className="rounded-full p-2 text-zinc-700 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-300 transition-transform active:scale-95 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:focus-visible:ring-zinc-600"
     >
       {bookmarked ? <BookmarkCheck className="h-5 w-5" /> : <Bookmark className="h-5 w-5" />}
     </button>

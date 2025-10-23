@@ -15,7 +15,7 @@ export default async function Home() {
   if (user) redirect("/explore");
 
   return (
-    <div className="min-h-screen bg-muted">
+    <div className="dark min-h-screen bg-black">
 
       <main>
       <HeaderLanding />
@@ -56,15 +56,11 @@ export default async function Home() {
           {/* Layer 3: Content */}
           <div className="relative z-30 mx-auto flex min-h-svh max-w-4xl flex-col items-center justify-center px-4 md:px-6 text-center">
             <h2 className="font-header text-[2.25rem] md:text-h2 tracking-tight-04 leading-heading mb-3 text-white">
-              Curated opportunities for Waterloo
+              Starting with UWaterloo, we&apos;re building an open source marketplace to match cracked Canadian youth with companies who believe in them, ready to match their ambition.
             </h2>
 
-            <p className="font-body tracking-wide-01 leading-body mt-2 md:mt-3 mb-8 md:mb-10 max-w-2xl text-white/90 text-base md:text-xl">
-              Waterloo Alum can post opportunities, apply, or forward roles
-            </p>
-
             {/* Single CTA pill — responsive sizes, no card behind */}
-            <div className="w-full flex items-center justify-center">
+            <div className="w-full flex items-center justify-center mt-8 md:mt-10">
               <Link
                 href="/explore"
                 className="rounded-full bg-primary text-primary-foreground px-5 py-2 text-sm shadow hover:bg-primary/90 md:px-8 md:py-4 md:text-lg"

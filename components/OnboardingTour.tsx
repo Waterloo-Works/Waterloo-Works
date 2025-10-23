@@ -48,8 +48,8 @@ export function OnboardingTour({ onCompleted }: OnboardingTourProps) {
       },
       onNextClick: () => {
         const currentIndex = driverObj.current?.getActiveIndex() ?? 0;
-        // Check if this is the last step (now 4 steps total, so index 3 is the last)
-        if (currentIndex === 3) {
+        // Check if this is the last step (now 5 steps total, so index 4 is the last)
+        if (currentIndex === 4) {
           tourCompletedRef.current = true;
         }
         driverObj.current?.moveNext();
@@ -89,6 +89,15 @@ export function OnboardingTour({ onCompleted }: OnboardingTourProps) {
             description: 'Bookmark jobs you want to review later. Access all your saved opportunities from the Saved section anytime.',
             side: 'right',
             align: 'start',
+          },
+        },
+        {
+          element: 'body',
+          popover: {
+            title: '💬 Join our Discord community',
+            description: 'Connect with other Waterloo students and alumni! Share experiences, get job advice, and stay updated. <a href="https://discord.gg/nZnqjzrp" target="_blank" rel="noopener noreferrer" style="color: #5865F2; text-decoration: underline;">Join Discord →</a>',
+            side: 'top',
+            align: 'center',
           },
         },
       ],

@@ -35,7 +35,7 @@ export function SidebarProfileMenu({ user, isAdmin }: SidebarProfileMenuProps) {
       <div className="mt-auto p-3">
         <Link
           href="/login"
-          className="flex items-center justify-center rounded-full border border-zinc-300 px-4 py-2 text-sm text-zinc-900 hover:bg-zinc-50 transition-colors"
+          className="flex items-center justify-center rounded-full border border-sidebar-border px-4 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent transition-colors"
         >
           Sign in
         </Link>
@@ -47,17 +47,17 @@ export function SidebarProfileMenu({ user, isAdmin }: SidebarProfileMenuProps) {
     <div className="mt-auto p-3 relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-sm transition-colors hover:bg-zinc-100"
+        className="flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-sm transition-colors hover:bg-sidebar-accent"
         aria-label="User menu"
       >
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-500 to-violet-600 text-white text-xs font-medium shadow-sm">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-sidebar-primary text-sidebar-primary-foreground text-xs font-medium shadow-sm">
           {initials}
         </div>
         <div className="flex-1 text-left overflow-hidden">
-          <p className="truncate text-sm font-medium text-zinc-900">
+          <p className="truncate text-sm font-medium text-sidebar-foreground">
             {user.user_metadata?.full_name || user.email}
           </p>
-          <p className="truncate text-xs text-zinc-600">{user.email}</p>
+          <p className="truncate text-xs text-sidebar-foreground/60">{user.email}</p>
         </div>
       </button>
 
@@ -70,19 +70,19 @@ export function SidebarProfileMenu({ user, isAdmin }: SidebarProfileMenuProps) {
           />
 
           {/* Menu that opens UPWARD */}
-          <div className="absolute bottom-full left-3 right-3 mb-2 z-50 rounded-2xl border border-zinc-200 bg-white shadow-lg">
+          <div className="absolute bottom-full left-3 right-3 mb-2 z-50 rounded-2xl border border-sidebar-border bg-sidebar-background shadow-lg">
             <div className="py-2">
               <Link
                 href="/profile"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-900 transition-colors hover:bg-zinc-50"
+                className="flex items-center gap-3 px-4 py-2.5 text-sm text-sidebar-foreground transition-colors hover:bg-sidebar-accent"
               >
                 <span>Profile</span>
               </Link>
               <Link
                 href="/my-jobs"
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-900 transition-colors hover:bg-zinc-50"
+                className="flex items-center gap-3 px-4 py-2.5 text-sm text-sidebar-foreground transition-colors hover:bg-sidebar-accent"
               >
                 <span>My Job Submissions</span>
               </Link>
@@ -90,15 +90,15 @@ export function SidebarProfileMenu({ user, isAdmin }: SidebarProfileMenuProps) {
                 <Link
                   href="/admin"
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-900 transition-colors hover:bg-zinc-50"
+                  className="flex items-center gap-3 px-4 py-2.5 text-sm text-sidebar-foreground transition-colors hover:bg-sidebar-accent"
                 >
                   <span>Admin</span>
                 </Link>
               )}
-              <div className="my-1 border-t border-zinc-200" />
+              <div className="my-1 border-t border-sidebar-border" />
               <button
                 onClick={handleSignOut}
-                className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-zinc-900 transition-colors hover:bg-zinc-50"
+                className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm text-sidebar-foreground transition-colors hover:bg-sidebar-accent"
               >
                 <span>Sign out</span>
               </button>

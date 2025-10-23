@@ -56,7 +56,7 @@ export default async function ExplorePage() {
           />
         )}
         {/* Tint + fade for smooth transition into content */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/40 via-transparent to-background/90" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/60 via-background/30 to-background" />
 
         {/* Pendulum shimmer (loops) under grid; pivot at top for stronger bottom motion */}
         <div className="absolute inset-0 z-[8] pointer-events-none overflow-hidden">
@@ -71,7 +71,7 @@ export default async function ExplorePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-6xl px-8 py-14">
+      <div className="mx-auto max-w-6xl px-4 md:px-8 py-8 md:py-14">
       <script dangerouslySetInnerHTML={{ __html: captureSnippet }} />
       {/* Desktop: title + actions in header */}
       <PageHeaderPortal>

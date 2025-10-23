@@ -17,7 +17,7 @@ export default async function ShellLayout({ children }: { children: ReactNode })
   }
 
   return (
-    <div className="shell-layout flex min-h-svh bg-white">
+    <div className="shell-layout flex min-h-svh bg-background">
       <AppSidebar />
       <main className="relative flex flex-1 flex-col">
         {/* Mutually exclusive headers */}

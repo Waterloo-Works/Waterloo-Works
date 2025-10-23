@@ -16,6 +16,9 @@ export const metadata: Metadata = {
     metadataBase: new URL(siteUrl),
     title: "Waterloo App",
     description: "A community job board connecting talent with opportunities",
+    verification: {
+        google: "-inMpqiJtUoevrzVB5Sq7cLyf4JyhhiyrN2js8Foy6M",
+    },
     openGraph: {
         title: "Waterloo App",
         description: "A community job board connecting talent with opportunities",

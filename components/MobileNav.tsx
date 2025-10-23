@@ -35,14 +35,14 @@ export default function MobileNav() {
     <div className="relative flex items-center" ref={containerRef}>
       <button
         aria-label={open ? "Close menu" : "Open menu"}
-        className="rounded-md p-2 text-zinc-700 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 touch-manipulation"
+        className="rounded-md p-2 text-zinc-700 hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 touch-manipulation dark:text-zinc-300 dark:hover:bg-zinc-800"
         onClick={() => setOpen((v) => !v)}
       >
         {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
       {open && (
         <div className="fixed inset-x-0 top-14 z-50 pointer-events-none" style={{ paddingLeft: 'env(safe-area-inset-left)', paddingRight: 'env(safe-area-inset-right)' }}>
-          <div className="pointer-events-auto w-full rounded-none border-b border-zinc-200 bg-white shadow-md">
+          <div className="pointer-events-auto w-full rounded-none border-b border-zinc-200 bg-white shadow-md dark:border-zinc-800 dark:bg-zinc-900">
             <nav className="max-h-[50vh] overflow-y-auto px-5 py-5">
               <ul className="space-y-6">
                 {items.map((item) => (
@@ -50,7 +50,7 @@ export default function MobileNav() {
                     <Link
                       href={item.href}
                       prefetch={true}
-                      className="block text-2xl font-semibold tracking-tight text-zinc-900 transition-opacity duration-150"
+                      className="block text-2xl font-semibold tracking-tight text-zinc-900 transition-opacity duration-150 dark:text-zinc-100"
                       onClick={(e) => {
                         e.preventDefault();
                         setOpen(false);

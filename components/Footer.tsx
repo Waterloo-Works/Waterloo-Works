@@ -5,10 +5,20 @@ type Props = {
 };
 
 export default function Footer({ tone = "light" }: Props) {
-  // Lean, single-row footer with subtle separators.
-  const links = [
+  // Organized footer: CTAs on left, social links on right, policies below
+  const ctaLinks = [
     { href: "/companies", label: "Companies" },
     { href: "/post-job", label: "Post a Job" },
+  ];
+
+  const socialLinks = [
+    { href: "https://github.com/Waterloo-Works", label: "GitHub", external: true },
+    { href: "https://discord.gg/nZnqjzrp", label: "Discord", external: true },
+  ];
+
+  const policyLinks = [
+    { href: "/privacy", label: "Privacy" },
+    { href: "/terms", label: "Terms" },
   ];
 
   const isDark = tone === "dark";
@@ -19,6 +29,7 @@ export default function Footer({ tone = "light" }: Props) {
     ? "text-foreground/80 hover:text-foreground"
     : "text-muted-foreground hover:text-foreground";
   const dotClass = isDark ? "text-foreground/30" : "text-muted-foreground/50";
+  const policyClass = isDark ? "text-foreground/50 hover:text-foreground/70" : "text-muted-foreground/60 hover:text-muted-foreground";
 
   return (
     <footer className={`border-t ${footerClass}`}>
@@ -41,27 +52,48 @@ export default function Footer({ tone = "light" }: Props) {
         </>
       )}
       <div className="relative mx-auto max-w-6xl px-6 py-6">
-        <nav aria-label="Footer" className={`flex flex-wrap items-center gap-x-4 gap-y-2 text-sm ${isDark ? 'text-foreground/80' : 'text-muted-foreground'}`}>
-          {links.map((item, idx) => (
+        {/* Main footer row: CTAs left, Social links right */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          {/* Left: CTA Links */}
+          <nav aria-label="Footer CTA" className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+            {ctaLinks.map((item, idx) => (
+              <span key={item.href} className="flex items-center">
+                {idx > 0 && <span className={`mx-2 ${dotClass}`}>·</span>}
+                <Link href={item.href} className={`${linkClass} transition-colors`}>
+                  {item.label}
+                </Link>
+              </span>
+            ))}
+          </nav>
+
+          {/* Right: Social Links */}
+          <nav aria-label="Footer Social" className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+            {socialLinks.map((item, idx) => (
+              <span key={item.href} className="flex items-center">
+                {idx > 0 && <span className={`mx-2 ${dotClass}`}>·</span>}
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${linkClass} transition-colors`}
+                >
+                  {item.label}
+                </a>
+              </span>
+            ))}
+          </nav>
+        </div>
+
+        {/* Policy links - smaller, less prominent, below main links */}
+        <nav aria-label="Footer Policies" className="mt-4 flex flex-wrap items-center gap-x-3 text-xs">
+          {policyLinks.map((item, idx) => (
             <span key={item.href} className="flex items-center">
               {idx > 0 && <span className={`mx-2 ${dotClass}`}>·</span>}
-              <Link href={item.href} className={`${linkClass} transition-colors`}>
+              <Link href={item.href} className={`${policyClass} transition-colors`}>
                 {item.label}
               </Link>
             </span>
           ))}
-          {/* External: GitHub repo */}
-          <span className="flex items-center">
-            <span className={`mx-2 ${dotClass}`}>·</span>
-            <a
-              href="https://github.com/Waterloo-Works"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${linkClass} transition-colors`}
-            >
-              GitHub
-            </a>
-          </span>
         </nav>
       </div>
     </footer>
