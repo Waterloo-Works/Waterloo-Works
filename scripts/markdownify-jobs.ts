@@ -38,16 +38,15 @@ async function markdownifyJobDescription(jobDescription: string): Promise<string
   try {
     const prompt = MARKDOWN_PROMPT.replace("{job_description}", jobDescription);
 
-    const response = await ollama.generate({
-      model: "llama3.1",
-      prompt: prompt,
+    const response = await ollama.chat({
+      model: "qwen3-coder:480b-cloud",
+      messages: [{ role: "user", content: prompt }],
       options: {
         temperature: 0.3, // Lower temperature for more consistent formatting
-        num_predict: 2000, // Allow longer responses for detailed JDs
       },
     });
 
-    return response.response.trim();
+    return response.message.content.trim();
   } catch (error) {
     console.error("Error formatting with Ollama:", error);
     throw error;

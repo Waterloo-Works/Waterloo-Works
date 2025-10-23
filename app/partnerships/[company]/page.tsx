@@ -3,11 +3,60 @@ import { fetchCompanyMetadata } from "@/app/actions/company-metadata";
 import Link from "next/link";
 import GridOverlay from "@/components/ui/GridOverlay";
 import CompanyLogo from "@/components/CompanyLogo";
-
-export const metadata = { title: "Partnership Opportunities" };
+import { Metadata } from "next";
 
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ company: string }>;
+}): Promise<Metadata> {
+  const { company } = await params;
+  const result = await fetchCompanyMetadata(company);
+
+  const companyName = result.data?.name || company.charAt(0).toUpperCase() + company.slice(1);
+  const companyLogo = result.data?.logo;
+  const companyUrl = result.data?.url || `https://${company}.com`;
+
+  const title = `Partnership with ${companyName} | waterloo.app`;
+  const description = `Join waterloo.app in matching cracked Canadian youth with ${companyName}. Starting with UWaterloo, we're building an open source marketplace to connect ambitious students with companies who believe in them.`;
+
+  // Generate OG image URL
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://waterloo.works';
+  const ogImageUrl = new URL(`${siteUrl}/api/og/partnership`);
+  ogImageUrl.searchParams.set('company', companyName);
+  if (companyLogo) {
+    ogImageUrl.searchParams.set('logo', companyLogo);
+  }
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `${siteUrl}/partnerships/${company}`,
+      siteName: 'waterloo.app',
+      images: [
+        {
+          url: ogImageUrl.toString(),
+          width: 1200,
+          height: 630,
+          alt: `Partnership between ${companyName} and waterloo.app`,
+        },
+      ],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImageUrl.toString()],
+    },
+  };
+}
 
 export default async function PartnershipsPage({
   params,
