@@ -33,8 +33,8 @@ async function SavedList() {
     return (
       <div className="text-center py-20">
         <div className="inline-block h-16 w-16 rounded-full bg-zinc-100 mb-4" />
-        <h3 className="font-header text-xl text-zinc-900 mb-2">No saved jobs yet</h3>
-        <p className="font-body text-zinc-600">Tap the bookmark icon on any job to save it for later.</p>
+        <h3 className="font-header text-xl text-zinc-900 dark:text-white mb-2">No saved jobs yet</h3>
+        <p className="font-body text-zinc-600 dark:text-zinc-400">Tap the bookmark icon on any job to save it for later.</p>
         <div className="mt-6">
           <Link href="/explore" className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-800 hover:bg-zinc-50">Back to Explore</Link>
         </div>
@@ -45,7 +45,7 @@ async function SavedList() {
   return (
     <div className="grid items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
       {jobs.map((job: Awaited<ReturnType<typeof getJobs>>[number]) => (
-        <article key={job.id} className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+        <article key={job.id} className="rounded-2xl border border-zinc-200 dark:border-border bg-white dark:bg-card p-6 shadow-sm">
           <div className="flex items-start gap-4">
             <FaviconImage src={job.companyImageUrl} company={job.company} />
             <div className="min-w-0">
@@ -70,7 +70,7 @@ function SavedSkeleton() {
   return (
     <div className="grid items-stretch gap-6 md:grid-cols-2 lg:grid-cols-3">
       {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="animate-pulse rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+        <div key={i} className="animate-pulse rounded-2xl border border-zinc-200 dark:border-border bg-white dark:bg-card p-6 shadow-sm">
           <div className="flex items-start gap-4">
             <div className="h-10 w-10 rounded-lg bg-zinc-200" />
             <div className="flex-1 space-y-2">

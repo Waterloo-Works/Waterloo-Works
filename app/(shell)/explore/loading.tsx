@@ -30,7 +30,7 @@ export default function Loading() {
 
 function CardSkeleton({ className = "" }: { className?: string }) {
   return (
-    <div className={`flex h-full flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm ${className}`}>
+    <div className={`flex h-full flex-col justify-between rounded-2xl border border-zinc-200 dark:border-border bg-white dark:bg-card p-6 shadow-sm ${className}`}>
       <div className="flex items-start gap-4">
         <Skeleton className="h-10 w-10 rounded-md" />
         <div className="min-w-0 flex-1 space-y-2">

@@ -4,7 +4,7 @@ export function JobGridShimmer({ count = 6 }: { count?: number }) {
   return (
     <div className="hidden md:grid items-stretch gap-7 sm:grid-cols-2 lg:grid-cols-3">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+        <div key={i} className="rounded-2xl border border-zinc-200 dark:border-border bg-white dark:bg-card p-6 shadow-sm">
           <div className="shimmer h-4 w-1/3 rounded" />
           <div className="mt-3 shimmer h-6 w-3/4 rounded" />
           <div className="mt-2 shimmer h-4 w-1/2 rounded" />

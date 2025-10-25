@@ -23,15 +23,15 @@ export default function CompaniesIndexPage() {
 	});
 
 	return (
-		<div className="min-h-svh bg-white">
+		<div className="min-h-svh bg-background">
 			<PageViewTracker pageType="companies_index" metadata={{ total_companies: companies.length }} />
 			<div className="mx-auto max-w-4xl px-6 py-12">
 				{/* Header */}
 				<div className="mb-12">
-					<h1 className="font-header text-4xl md:text-5xl font-semibold tracking-tight text-zinc-900 mb-4">
+					<h1 className="font-header text-4xl md:text-5xl font-semibold tracking-tight text-foreground mb-4">
 						Hiring Companies
 					</h1>
-					<p className="text-xl text-zinc-600">
+					<p className="text-xl text-zinc-600 ">
 						Explore companies actively hiring in our community
 					</p>
 				</div>
