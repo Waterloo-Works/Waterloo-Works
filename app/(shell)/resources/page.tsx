@@ -31,12 +31,12 @@ export default function ResourcesIndexPage() {
 	const categories = Object.keys(byCategory).sort();
 
 	return (
-		<div className="min-h-svh bg-white">
+		<div className="min-h-svh bg-background">
 			<PageViewTracker pageType="resources_index" metadata={{ total_resources: resources.length, total_categories: categories.length }} />
 			<div className="mx-auto max-w-6xl px-6 py-12">
 				{/* Header */}
 				<div className="mb-12">
-					<h1 className="font-header text-4xl md:text-5xl font-semibold tracking-tight text-zinc-900 mb-4">
+					<h1 className="font-header text-4xl md:text-5xl font-semibold tracking-tight text-foreground mb-4">
 						Resource Directory
 					</h1>
 					<p className="text-xl text-zinc-600">

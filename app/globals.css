@@ -463,6 +463,9 @@
     animation: ww-shimmerline 1.2s infinite;
   }
   @keyframes ww-shimmerline { to { transform: translateX(100%); } }
+  .dark .shimmer {
+    background-color: rgb(62, 53, 47); /* base-hover */
+  }
 }
 
 @layer components {
