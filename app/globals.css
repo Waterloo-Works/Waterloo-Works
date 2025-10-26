@@ -452,14 +452,14 @@
   .shimmer {
     position: relative;
     overflow: hidden;
-    background-color: rgb(234 234 231); /* base-hover */
+    background-color: hsl(var(--muted));
   }
   .shimmer::after {
     content: "";
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);
+    background: linear-gradient(90deg, transparent, hsl(var(--muted-foreground) / 0.15), transparent);
     animation: ww-shimmerline 1.2s infinite;
   }
   @keyframes ww-shimmerline { to { transform: translateX(100%); } }

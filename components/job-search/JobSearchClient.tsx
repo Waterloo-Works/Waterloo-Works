@@ -29,6 +29,12 @@ import { VoiceNotePlayer } from "@/components/VoiceNotePlayer";
 import { JobSearchOnboardingTour } from "@/components/JobSearchOnboardingTour";
 import { useSession } from "@/providers/SessionProvider";
 import Markdown from "react-markdown";
+import { BatchApplyButton } from "@/components/job-search/BatchApplyButton";
+import { JobCheckbox } from "@/components/job-search/JobCheckbox";
+import { BatchApplyModal } from "@/components/job-search/BatchApplyModal";
+import { checkApplicationStatus } from "@/app/actions/applications";
+import { ApplicationStatus } from "@prisma/client";
+import { GROUPED_JOB_TAGS } from "@/lib/constants/job-tags";
 
 type Job = Awaited<ReturnType<typeof import("@/app/actions/jobs").getJobs>>[number];
 
@@ -108,6 +114,7 @@ export default function JobSearchClient({ jobs }: Props) {
   const [typeCsv, setTypeCsv] = useState(sp.get("type") || "");
   const [locCsv, setLocCsv] = useState(sp.get("loc") || "");
   const [remote, setRemote] = useState(sp.get("remote") === "true");
+  const [tagsCsv, setTagsCsv] = useState(sp.get("tags") || "");
 
   const selectedTypes = useMemo(
     () => new Set(typeCsv.split(",").filter(Boolean)),
@@ -117,10 +124,41 @@ export default function JobSearchClient({ jobs }: Props) {
     () => new Set(locCsv.split(",").filter(Boolean)),
     [locCsv]
   );
+  const selectedTags = useMemo(
+    () => new Set(tagsCsv.split(",").filter(Boolean)),
+    [tagsCsv]
+  );
 
   // Server-backed bookmarked IDs
   const { data: bmData } = useBookmarkedIds();
   const bookmarkedIds = useMemo(() => new Set(bmData?.ids ?? []), [bmData]);
+
+  // Batch apply mode state
+  const [batchMode, setBatchMode] = useState(false);
+  const [selectedJobIds, setSelectedJobIds] = useState<Set<string>>(new Set());
+  const [applicationStatuses, setApplicationStatuses] = useState<Map<string, ApplicationStatus | null>>(new Map());
+  const [showBatchModal, setShowBatchModal] = useState(false);
+  const [userProfile, setUserProfile] = useState<{ resumeFileName: string | null; resumeUploadedAt: Date | null }>({
+    resumeFileName: null,
+    resumeUploadedAt: null,
+  });
+
+  // Fetch user profile for resume info when entering batch mode
+  useEffect(() => {
+    if (!user || !batchMode) return;
+
+    fetch('/api/profile')
+      .then(res => res.json())
+      .then(profile => {
+        if (profile && !profile.error) {
+          setUserProfile({
+            resumeFileName: profile.resumeFileName,
+            resumeUploadedAt: profile.resumeUploadedAt ? new Date(profile.resumeUploadedAt) : null,
+          });
+        }
+      })
+      .catch(console.error);
+  }, [user, batchMode]);
 
   const quietlySyncQuery = useCallback((next: Record<string, string | undefined>) => {
     if (typeof window === "undefined") return;
@@ -130,6 +168,41 @@ export default function JobSearchClient({ jobs }: Props) {
       else url.searchParams.set(k, v);
     });
     window.history.replaceState(window.history.state, "", url.toString());
+  }, []);
+
+  // Batch mode handlers
+  const toggleBatchMode = useCallback(() => {
+    const nextMode = !batchMode;
+    setBatchMode(nextMode);
+
+    // If exiting batch mode, reset selections and open modal if jobs selected
+    if (!nextMode) {
+      if (selectedJobIds.size > 0) {
+        setShowBatchModal(true);
+      } else {
+        setSelectedJobIds(new Set());
+      }
+    } else {
+      // Entering batch mode - clear any previous selections
+      setSelectedJobIds(new Set());
+    }
+  }, [batchMode, selectedJobIds]);
+
+  const handleJobSelect = useCallback((jobId: string, checked: boolean) => {
+    setSelectedJobIds((prev) => {
+      const next = new Set(prev);
+      if (checked) next.add(jobId);
+      else next.delete(jobId);
+      return next;
+    });
+  }, []);
+
+  const handleBatchApplySuccess = useCallback(() => {
+    // Reset batch mode and selections
+    setBatchMode(false);
+    setSelectedJobIds(new Set());
+    setShowBatchModal(false);
+    // Refresh will happen via the useEffect below
   }, []);
 
   const filterJobs = useCallback(
@@ -156,9 +229,18 @@ export default function JobSearchClient({ jobs }: Props) {
           return false;
         });
       }
+
+      // Tags filter (OR): job must have at least one of the selected tags
+      if (selectedTags.size) {
+        out = out.filter((j) => {
+          const jobTags = j.tags || [];
+          return Array.from(selectedTags).some((tag) => jobTags.includes(tag));
+        });
+      }
+
       return out;
     },
-    [selectedTypes, selectedLocs, remote]
+    [selectedTypes, selectedLocs, remote, selectedTags]
   );
 
   const base = useMemo(() => (tab === "saved" ? jobs.filter((j) => bookmarkedIds.has(j.id)) : jobs), [tab, jobs, bookmarkedIds]);
@@ -195,6 +277,18 @@ export default function JobSearchClient({ jobs }: Props) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [results]);
+
+  // Fetch application statuses when results or batch mode changes
+  useEffect(() => {
+    if (!user || !batchMode) return;
+
+    const jobIds = results.map((j) => j.id);
+    if (jobIds.length === 0) return;
+
+    checkApplicationStatus(jobIds).then((statusMap) => {
+      setApplicationStatuses(statusMap);
+    });
+  }, [results, user, batchMode]);
 
   const selectedJob = useMemo(() => results.find((j) => j.id === selectedId), [results, selectedId]);
 
@@ -236,13 +330,18 @@ export default function JobSearchClient({ jobs }: Props) {
           q={q}
           selectedTypes={selectedTypes}
           selectedLocs={selectedLocs}
+          selectedTags={selectedTags}
           remote={remote}
           savedCount={bookmarkedIds.size}
+          batchMode={batchMode}
+          selectedCount={selectedJobIds.size}
+          onBatchToggle={toggleBatchMode}
           onChange={(next) => {
             if (typeof next.tab !== "undefined") setTabState(next.tab);
             if (Object.prototype.hasOwnProperty.call(next, "q")) setQ(next.q || "");
             if (Object.prototype.hasOwnProperty.call(next, "type")) setTypeCsv(next.type || "");
             if (Object.prototype.hasOwnProperty.call(next, "loc")) setLocCsv(next.loc || "");
+            if (Object.prototype.hasOwnProperty.call(next, "tags")) setTagsCsv(next.tags || "");
             if (Object.prototype.hasOwnProperty.call(next, "remote")) setRemote(next.remote === "true");
             quietlySyncQuery(next);
             // Ensure filters/search interactions do not open or keep the drawer open on mobile
@@ -261,6 +360,10 @@ export default function JobSearchClient({ jobs }: Props) {
                 bookmarkedIds={bookmarkedIds}
                 selectedId={selectedJob?.id}
                 onSelect={onSelect}
+                batchMode={batchMode}
+                selectedJobIds={selectedJobIds}
+                applicationStatuses={applicationStatuses}
+                onJobSelect={handleJobSelect}
               />
             </div>
           </div>
@@ -275,6 +378,10 @@ export default function JobSearchClient({ jobs }: Props) {
                 bookmarkedIds={bookmarkedIds}
                 selectedId={selectedJob?.id}
                 onSelect={onSelect}
+                batchMode={batchMode}
+                selectedJobIds={selectedJobIds}
+                applicationStatuses={applicationStatuses}
+                onJobSelect={handleJobSelect}
               />
             </div>
           </ResizablePanel>
@@ -344,31 +451,52 @@ export default function JobSearchClient({ jobs }: Props) {
           }}
         />
       )}
+
+      {/* Batch Apply Modal */}
+      <BatchApplyModal
+        isOpen={showBatchModal}
+        onClose={() => {
+          setShowBatchModal(false);
+          setSelectedJobIds(new Set());
+        }}
+        selectedJobs={results.filter((j) => selectedJobIds.has(j.id))}
+        resumeFileName={userProfile.resumeFileName}
+        resumeUploadedAt={userProfile.resumeUploadedAt}
+        onSuccess={handleBatchApplySuccess}
+      />
     </>
   );
 }
 
-function Header({ 
+function Header({
   tab,
   q,
   selectedTypes,
   selectedLocs,
+  selectedTags,
   remote,
   savedCount,
+  batchMode,
+  selectedCount,
+  onBatchToggle,
   onChange,
 }: {
   tab: "search" | "saved" | string;
   q: string;
   selectedTypes: Set<string>;
   selectedLocs: Set<string>;
+  selectedTags: Set<string>;
   remote: boolean;
   savedCount: number;
-  onChange: (next: Partial<{ tab: "search" | "saved"; q: string; type: string; loc: string; remote: string }>) => void;
+  batchMode: boolean;
+  selectedCount: number;
+  onBatchToggle: () => void;
+  onChange: (next: Partial<{ tab: "search" | "saved"; q: string; type: string; loc: string; tags: string; remote: string }>) => void;
 }) {
   const setTab = (t: "search" | "saved") => onChange({ tab: t });
 
   const toggleCsv = (key: string, value: string) => {
-    const current = key === "type" ? selectedTypes : selectedLocs;
+    const current = key === "type" ? selectedTypes : key === "loc" ? selectedLocs : selectedTags;
     const list = new Set(current);
     if (list.has(value)) list.delete(value);
     else list.add(value);
@@ -451,6 +579,34 @@ function Header({
           </DropdownMenuContent>
         </DropdownMenu>
 
+        {/* Tags dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="inline-flex items-center gap-2 rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm hover:bg-muted">
+              <span>Tags{selectedTags.size > 0 && ` (${selectedTags.size})`}</span>
+              <ChevronDown className="h-4 w-4 text-muted-foreground" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-64 max-h-96 overflow-y-auto">
+            {GROUPED_JOB_TAGS.map((group) => (
+              <div key={group.category}>
+                <DropdownMenuLabel>{group.category}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {group.tags.map((tag) => (
+                  <DropdownMenuCheckboxItem
+                    key={tag}
+                    checked={selectedTags.has(tag)}
+                    onCheckedChange={() => toggleCsv("tags", tag)}
+                  >
+                    {tag}
+                  </DropdownMenuCheckboxItem>
+                ))}
+                <DropdownMenuSeparator />
+              </div>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         {/* Commitment pills */}
         {typeChips.map((t) => (
           <Chip
@@ -461,11 +617,16 @@ function Header({
           />
         ))}
 
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-2">
+          <BatchApplyButton
+            isActive={batchMode}
+            selectedCount={selectedCount}
+            onToggle={onBatchToggle}
+          />
           <button
             onClick={() => {
               posthog.capture('job_search_filters_cleared');
-              onChange({ q: undefined, type: "", loc: "", remote: "" });
+              onChange({ q: undefined, type: "", loc: "", tags: "", remote: "" });
             }}
             className="rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground shadow-sm hover:bg-muted"
           >
@@ -510,11 +671,19 @@ function ResultsList({
   bookmarkedIds,
   selectedId,
   onSelect,
+  batchMode,
+  selectedJobIds,
+  applicationStatuses,
+  onJobSelect,
 }: {
   jobs: Job[];
   bookmarkedIds: Set<string>;
   selectedId?: string;
   onSelect: (id: string) => void;
+  batchMode: boolean;
+  selectedJobIds: Set<string>;
+  applicationStatuses: Map<string, ApplicationStatus | null>;
+  onJobSelect: (jobId: string, checked: boolean) => void;
 }) {
   return (
     <div className="flex-1 overflow-y-auto">
@@ -523,20 +692,31 @@ function ResultsList({
           key={j.id}
           role="button"
           tabIndex={0}
-          onClick={() => onSelect(j.id)}
+          onClick={() => !batchMode && onSelect(j.id)}
           onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
+            if (!batchMode && (e.key === "Enter" || e.key === " ")) {
               e.preventDefault();
               onSelect(j.id);
             }
           }}
           data-selected={selectedId === j.id}
           className={
-            "w-full cursor-pointer border-b border-border px-3 py-3 md:py-4 text-left transition-colors outline-none focus-visible:ring-1 focus-visible:ring-ring " +
-            (selectedId === j.id ? "bg-muted" : "hover:bg-muted")
+            "w-full border-b border-border px-3 py-3 md:py-4 text-left transition-colors outline-none focus-visible:ring-1 focus-visible:ring-ring " +
+            (batchMode ? "" : "cursor-pointer ") +
+            (selectedId === j.id ? "bg-muted" : batchMode ? "" : "hover:bg-muted")
           }
         >
           <div className="flex items-start gap-3">
+            {batchMode && (
+              <div onClick={(e) => e.stopPropagation()} className="pt-1">
+                <JobCheckbox
+                  jobId={j.id}
+                  isSelected={selectedJobIds.has(j.id)}
+                  applicationStatus={applicationStatuses.get(j.id) || null}
+                  onSelect={onJobSelect}
+                />
+              </div>
+            )}
             <FaviconImage src={j.companyImageUrl} company={j.company} className="w-9 h-9 md:w-10 md:h-10" />
             <div className="min-w-0 flex-1">
               <div className="font-body text-[13px] text-muted-foreground">{j.company}</div>
@@ -547,10 +727,29 @@ function ResultsList({
               </div>
 
               <div className="font-body text-[12px] text-muted-foreground mt-1">{j.location} · {timeAgo(j.createdAt)}</div>
+              {j.tags && j.tags.length > 0 && (
+                <div className="flex flex-wrap gap-1 mt-2">
+                  {j.tags.slice(0, 3).map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center rounded-md bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                  {j.tags.length > 3 && (
+                    <span className="inline-flex items-center rounded-md bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
+                      +{j.tags.length - 3}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
-            <div onClick={(e) => e.stopPropagation()} className="ml-auto" data-tour="bookmark-button">
-              <BookmarkButton jobId={j.id} initial={bookmarkedIds.has(j.id)} />
-            </div>
+            {!batchMode && (
+              <div onClick={(e) => e.stopPropagation()} className="ml-auto" data-tour="bookmark-button">
+                <BookmarkButton jobId={j.id} initial={bookmarkedIds.has(j.id)} />
+              </div>
+            )}
           </div>
         </div>
       ))}
@@ -579,6 +778,18 @@ function JobDetail({ job, initialSaved }: { job: Job; initialSaved: boolean }) {
               {compText ? `${compText} · ` : ""}
               {formatEmploymentType(job.employmentType)}
             </div>
+            {job.tags && job.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-3">
+                {job.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/20"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         <div className="flex items-center gap-2">

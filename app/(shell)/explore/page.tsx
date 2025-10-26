@@ -12,8 +12,35 @@ import { getBookmarkedJobIds } from "@/app/actions/bookmarks";
 import { formatEmploymentType } from "@/lib/formatEmploymentType";
 import { SectionShimmer } from "@/components/JobShimmers";
 import { timeAgo } from "@/lib/timeAgo";
+import { Metadata } from "next";
 
-export const metadata = { title: "Explore" };
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://waterloo.works';
+
+export const metadata: Metadata = {
+  title: "Explore Jobs | Waterloo.app - Find Internships & Co-ops",
+  description: "Find internships, co-ops & full-time roles curated for Canadian students. Updated daily with opportunities from top tech companies and startups hiring UWaterloo students.",
+  openGraph: {
+    title: "Explore Job Opportunities on Waterloo.app",
+    description: "Find internships, co-ops & full-time roles for Canadian students. Curated roles, top startups, updated daily.",
+    url: `${siteUrl}/explore`,
+    siteName: 'waterloo.app',
+    images: [
+      {
+        url: `${siteUrl}/api/og/explore`,
+        width: 1200,
+        height: 630,
+        alt: 'Explore job opportunities on waterloo.app',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Explore Job Opportunities on Waterloo.app",
+    description: "Find internships, co-ops & full-time roles for Canadian students. Curated roles, top startups, updated daily.",
+    images: [`${siteUrl}/api/og/explore`],
+  },
+};
 
 export default async function ExplorePage() {
   const jobs = await getJobs();

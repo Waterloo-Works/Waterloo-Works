@@ -18,11 +18,14 @@ export async function fetchCompanyMetadata(companyName: string) {
   try {
     console.log(`[Metadata] Fetching metadata for ${url}...`);
 
-    // Unfurl the URL to get metadata
+    // Unfurl the URL to get metadata (follows redirects automatically)
     const metadata = await unfurl(url, {
       timeout: 15000, // Increased timeout to 15 seconds
-      follow: 5,
+      follow: 5, // Follow up to 5 redirects (e.g., slash.app -> slash.com)
     });
+
+    // Use canonical URL if available (handles redirects properly)
+    const resolvedUrl = metadata.canonical_url || metadata.open_graph?.url || url;
 
     // Prioritize high-resolution OG images over pixelated favicons
     const logo =
@@ -47,6 +50,7 @@ export async function fetchCompanyMetadata(companyName: string) {
     console.log(`[Metadata] Successfully fetched metadata for ${url}`, {
       name,
       logo,
+      resolvedUrl,
       hasDescription: !!description,
     });
 
@@ -56,7 +60,7 @@ export async function fetchCompanyMetadata(companyName: string) {
         name: name.trim(),
         logo: logo,
         description: description.trim(),
-        url: url,
+        url: resolvedUrl, // Use resolved/canonical URL
       },
     };
   } catch (error) {

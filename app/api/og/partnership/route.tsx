@@ -11,6 +11,12 @@ export async function GET(request: NextRequest) {
     const companyName = searchParams.get('company') || 'Company';
     const companyLogo = searchParams.get('logo');
 
+    // Check if logo is a valid URL and not a broken favicon
+    const hasValidLogo = companyLogo &&
+      companyLogo.startsWith('http') &&
+      !companyLogo.includes('favicon.ico') &&
+      !companyLogo.includes('s2/favicons');
+
     return new ImageResponse(
       (
         <div
@@ -38,8 +44,8 @@ export async function GET(request: NextRequest) {
               marginBottom: '60px',
             }}
           >
-            {/* Company Logo Container */}
-            {companyLogo && (
+            {/* Company Logo Container - only show if we have a valid logo */}
+            {hasValidLogo ? (
               <div
                 style={{
                   width: '180px',
@@ -62,6 +68,26 @@ export async function GET(request: NextRequest) {
                     objectFit: 'contain',
                   }}
                 />
+              </div>
+            ) : (
+              <div
+                style={{
+                  width: '180px',
+                  height: '180px',
+                  borderRadius: '24px',
+                  backgroundColor: '#ffffff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontFamily: 'Georgia, serif',
+                  fontStyle: 'italic',
+                  fontSize: '48px',
+                  fontWeight: 700,
+                  color: '#18181b',
+                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+                }}
+              >
+                {companyName.charAt(0).toUpperCase()}
               </div>
             )}
 

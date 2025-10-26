@@ -5,9 +5,32 @@ import { PageViewTracker } from "@/components/PageViewTracker";
 
 export const dynamic = 'force-static';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://waterloo.works';
+
 export const metadata: Metadata = {
-	title: "All Companies | Waterloo App",
-	description: "Browse all hiring companies on Waterloo App",
+	title: "Browse Top Companies | Waterloo.app - Hiring Canadian Students",
+	description: "Discover 100+ tech companies hiring Canadian students from UWaterloo. Explore internships, co-op positions, and full-time roles at top startups and established companies.",
+	openGraph: {
+		title: "Browse Top Companies on Waterloo.app",
+		description: "Discover companies hiring Canadian students. 100+ companies, 500+ open roles.",
+		url: `${siteUrl}/companies`,
+		siteName: 'waterloo.app',
+		images: [
+			{
+				url: `${siteUrl}/api/og/companies`,
+				width: 1200,
+				height: 630,
+				alt: 'Browse top companies hiring on waterloo.app',
+			},
+		],
+		type: 'website',
+	},
+	twitter: {
+		card: 'summary_large_image',
+		title: "Browse Top Companies on Waterloo.app",
+		description: "Discover companies hiring Canadian students. 100+ companies, 500+ open roles.",
+		images: [`${siteUrl}/api/og/companies`],
+	},
 };
 
 export default function CompaniesIndexPage() {

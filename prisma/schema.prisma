@@ -28,6 +28,14 @@ enum EmploymentType {
   OTHER
 }
 
+enum ApplicationStatus {
+  PENDING
+  VIEWED
+  INTERVIEWING
+  REJECTED
+  ACCEPTED
+}
+
 model Job {
   id              String         @id @default(cuid())
   company         String
@@ -42,12 +50,14 @@ model Job {
   salaryMax       String?
   notes           String?        @db.Text
   voiceNoteUrl    String? // Voice note URL (Loom, SoundCloud, etc.)
+  tags            String[]       @default([]) // Tags for categorization (e.g., "YC", "Voice AI", "Biotech")
   postedBy        String // User ID who posted the job
   poster          User           @relation("PostedJobs", fields: [postedBy], references: [id])
   status          JobStatus      @default(PENDING)
   reviewedBy      String? // User ID who approved/rejected the job
   reviewer        User?          @relation("ReviewedJobs", fields: [reviewedBy], references: [id])
   rejectionReason String?        @db.Text // Reason for rejection (if status is REJECTED)
+  applications    Application[]
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 
@@ -55,6 +65,7 @@ model Job {
   @@index([status])
   @@index([postedBy])
   @@index([reviewedBy])
+  @@index([tags])
 }
 
 model User {
@@ -68,6 +79,7 @@ model User {
   bookmarks     Bookmark[]
   jobAlerts     JobAlert[]
   notifications Notification[]
+  applications  Application[]
   profile       UserProfile?
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
@@ -86,6 +98,26 @@ model Bookmark {
   @@unique([userId, jobId])
   @@index([userId])
   @@index([jobId])
+}
+
+model Application {
+  id        String            @id @default(cuid())
+  userId    String
+  jobId     String
+  status    ApplicationStatus @default(PENDING)
+  appliedAt DateTime          @default(now())
+  notes     String?           @db.Text
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  job  Job  @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, jobId])
+  @@index([userId])
+  @@index([jobId])
+  @@index([status])
+  @@index([appliedAt])
 }
 
 model JobAlert {
