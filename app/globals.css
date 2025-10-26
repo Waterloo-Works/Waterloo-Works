@@ -462,6 +462,10 @@
     background: linear-gradient(90deg, transparent, hsl(var(--muted-foreground) / 0.15), transparent);
     animation: ww-shimmerline 1.2s infinite;
   }
+  /* Dark mode: use darker shimmer effect */
+  .dark .shimmer::after {
+    background: linear-gradient(90deg, transparent, hsl(0 0% 0% / 0.25), transparent);
+  }
   @keyframes ww-shimmerline { to { transform: translateX(100%); } }
 }
 
